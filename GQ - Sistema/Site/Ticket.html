@@ -1,0 +1,199 @@
+<html>
+<head>
+<title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="estilo.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script>
+    
+    var data={};
+    var url2="http://localhost:54000/reclamacoes/inserirReclamacoes/";
+    var id = null;
+    var logado = sessionStorage.getItem("logado");
+     if (logado == false)
+     {
+         alert("VOCÊ NÃO ESTA LOGADO");
+         window.location.href="SiteReclamacoes.html";
+     }
+     else{
+         $(document).ready(function(){
+         id= sessionStorage.getItem("id");
+         document.getElementById('id').innerHTML = id;
+         alert(id);
+         });
+     }
+
+     var url1 = "http://localhost:54000/reclamacoes/id/";
+        var idArquivo=null;
+        $(document).ready(function(){
+            $.getJSON(url1, function(result){
+                    var arr = result;
+                    idArquivo=arr[0].UltimoId+1;
+                    data.id=idArquivo;
+                    alert(data.id);
+                });             
+        });
+     
+
+    jQuery.support.cors = true;
+
+    function enviar(){
+        
+        
+        var url = "http://localhost:54000/reclamacoes/inserirArquivo/";
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response){ console.log( response ); }
+                });
+        
+        var data2 = {};
+        data2.id=id;
+        data2.cars=document.getElementById('cars').value;
+        data2.feedback=document.getElementById('feedback').value;
+        data2.iddeArquivo=data.id;
+        alert(data2.cars+" "+data2.id+" "+data2.feedback+" "+data2.iddeArquivo);
+        
+        setTimeout(function(){
+            alert("entrou");
+            $.ajax({
+            url: url2,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data2),
+            success: function(response){ console.log( response ); }
+                });
+        }, 3000);
+        
+    }
+
+    
+    </script>
+    
+</head>
+<body>
+    <div id="menu">        
+        <ul>
+            <a href="Ticket.html"><li class="module-border-wrap"><div class="module">Criar ticket de reclamação</div></li></a>
+            <a href="meusTickets.html"><li>Tickets</li></a>
+            <a href="SiteReclamacoes.html"><img src="logout.png"></a>
+        </ul>        
+    </div>
+    <section id="ticket">
+        <h4>Criar ticket</h4>
+        <hr text-align= "center" color="black" size="4px" width="50%" min-width="450px">
+        
+    <form name="meuForm" id="formulario">
+    <div id="box"> 
+        <label> 
+            <span>Nome Completo:</span>
+            <input type="text" class="input_text" name="nome" id="name"/>
+        </label>
+        <label>
+            <span>Email:</span>
+            <input type="text" class="input_text" name="email" id="email"/>
+         </label>
+  <hr>
+        <label>
+            <span>Área da Reclamação:</span>
+            <select name="cars" id="cars">
+                <option value="Atendimento">Atendimento</option>
+                <option value="Logística">Logística</option>
+                <option value="Prazo">Prazo de reparação</option>
+                <option value="Avaria">Avaria</option>
+                <option value="Outro">Outro</option>                
+            </select>
+        </label>
+  <hr>
+        <label>
+            <span>Assunto:</span>
+            <input type="text" class="input_text" name="assunto" id="subject"/>
+        </label>
+  
+        <label>
+             <span>Reclamação:</span>
+            <textarea class="message" name="feedback" id="feedback"></textarea>                              
+        </label>
+<hr>
+        
+        <label>
+            <input type="button" class="button" id="submit"value="Enviar" onclick="enviar();" />  
+        </label>
+        <span id="id"></span>
+    </div>
+</form> 
+    <label>             
+        <span>Nota fiscal:</span>
+        <input type="file" id="files" name="files[]" value="Enviar um arquivo"/>
+        <div id="progress_bar"><div class="percent">0%</div></div>]
+        <span id="list"></span>        
+        <script>
+        jQuery.support.cors = true;
+        var progress = document.querySelector('.percent');
+
+        function errorHandler(evt) {
+            alert('teste1');
+        switch(evt.target.error.code) {
+         case evt.target.error.NOT_FOUND_ERR:
+            alert('File Not Found!');
+            break;
+         case evt.target.error.NOT_READABLE_ERR:
+            alert('File is not readable');
+            break;
+         case evt.target.error.ABORT_ERR:
+            break; // noop
+         default:
+            alert('An error occurred reading this file.');
+        };
+    }
+
+        function updateProgress(evt) {
+            alert('teste2');
+        // evt is an ProgressEvent.
+        if (evt.lengthComputable) {
+        var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+        // Increase the progress bar length.
+        if (percentLoaded < 100) {
+            progress.style.width = percentLoaded + '%';
+            progress.textContent = percentLoaded + '%';
+            }
+        }
+    }            
+        function handleFileSelect(evt) {
+            alert('teste3');
+            progress.style.width = '0%';
+            progress.textContent = '0%';
+            alert('teste4');
+            var files = evt.target.files; // FileList object
+
+            // Loop through the FileList and render image files as thumbnails.
+            f=files[0];
+
+            var reader = new FileReader();
+            reader.onerror = errorHandler;
+            reader.onprogress = updateProgress;
+            reader.onloadstart = function(e) {
+                document.getElementById('progress_bar').className = 'loading';
+            };
+            reader.onloadend = function(e) {
+            var raw = this.result;
+            // Ensure that the progress bar displays 100% at the end.
+            progress.style.width = '100%';
+            progress.textContent = '100%';
+            setTimeout("document.getElementById('progress_bar').className='';", 2000);
+            $("html").css("background-image", "url(" + this.result + ")");
+                
+            data.arquivo=raw;
+            }
+            reader.readAsDataURL(f);
+        }
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+        </script>
+    </label>
+    </section>
+</body>
+</html>

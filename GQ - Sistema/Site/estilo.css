@@ -1,0 +1,265 @@
+#menu{
+    margin-top: 40px;
+    width: 100%;
+    /*min-width: 1366px;*/
+    height: 100px;
+    background-color: black;
+    text-align:center;
+    margin-bottom: 30px;
+}
+#menu h1{
+    font-size: 30px;
+    color: #ffffff;
+    padding-top: 30px;
+    font-family:cursive;
+}
+#menu ul li{
+    position: relative;
+    margin-top: 25px;
+    margin-left: 25;
+    padding: 10px 10px;
+    /*padding-left: 50px;*/
+    display: inline-block;    
+    color: white;
+    font-size: 20px;
+    font-family:cursive;
+}
+#menu ul li:hover{
+    padding: 2px 10px;
+    /*padding-left: 50px;*/
+    display: inline-block;    
+    cursor: pointer;
+    border-bottom: 2px solid #45d894;
+    /*-moz-border-bottom-colors: #3676db #45d894;
+    border-bottom: 2px solid linear-gradient(to left, #3676db, #45d894 100%);*/
+    /*http://www.criarweb.com/artigos/atributo-gradiente-cores-borda-css-firefox.html*/
+    /*https://css-tricks.com/gradient-borders-in-css/*/
+}
+#menu img{
+    width:20px;
+    position: relative;
+    left: 480px;
+}
+#menu img:hover{
+    width:20px;
+    position: relative;
+    left: 480px;
+    cursor: pointer;
+}
+#conteudo p{
+    font-family:cursive;
+    font-size: 20px;
+    text-align: center;
+    color: #6c6c6c;
+    text-indent: 10px;
+    margin-bottom: 0;
+}
+#conteudo p + p{
+    margin-top: 0;
+}
+#login{
+    display:inline-block;
+    border: 1px solid black;
+    border-radius: 7px;
+}
+#login img{
+    width: 32px;
+    border: 1px solid black;
+    padding: 3px;
+    position: relative;
+    float: left;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+}
+#login input{
+    width: 400px;
+    height: 40px;
+    position: relative;
+    float: right;
+    text-indent: 10px;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    border-style: none;
+    font-size: 18px;
+}
+#botao{
+    width: auto;
+}
+#botao input{
+    width: 440px;
+    height: 40px;
+    background-color: #45d894;
+    border-radius: 7px;
+    font-family:cursive;
+    font-weight: bold;
+}
+#botao input:hover{
+    width: 440px;
+    height: 40px;
+    background-color: #4feaa2;
+    border-radius: 7px;
+    font-family:cursive;
+    font-weight: bold;
+    cursor: pointer;
+}
+#botao h4{
+    margin-left: 36.5%;
+    color: #909090;
+}
+#botao h4:hover{
+    margin-left: 36.5%;
+    color: #909090;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#botao input[value=Cadastrar-se]{
+    width: 440px;
+    height: 40px;
+    background-color: black;
+    border-radius: 7px;
+    font-family:cursive;
+    font-weight: bold;
+    color: white;
+}
+#ticket h4{
+    margin-left: 25%;
+}
+/*#box {
+    width:500px;
+    position:relative;
+    top:50px;
+    
+}*/
+#box label {
+    width:100%;
+    display: block;
+   /* background:#1C1C1C;*/
+    /*border-top:1px solid #262626;
+    border-bottom:1px solid #161712;*/
+    padding:10px 0 10px 0;
+}
+#box label span {
+    display: block;
+    color:#818181;
+    font-size:12px;
+    float:left;
+    width:100px;
+    text-align:right;
+    padding:5px 20px 0 0;
+}
+#box .input_text {
+    padding:7px 7px;
+    width:450px;
+    /*background:#262626;*/
+    border-bottom: 1px double #171717;
+    border-top: 1px double #171717;
+    border-left:1px double #333333;
+    border-right:1px double #333333;
+    border-radius: 7px;
+}
+#box .message{
+    padding:7px 7px;
+    width:450px;
+    /*background:#262626;*/
+    border-bottom: 1px double #171717;
+    border-top: 1px double #171717;
+    border-left:1px double #333333;
+    border-right:1px double #333333;
+    overflow:hidden;
+    height:150px;
+    border-radius: 7px;
+}
+/*#box input[type=button]{
+    font-weight: 500;
+    font-size: 15;
+    font-family: cursive;
+    position: relative;
+    left:650px;
+}*/
+#box .button{
+    margin:0 0 10px 0;
+    padding:4px 7px;
+    background:linear-gradient(to right, #4feaa2, #3676db);
+    border:0px;
+    position: relative;    
+    top:20px;
+    left: 650;
+    width:auto;
+    border-radius: 7px;
+    font-family: cursive;
+    font-weight:500;
+    display: inline-block;
+}
+#box .button:hover{
+    margin:0 0 10px 0;
+    padding:4px 7px;
+    background:linear-gradient(to right, #57fdb0, #3d85f7);
+    border:0px;
+    position: relative;
+    top:20px;
+    width:auto;
+    border-radius: 7px;
+    font-family: cursive;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-block;
+}
+#box{
+    margin-left:25%;
+    position: relative;
+}
+#box hr{
+    width: 60%;
+    position: relative;
+    left: -20%;
+}
+#Cadastro input{
+    display: block;
+    border-left: 3px solid #45d894;
+    width: 450px;
+    height: 40px;
+    margin-bottom: 20px;    
+    position: relative;
+    left: 420px;
+}
+#meustickets table{
+    border: 1px ridge black;
+    background-color: black;
+}
+#meustickets table td{
+    border: 1px ridge black;
+    padding: 5px;
+    max-width:500px;
+    min-width: 300px;
+    background-color: white;
+}
+#meustickets table th{
+    border: 1px ridge black;
+    background-color:rgb(87, 253, 176);
+    
+}#meustickets a:hover{
+    cursor: pointer;
+}
+#id div{
+    font-style: oblique;
+}
+
+  #progress_bar {
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #000;
+    font-size: 14px;
+    clear: both;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+  }
+  #progress_bar.loading {
+    opacity: 1.0;
+  }
+  #progress_bar .percent {
+    background-color: #99ccff;
+    height: auto;
+    width: 0;
+  }

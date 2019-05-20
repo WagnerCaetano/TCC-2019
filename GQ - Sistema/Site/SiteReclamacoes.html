@@ -1,0 +1,79 @@
+<html>
+<head>
+<title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="estilo.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script>
+        var url = "http://localhost:54000/clientes/";
+        
+        jQuery.support.cors = true;
+
+            $(document).ready(function(){
+                $("#btnLogar").click(function(){
+                    var email = document.getElementById('email').value;
+                    var senha = document.getElementById('senha').value;
+                    alert(email);
+                    alert(senha);
+
+                    $.getJSON(url, function(result){
+                    var arr = result;
+                    for(var i = 0; i < arr.length; i++) {
+                        if(arr[i].cliEmail == email && arr[i].cliPsw == senha)
+                        {
+                            sessionStorage.setItem("logado",true);
+                            sessionStorage.setItem("id",arr[i].cliId);
+                            alert('logado');
+                            window.location.href="meusTickets.html";
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+    
+</head>
+    
+<body>
+    <div id="menu">
+        <h1> Bem vindo ao suporte! </h1>
+        <!--<ul>
+            <a><li class="module-border-wrap"><div class="module">Criar ticket de reclamação</div></li></a>
+            <a><li>Tickets</li></a>
+            <img src="logout.png">
+        </ul>-->
+        
+    </div>
+    <section id="conteudo">
+        <p>Para ver seus tickets, fazer um novo ticket ou receber algum tipo de assitencia, <b>faça o seu login!</b>
+        </p>
+        <p>Caso seja sua primeira vez aqui, faça o cadastro para que possamos te ajudar</p>
+        <br><br><br>
+        <center>
+            <div id="login">  
+                <img src="email.png">
+                <input type="email" id="email" placeholder="exemple@mail.com">
+            </div>
+                <br><br><br><br>
+            <div id="login">  
+                <img src="senha.png">
+                <input type="password" id="senha" placeholder="senha">
+            </div>
+            <br><br><br>
+        </center>
+            <div id="botao"> 
+                <center>
+                    <a href="meusTickets.html"></a><input type="button" id="btnLogar" value="Entrar"></a>
+                </center>
+                <h4>Esqueceu sua senha?</h4>
+                <center>
+                    <a href="Cadastro2.html"><input type="button" value="Cadastrar-se"></a>
+                </center>
+            </div>
+    </section>
+</body>
+</html>
