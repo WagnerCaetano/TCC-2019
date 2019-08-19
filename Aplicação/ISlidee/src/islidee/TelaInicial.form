@@ -28,14 +28,19 @@
               <Component id="jLabel1" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtConexao" min="-2" pref="357" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnReload" min="-2" pref="41" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -54,12 +59,15 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="txtConexao" min="-2" pref="75" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnReload" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtConexao" min="-2" pref="75" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="99" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jLabel4" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -84,7 +92,7 @@
     <Component class="javax.swing.JTextField" name="txtConexao">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="48" style="0"/>
+          <Font name="Tahoma" size="18" style="0"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
@@ -94,8 +102,21 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Passo a passo para se conectar:"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&#x9;&lt;head&gt;&#xa;&#x9;&lt;p&gt;Passo a passo para se conectar: &lt;/p&gt;&#xa;&#x9;&lt;p&gt;1&#xba; Conecte-se ao Wifi que est&#xe1; conetado seu computador.&lt;/p&gt;&#xa;&#x9;&lt;p&gt;2&#xba; Instale o aplicativo no celular.&lt;/p&gt;&#xa;&#x9;&lt;p&gt;3&#xba; Sincronize por wireless o celular com o computador seguindo as instru&#xe7;&#xf5;es.&lt;/p&gt;&#xa;&#x9;&lt;p&gt;E pronto , pode utilizar o aplicativo.&lt;/p&gt;&#xa;&#x9;&lt;/head&gt;&#xa;&lt;/html&gt;"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Passo a passo para se conectar: &#xa;1&#xba; Conecte-se a um Wifi.&#xa;2&#xba; Instale o aplicativo no celular.&#xa;3&#xba; Sincronize com o computador.&#xa;E pronto , pode come&#xe7;ar a utilizar.&#xa;"/>
+      </AccessibilityProperties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnReload">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/islidee/reload.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReloadActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
