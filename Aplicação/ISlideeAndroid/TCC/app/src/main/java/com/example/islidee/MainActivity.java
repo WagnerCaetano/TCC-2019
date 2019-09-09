@@ -1,14 +1,19 @@
 package com.example.islidee;
 
-import android.content.DialogInterface;
+import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,12 +21,15 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnPlay;
     private Handler handler;
     private ImageButton cronoConfig;
-    private int tempoLimite;
+    private String tempoLimite;
 
     private static long initialTime;
     public static boolean isRunning;
     private static final long MILLIS_IN_SEC = 1000L;
     private static final int SECS_IN_MIN = 60;
+
+    TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cronoConfig = findViewById(R.id.cronoConfig);
-
-        cronoConfig.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                configurarCronometro();
-            }
-        });
 
         btnPlay = findViewById(R.id.imPlay);
         handler = new Handler();
@@ -61,8 +62,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnPlay.setVisibility(View.INVISIBLE);
-        cronometro.setVisibility(View.INVISIBLE);
+        cronoConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mCalendar =  Calendar.getInstance();
+                int minute = mCalendar.get(Calendar.MINUTE);
+                int second = mCalendar.get(Calendar.SECOND);
+
+
+                DurationPicker mTimePickerDialog = new DurationPicker(
+                        MainActivity.this, mOnTimeSetListener, minute,second);
+                mTimePickerDialog.setTitle("Configurar cronômetro");
+                mTimePickerDialog.setMessage("Me avise quando o tempo chegar em:");
+
+                mTimePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                mTimePickerDialog.show();
+            }
+        });
+
+        mOnTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int minute, int second) {
+
+                int sec = second;
+                String min = minute+"";
+                String secS = second+"";
+
+                if(minute > 0)
+                    sec = sec + (minute * 60);
+
+                if(minute < 10)
+                    min = "0" + minute;
+
+                tempoLimite = sec+"";
+
+                if(second < 10)
+                    secS = "0" + second;
+
+                String mTime = min+":"+secS;
+
+                Toast.makeText(MainActivity.this, "Você será notificado quando atingir " + mTime + " min de apresentação", Toast.LENGTH_SHORT).show();
+            }
+        };
     }
     private final Runnable runnable = new Runnable() {
         @Override
@@ -70,31 +111,17 @@ public class MainActivity extends AppCompatActivity {
             if (isRunning) {
                 long seconds = (System.currentTimeMillis() - initialTime) / MILLIS_IN_SEC;
                 cronometro.setText((String.format("%02d:%02d", seconds / SECS_IN_MIN, seconds % SECS_IN_MIN)));
+                String.format(String.valueOf(seconds));
+                System.out.println(seconds);
+                System.out.println(tempoLimite);
+                if(String.format(String.valueOf(seconds)).equals(tempoLimite)){
+                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    long milliseconds = 2000;
+                    vibrator.vibrate(milliseconds);
+                    Toast.makeText(MainActivity.this, "Tempo limite atingido!", Toast.LENGTH_SHORT).show();
+                }
                 handler.postDelayed(runnable, MILLIS_IN_SEC);
             }
         }
     };
-
-    private void configurarCronometro(){
-        AlertDialog.Builder msgBox = new AlertDialog.Builder(this);
-        msgBox.setTitle("Configurar o cronômetro");
-        msgBox.setIcon(android.R.drawable.ic_menu_set_as);
-        msgBox.setMessage("Defina o momento de alerta do seu cronometro");
-        msgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                btnPlay.setVisibility(View.VISIBLE);
-                cronometro.setVisibility(View.VISIBLE);
-                Toast.makeText(MainActivity.this, "Você será notificado quando atingir " + tempoLimite + " min", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        msgBox.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-    }
-
 }
