@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Conectar">
+
+    <Button
+        android:id="@+id/btnConectar"
+        android:layout_width="121dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="144dp"
+        android:text="Conectar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="236dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginRight="72dp"
+        android:text="Insira alguma coisa aí pra conectar eh isto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="328dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginRight="96dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Código (ou sla oq)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>
