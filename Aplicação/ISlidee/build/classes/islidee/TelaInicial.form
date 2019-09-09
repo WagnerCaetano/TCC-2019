@@ -36,7 +36,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtConexao" min="-2" pref="357" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnReload" min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="btnReload" min="-2" pref="46" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -60,7 +60,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnReload" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnReload" min="-2" pref="45" max="-2" attributes="0"/>
                           <Component id="txtConexao" min="-2" pref="75" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -111,7 +111,7 @@
     <Component class="javax.swing.JButton" name="btnReload">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/islidee/reload.png"/>
+          <Image iconType="3" name="/imagens/reload.png"/>
         </Property>
       </Properties>
       <Events>
