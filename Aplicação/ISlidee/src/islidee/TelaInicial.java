@@ -5,6 +5,7 @@
  */
 package islidee;
 
+import classes.Utils;
 import java.awt.AWTException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -28,6 +29,8 @@ public class TelaInicial extends javax.swing.JFrame {
         initComponents();
         this.setVisible(false);
         Tray io = new Tray(this);
+        Utils teste = new Utils();
+        teste.teste();
     }
 
     /**

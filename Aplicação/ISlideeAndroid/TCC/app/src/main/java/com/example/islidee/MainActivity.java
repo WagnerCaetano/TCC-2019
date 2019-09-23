@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
                 DurationPicker mTimePickerDialog = new DurationPicker(
                         MainActivity.this, mOnTimeSetListener, minute,second);
-
                 mTimePickerDialog.setTitle("Configurar cronômetro");
                 mTimePickerDialog.setMessage("Me avise quando o tempo chegar em:");
 

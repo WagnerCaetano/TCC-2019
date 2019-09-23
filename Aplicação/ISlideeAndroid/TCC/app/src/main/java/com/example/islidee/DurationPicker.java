@@ -16,12 +16,13 @@ public class DurationPicker extends TimePickerDialog {
 
     private int initialMinutes;
 
-    public DurationPicker(Context context, OnTimeSetListener callBack, int minutes, int seconds) {
-        super(context, callBack, minutes, seconds, true);
+    public DurationPicker(Context context, OnTimeSetListener callBack,int minutes, int seconds) {
+        super(context, TimePickerDialog.THEME_HOLO_LIGHT, null, minutes,
+                seconds, true);
+        //super(context, callBack, minutes, seconds, true);
         this.callback = callBack;
         this.initialMinutes = minutes;
         this.setTitle("Set duration");
-        this.timePicker = findViewById(R.id.TimePicker);
 
     }
 
@@ -40,8 +41,7 @@ public class DurationPicker extends TimePickerDialog {
         try {
             Class<?> classForid = Class.forName("com.android.internal.R$id");
             Field timePickerField = classForid.getField("timePicker");
-            //this.timePicker = (TimePicker) findViewById(timePickerField.getInt(null));
-
+            this.timePicker = (TimePicker)findViewById(R.id.TimePicker);
             Field field = classForid.getField("hour");
 
             int maxMinutes = 60;
