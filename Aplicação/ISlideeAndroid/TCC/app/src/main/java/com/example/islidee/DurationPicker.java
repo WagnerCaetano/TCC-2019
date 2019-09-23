@@ -24,7 +24,6 @@ public class DurationPicker extends TimePickerDialog {
         this.initialMinutes = minutes;
         this.setTitle("Set duration");
 
-
     }
 
     @Override
