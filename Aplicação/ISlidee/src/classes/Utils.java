@@ -12,6 +12,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  *
@@ -59,5 +60,12 @@ public class Utils {
     public void mover(int X, int Y) throws AWTException{
         Robot robot = new Robot();
         robot.mouseMove(X, Y);
+    }
+    public void teste() throws IOException
+    {
+        PowerPointHelper teste = new PowerPointHelper();
+        teste.setPowerPoint("E:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
+        teste.addImage("C:\\Users\\u18300\\Downloads\\TESTE.png");
+        teste.saveSlide("C:\\Temp\\teste.pptx");
     }
 }
