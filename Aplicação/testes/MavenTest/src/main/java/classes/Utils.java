@@ -52,7 +52,10 @@ public class Utils {
         Dimension d = tk.getScreenSize();
         return d;
     }
-    
+    public static void init(String Path)throws Exception {
+        File diretorio = new File(Path);
+        diretorio.mkdir();       
+    }
     public static void avancar() throws AWTException{  
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_RIGHT);
@@ -68,14 +71,14 @@ public class Utils {
     public void teste() throws IOException
     {
         PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint("H:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
-        teste.addImage("C:\\Users\\00\\Documents\\339.png");
+        teste.setPowerPoint("C:\\Users\\u18325\\Documents\\GitHub\\TCC-2019\\Documentação\\APRESENTAÇÃO TCC.pptx");
+        teste.addImage("C:\\Temp\\arvore.png");
         teste.saveSlide("C:\\Temp\\teste.pptx");
     }
     public void teste2() throws IOException
     {
         PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint("H:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
+        teste.setPowerPoint("C:\\Users\\u18325\\Documents\\GitHub\\TCC-2019\\Documentação\\APRESENTAÇÃO TCC.pptx");
         ArrayList lst = new ArrayList();
         int i =0;
         for (BufferedImage img : teste.getSlides())
@@ -84,8 +87,13 @@ public class Utils {
             ImageIO.write(img, "png", outputfile);
             i++;
         }
-        
-        
+                
         teste.saveSlide("C:\\Temp\\teste.pptx");
+    }
+    public static void listaSlides(){
+        PowerPointHelper teste = new PowerPointHelper();
+        BufferedImage[] i =teste.getSlides();
+        
+        
     }
 }
