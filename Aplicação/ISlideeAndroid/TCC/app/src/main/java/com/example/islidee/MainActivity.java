@@ -6,9 +6,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.text.method.Touch;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -23,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton cronoConfig;
     private String tempoLimite;
 
+    private Button btnCursor;
+    private ImageView cursor;
+    private ImageView slide;
+
     private static long initialTime;
     public static boolean isRunning;
     private static final long MILLIS_IN_SEC = 1000L;
     private static final int SECS_IN_MIN = 60;
+
+    private boolean listener = false;
 
     TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
 
@@ -34,12 +47,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
-        cronoConfig = findViewById(R.id.cronoConfig);
+        slide = findViewById(R.id.ivSlide);
 
+        btnCursor = findViewById(R.id.btnCursor);
+        cursor = findViewById(R.id.cursor);
         btnPlay = findViewById(R.id.imPlay);
+
         handler = new Handler();
+        cronoConfig = findViewById(R.id.cronoConfig);
         cronometro = findViewById(R.id.txtCronometro);
 
         btnPlay.setOnClickListener(new View.OnClickListener(){
@@ -104,6 +122,22 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Você será notificado quando atingir " + mTime + " min de apresentação", Toast.LENGTH_SHORT).show();
             }
         };
+
+        btnCursor.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+
+                if(listener){
+
+                    cursor.setVisibility(View.INVISIBLE);
+                }
+                slide.setOnTouchListener(handleTouch);
+
+                listener = !listener;
+            }
+        });
+
     }
     private final Runnable runnable = new Runnable() {
         @Override
@@ -122,6 +156,18 @@ public class MainActivity extends AppCompatActivity {
                 }
                 handler.postDelayed(runnable, MILLIS_IN_SEC);
             }
+        }
+    };
+
+    private View.OnTouchListener handleTouch = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            cursor.setVisibility(View.VISIBLE);
+
+            cursor.setX(event.getX());
+            cursor.setY(event.getY());
+            return true;
         }
     };
 }

@@ -2,10 +2,13 @@ package com.example.islidee;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -13,6 +16,8 @@ public class Conectar extends AppCompatActivity {
     WifiP2pManager manager;
     WifiP2pManager.Channel channel;
     WiFiDirectBroadcastReceiver receiver;
+
+    private Button vai;
 
     IntentFilter intentFilter;
 
@@ -29,6 +34,18 @@ public class Conectar extends AppCompatActivity {
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
+
+        final Intent intent = new Intent(this,MainActivity.class);
+
+        vai = findViewById(R.id.btnvai);
+        vai.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+
+                startActivity(intent);
+            }
+        });
 
         manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
