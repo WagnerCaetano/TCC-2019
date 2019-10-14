@@ -98,7 +98,7 @@ public class PowerPointHelper {
  
         int pd = ppt.addPicture(pictureData, XSLFPictureData.PICTURE_TYPE_PNG);
         XSLFPictureShape picture = slide.createPicture(pd);
-        //picture.setAnchor(new Rectangle(320, 230, 100, 92));
+        picture.setAnchor(new Rectangle(320, 230, 100, 92));
     }
     
     public void addImage(int pos,String path) throws FileNotFoundException, IOException

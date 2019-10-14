@@ -33,7 +33,7 @@ public class Tray {
         final TrayIcon trayIcon;
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = ImageIO.read(new File("C:\\Users\\00\\Documents\\imagens\\logo2.jpg"));
+            Image image = ImageIO.read(new File("E:\\logo2.jpeg"));
             //Image image = ImageIO.read(getClass().getResource("/imagens/logo2.jpeg"));
             MouseListener mouseListener = new MouseListener() {
             public void mouseClicked(MouseEvent e) {

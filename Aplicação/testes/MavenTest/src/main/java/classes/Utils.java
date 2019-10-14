@@ -68,14 +68,14 @@ public class Utils {
     public void teste() throws IOException
     {
         PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint("H:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
-        teste.addImage("C:\\Users\\00\\Documents\\339.png");
+        teste.setPowerPoint("E:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
+        teste.addImage("C:\\Users\\u18300\\Downloads\\EAP TCC.png");
         teste.saveSlide("C:\\Temp\\teste.pptx");
     }
     public void teste2() throws IOException
     {
         PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint("H:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
+        teste.setPowerPoint("E:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
         ArrayList lst = new ArrayList();
         int i =0;
         for (BufferedImage img : teste.getSlides())

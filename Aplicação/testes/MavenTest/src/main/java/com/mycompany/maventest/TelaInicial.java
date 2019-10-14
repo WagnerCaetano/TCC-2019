@@ -30,6 +30,7 @@ public class TelaInicial extends javax.swing.JFrame {
         this.setVisible(false);
         Tray io = new Tray(this);
         Utils teste = new Utils();
+        teste.teste();
         teste.teste2();
     }
 
@@ -62,7 +63,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>\n\t<head>\n\t<p>Passo a passo para se conectar: </p>\n\t<p>1º Conecte-se ao Wifi que está conetado seu computador.</p>\n\t<p>2º Instale o aplicativo no celular.</p>\n\t<p>3º Sincronize por wireless o celular com o computador seguindo as instruções.</p>\n\t<p>E pronto , pode utilizar o aplicativo.</p>\n\t</head>\n</html>");
 
-        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Temp\\MavenTest\\src\\main\\java\\imagens\\reload.png")); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicação\\testes\\MavenTest\\src\\main\\java\\imagens\\reload.png")); // NOI18N
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);
