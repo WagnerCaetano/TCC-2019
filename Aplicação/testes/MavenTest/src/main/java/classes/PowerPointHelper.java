@@ -42,26 +42,36 @@ public class PowerPointHelper {
         ppt = new XMLSlideShow();
         ppt.createSlide();
     }
+    
+    //Escolhe uma apresentação existente
     public void setPowerPoint(String path) throws FileNotFoundException, IOException
     {
         ppt = new XMLSlideShow(new FileInputStream(path));
     }
+    
+    //salva a apresentação no caminho escolhido
     public void saveSlide(String path) throws IOException
     {
         FileOutputStream out = new FileOutputStream(path);
         ppt.write(out);
         out.close();
     }
+    
+    //muda a ordem de 1 slides escolhidos
     public void changeOrder(int oldPos,int newPos)
     {
         XSLFSlide[] slides = ppt.getSlides();
         XSLFSlide slide = slides[oldPos];
         ppt.setSlideOrder(slide, newPos);
     }
+    
+    //deleta um slide
     public void deleteSlide(int Pos)
     {
         ppt.removeSlide(Pos);
     }
+    
+    //adiciona um slide vazio
     public void addSlide()
     {
         XSLFSlideMaster defaultMaster = ppt.getSlideMasters()[0];
@@ -78,6 +88,8 @@ public class PowerPointHelper {
             }
         }
     }
+    
+    //adiciona imagem em um novo slide
     public void addImage(String path) throws FileNotFoundException, IOException
     {
         XSLFSlideMaster defaultMaster = ppt.getSlideMasters()[0];
@@ -96,11 +108,13 @@ public class PowerPointHelper {
         }
         byte[] pictureData = IOUtils.toByteArray(new FileInputStream(path));
  
+        Dimension pgsize = ppt.getPageSize();
         int pd = ppt.addPicture(pictureData, XSLFPictureData.PICTURE_TYPE_PNG);
-        XSLFPictureShape picture = slide.createPicture(pd);
-        picture.setAnchor(new Rectangle(320, 230, 100, 92));
+        XSLFPictureShape picture = slide.createPicture(pd);              
+        picture.setAnchor(new Rectangle(0,0,pgsize.width,pgsize.height));
     }
     
+    //adiciona imagem no slide desejado
     public void addImage(int pos,String path) throws FileNotFoundException, IOException
     {
         XSLFSlideMaster defaultMaster = ppt.getSlideMasters()[0];
@@ -117,12 +131,42 @@ public class PowerPointHelper {
             }
         }
         
+        Dimension pgsize = ppt.getPageSize();
+        
         byte[] pictureData = IOUtils.toByteArray(new FileInputStream(path));
  
         int pd = ppt.addPicture(pictureData, XSLFPictureData.PICTURE_TYPE_PNG);
         XSLFPictureShape picture = slide.createPicture(pd);
-        //picture.setAnchor(new Rectangle(320, 230, 100, 92));
+        picture.setAnchor(new Rectangle(0,0,pgsize.width,pgsize.height));
     }
+    
+    //adiciona imagem do tamanho desejado no slide no slide desejado
+    public void addImage(int pos,String path, int width, int height) throws FileNotFoundException, IOException
+    {
+        XSLFSlideMaster defaultMaster = ppt.getSlideMasters()[0];
+        
+        XSLFSlideLayout layout = defaultMaster.getLayout(SlideLayout.TITLE_AND_CONTENT);
+        XSLFSlide slide = ppt.createSlide(layout);
+        
+        XSLFTextShape titleShape = slide.getPlaceholder(0);
+        XSLFTextShape contentShape = slide.getPlaceholder(1);
+        
+        for (XSLFShape shape : slide.getShapes()) {
+            if (shape instanceof XSLFAutoShape) {
+            // this is a template placeholder
+            }
+        }
+        
+        Dimension pgsize = ppt.getPageSize();
+        
+        byte[] pictureData = IOUtils.toByteArray(new FileInputStream(path));
+ 
+        int pd = ppt.addPicture(pictureData, XSLFPictureData.PICTURE_TYPE_PNG);
+        XSLFPictureShape picture = slide.createPicture(pd);
+        picture.setAnchor(new Rectangle(0,0,width,height));
+    }
+    
+    //faz uma imagem do slide desejado
     public BufferedImage getImage(int pos)
     {
         Dimension pgsize = ppt.getPageSize();
@@ -141,6 +185,7 @@ public class PowerPointHelper {
         return img;
     }
     
+    //faz uma imagem de todos os slides
     public BufferedImage[] getSlides()
     {
       BufferedImage[] slides = new BufferedImage[ppt.getSlides().length];
@@ -160,7 +205,7 @@ public class PowerPointHelper {
          //render
          slide[i].draw(graphics);
          slides[i] = img;
-      }
+      }      
       return slides;
     }
     

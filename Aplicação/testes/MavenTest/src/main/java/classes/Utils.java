@@ -52,7 +52,10 @@ public class Utils {
         Dimension d = tk.getScreenSize();
         return d;
     }
-    
+    public static void init(String Path)throws Exception {
+        File diretorio = new File(Path);
+        diretorio.mkdir();       
+    }
     public static void avancar() throws AWTException{  
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_RIGHT);
@@ -84,8 +87,13 @@ public class Utils {
             ImageIO.write(img, "png", outputfile);
             i++;
         }
-        
-        
+                
         teste.saveSlide("C:\\Temp\\teste.pptx");
+    }
+    public static void listaSlides(){
+        PowerPointHelper teste = new PowerPointHelper();
+        BufferedImage[] i =teste.getSlides();
+        
+        
     }
 }
