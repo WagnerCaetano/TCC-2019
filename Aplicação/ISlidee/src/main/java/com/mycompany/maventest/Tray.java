@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package islidee;
+package com.mycompany.maventest;
 
 import java.awt.AWTException;
 import java.awt.CheckboxMenuItem;
@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -32,7 +33,8 @@ public class Tray {
         final TrayIcon trayIcon;
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = ImageIO.read(getClass().getResource("/imagens/logo2.jpeg"));
+            Image image = ImageIO.read(new File("E:\\logo2.jpeg"));
+            //Image image = ImageIO.read(getClass().getResource("/imagens/logo2.jpeg"));
             MouseListener mouseListener = new MouseListener() {
             public void mouseClicked(MouseEvent e) {
         
