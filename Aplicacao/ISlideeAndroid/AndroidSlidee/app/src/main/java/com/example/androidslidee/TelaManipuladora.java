@@ -1,32 +1,43 @@
 package com.example.androidslidee;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class TelaManipuladora extends AppCompatActivity {
 
     private TextView cronometro;
     private ImageButton btnPlay;
     private Handler handler;
     private ImageButton cronoConfig;
     private String tempoLimite;
+    private String ip;
+
+    private Button btnCursor;
+    private ImageView cursor;
+    private ImageView slide;
 
     private static long initialTime;
     public static boolean isRunning;
     private static final long MILLIS_IN_SEC = 1000L;
     private static final int SECS_IN_MIN = 60;
+
+    private boolean listener = false;
 
     TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
 
@@ -34,10 +45,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_manipuladora);
+        Intent intent = getIntent();
+        ip = intent.getStringExtra("IpSelecionado");
+        Wireless wireless = new Wireless(ip);
+        slide = findViewById(R.id.ivSlide);
 
         cronoConfig = findViewById(R.id.cronoConfig);
 
+        btnCursor = findViewById(R.id.btnCursor);
+        cursor = findViewById(R.id.cursor);
         btnPlay = findViewById(R.id.imPlay);
         handler = new Handler();
         cronometro = findViewById(R.id.txtCronometro);
@@ -71,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 DurationPicker mTimePickerDialog = new DurationPicker(
-                        MainActivity.this, mOnTimeSetListener, minute,second);
+                        TelaManipuladora.this, mOnTimeSetListener, minute,second);
                 mTimePickerDialog.setTitle("Configurar cronômetro");
                 mTimePickerDialog.setMessage("Me avise quando o tempo chegar em:");
 
@@ -101,9 +118,24 @@ public class MainActivity extends AppCompatActivity {
 
                 String mTime = min+":"+secS;
 
-                Toast.makeText(MainActivity.this, "Você será notificado quando atingir " + mTime + " min de apresentação", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TelaManipuladora.this, "Você será notificado quando atingir " + mTime + " min de apresentação", Toast.LENGTH_SHORT).show();
             }
         };
+
+        btnCursor.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+
+                if(listener){
+
+                    cursor.setVisibility(View.INVISIBLE);
+                }
+                slide.setOnTouchListener(handleTouch);
+
+                listener = !listener;
+            }
+        });
     }
     private final Runnable runnable = new Runnable() {
         @Override
@@ -118,10 +150,20 @@ public class MainActivity extends AppCompatActivity {
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     long milliseconds = 2000;
                     vibrator.vibrate(milliseconds);
-                    Toast.makeText(MainActivity.this, "Tempo limite atingido!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TelaManipuladora.this, "Tempo limite atingido!", Toast.LENGTH_SHORT).show();
                 }
                 handler.postDelayed(runnable, MILLIS_IN_SEC);
             }
+        }
+    };
+    private View.OnTouchListener handleTouch = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            cursor.setVisibility(View.VISIBLE);
+
+            cursor.setX(event.getX());
+            cursor.setY(event.getY());
+            return true;
         }
     };
 }

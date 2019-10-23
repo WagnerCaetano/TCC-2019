@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/Layout"
+    android:id="@+id/Tela"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -121,7 +121,7 @@
         android:lineSpacingExtra="10sp"
         android:text="00:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="#3F51B5"
+        android:textColor="@color/design_default_color_primary"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/btnDraw"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,5 +139,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/play" />
+
+    <ImageView
+        android:id="@+id/ivSlide"
+        android:layout_width="451dp"
+        android:layout_height="260dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
+        android:layout_marginBottom="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnVoltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.916"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/inicial" />
+
+    <ImageView
+        android:id="@+id/cursor"
+        android:layout_width="44dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="352dp"
+        android:layout_marginLeft="352dp"
+        android:layout_marginTop="196dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/clicker" />
 
 </android.support.constraint.ConstraintLayout>
