@@ -144,11 +144,26 @@
         android:id="@+id/ivSlide"
         android:layout_width="451dp"
         android:layout_height="260dp"
+<<<<<<< Updated upstream:Aplicação/ISlideeAndroid/TCC/app/src/main/res/layout/activity_main.xml
         android:layout_marginTop="52dp"
         android:layout_marginEnd="128dp"
         android:layout_marginRight="128dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+=======
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnVoltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.936"
+>>>>>>> Stashed changes:Aplicacao/ISlideeAndroid/AndroidSlidee/app/src/main/res/layout/activity_manipuladora.xml
         app:srcCompat="@drawable/inicial" />
 
     <ImageView
@@ -162,5 +177,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/clicker" />
+
+    <Button
+        android:id="@+id/btnSlides"
+        android:layout_width="69dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="116dp"
+        android:layout_marginRight="116dp"
+        android:layout_marginBottom="16dp"
+        android:text="Slides"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

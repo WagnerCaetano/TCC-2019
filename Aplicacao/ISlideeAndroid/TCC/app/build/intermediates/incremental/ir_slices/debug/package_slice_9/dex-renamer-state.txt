@@ -1,0 +1,4 @@
+#Mon Oct 21 16:10:25 BRST 2019
+base.0=C\:\\Users\\u18320\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlideeAndroid\\TCC\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\9
+path.0=classes.dex
+renamed.0=classes.dex

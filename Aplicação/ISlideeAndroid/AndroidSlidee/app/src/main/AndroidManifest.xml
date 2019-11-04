@@ -24,6 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< Updated upstream:Aplicação/ISlideeAndroid/AndroidSlidee/app/src/main/AndroidManifest.xml
+=======
+        <activity android:name=".TelaManipuladora"></activity>
+        <activity android:name=".NomearSlide"></activity>
+>>>>>>> Stashed changes:Aplicacao/ISlideeAndroid/AndroidSlidee/app/src/main/AndroidManifest.xml
     </application>
 
 </manifest>

@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView cursor;
     private ImageView slide;
 
+    private Button editarSlide;
+
     private static long initialTime;
     public static boolean isRunning;
     private static final long MILLIS_IN_SEC = 1000L;
@@ -122,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Você será notificado quando atingir " + mTime + " min de apresentação", Toast.LENGTH_SHORT).show();
             }
         };
+
+        editarSlide = findViewById(R.id.btnSlides);
+        editarSlide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), NomearSlide.class);
+                startActivity(intent);
+            }
+        });
 
         btnCursor.setOnClickListener(new View.OnClickListener(){
 
