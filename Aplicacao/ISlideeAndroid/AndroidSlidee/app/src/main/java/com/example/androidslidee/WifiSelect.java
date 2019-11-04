@@ -103,6 +103,7 @@ public class WifiSelect extends AppCompatActivity {
 
         String hostname = getIPAddress(true);
         String subnet = hostname.replaceAll("(.*\\.)\\d+$", "$1");;
+
         static final int lower = 1;
         static final int upper = 254;
         static final int timeout = 500;
@@ -112,11 +113,12 @@ public class WifiSelect extends AppCompatActivity {
             ipList.clear();
             adapter.notifyDataSetInvalidated();
             connectionString.setText("Escaneamento iniciado");
+
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-
+            System.out.println(subnet);
             for (int i = lower; i <= upper; i++) {
                 String host = subnet + i;
 
