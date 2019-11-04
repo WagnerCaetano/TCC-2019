@@ -7,6 +7,7 @@ package classes;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.List;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -64,7 +65,7 @@ public class Utils {
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_LEFT);        
     }
-    public void mover(int X, int Y) throws AWTException{
+    public static void mover(int X, int Y) throws AWTException{
         Robot robot = new Robot();
         robot.mouseMove(X, Y);
     }
@@ -93,6 +94,7 @@ public class Utils {
     public static void listaSlides(){
         PowerPointHelper teste = new PowerPointHelper();
         BufferedImage[] i =teste.getSlides();
+        //Image
         
         
     }
