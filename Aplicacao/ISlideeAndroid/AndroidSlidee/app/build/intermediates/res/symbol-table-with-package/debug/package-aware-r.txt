@@ -1143,7 +1143,7 @@ id line3
 id listMode
 id listView
 id list_item
-id listaDeSlide
+id listaSlides
 id masked
 id message
 id middle
@@ -1301,6 +1301,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_manipuladora
+layout activity_nomear_slide
 layout activity_wifi_select
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -1318,7 +1319,6 @@ layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
-layout nomear_slide
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big

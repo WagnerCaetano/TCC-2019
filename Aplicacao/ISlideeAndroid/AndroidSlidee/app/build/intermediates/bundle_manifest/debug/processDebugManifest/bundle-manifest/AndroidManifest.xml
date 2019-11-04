@@ -27,6 +27,7 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.androidslidee.NomearSlide" />
         <activity android:name="com.example.androidslidee.WifiSelect" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +36,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.androidslidee.TelaManipuladora" />
-        <activity android:name="com.example.androidslidee.NomearSlide" />
 
         <provider
             android:name="com.android.tools.ir.server.InstantRunContentProvider"

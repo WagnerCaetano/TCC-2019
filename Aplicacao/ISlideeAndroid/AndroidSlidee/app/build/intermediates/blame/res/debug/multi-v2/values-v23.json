@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\u18320\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlideeAndroid\\AndroidSlidee\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
+            "outputFile": "C:\\Users\\u18320\\Documents\\Temp\\AndroidSlidee\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
                     "source": "C:\\Users\\u18320\\.gradle\\caches\\transforms-1\\files-1.1\\cardview-v7-28.0.0.aar\\59df4ab1f569b8b28c68c5631241814a\\res\\values-v23\\values-v23.xml",
