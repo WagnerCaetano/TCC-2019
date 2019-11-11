@@ -100,6 +100,7 @@ public class Utils {
         List lista = new ArrayList();
         PowerPointHelper teste = new PowerPointHelper();
         teste.setPowerPoint(Path);
+<<<<<<< HEAD
         BufferedImage[] imgs = teste.getSlides();   
         for (BufferedImage img : imgs)
         {
@@ -113,11 +114,16 @@ public class Utils {
             lista.add(imageInByte);
         }
         return lista;
+=======
+        abrirImage(teste.getImage(5));
+        return teste.getSlides();   
+>>>>>>> e98340385df4fab4151895086f99a67a602d0833
     }
     public static void abrirImage(BufferedImage img)
     {
         JFrame jf;
         jf = new JFrame();
+        jf.add(new JLabel(new ImageIcon(img)));
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setUndecorated(true);
         jf.setVisible(true);
@@ -127,6 +133,6 @@ public class Utils {
         GraphicsDevice device = env.getDefaultScreenDevice();
         device.setFullScreenWindow(jf);
 
-        jf.add(new JLabel(new ImageIcon(img)));
+        
     }
 }

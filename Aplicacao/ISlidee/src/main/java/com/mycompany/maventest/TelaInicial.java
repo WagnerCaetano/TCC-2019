@@ -9,6 +9,7 @@ import classes.Server;
 import classes.Utils;
 import java.awt.AWTException;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,9 +33,15 @@ public class TelaInicial extends javax.swing.JFrame {
     public TelaInicial() throws AWTException, IOException {
         initComponents();
         this.setVisible(false);
+<<<<<<< HEAD
         Tray io = new Tray(this);        
         List teste = Utils.listaSlides("C:\\Users\\u18325\\Documents\\NossaApresentacao.pptx");
         System.out.println(teste);
+=======
+        Tray io = new Tray(this);   
+        
+        
+>>>>>>> e98340385df4fab4151895086f99a67a602d0833
     }
 
     /**
@@ -72,7 +79,11 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>  <head>  <p>5º Sincronize por wireless o celular com o computador seguindo as instruções.</p> \t<p>E pronto , pode utilizar o aplicativo.</p> \t</head> </html>");
 
+<<<<<<< HEAD
         btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18325\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
+=======
+        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
+>>>>>>> e98340385df4fab4151895086f99a67a602d0833
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);

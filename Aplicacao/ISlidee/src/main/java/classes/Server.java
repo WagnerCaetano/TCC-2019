@@ -28,20 +28,16 @@ import java.util.List;
                 System.exit(0);
             }
             public void startServer() throws AWTException, IOException {
-                try {
-                    echoServer = new ServerSocket(port);
-                }
-                catch (IOException e) {
-                    System.out.println(e);
-                }   
+                echoServer = new ServerSocket(port);
                 System.out.println( "Waiting for connections. Only one connection is allowed." );                
+                clientSocket = echoServer.accept();
+                Server1Connection oneconnection = new Server1Connection(clientSocket, server,img);
                 new Thread(){
                     @Override
                     public void run() {
                     while ( true ) {
                             try {
-                                clientSocket = echoServer.accept();
-                                Server1Connection oneconnection = new Server1Connection(clientSocket, server,img);
+                                
                                 oneconnection.run();
                             }   
                             catch (IOException e) {System.out.println(e);} catch (AWTException ex) {
@@ -75,46 +71,33 @@ import java.util.List;
             }
             
             public void run() throws AWTException, IOException {
-                String line;
+                String line="";
             try {
                 boolean serverStop = false;
-                    while (true) {
-                        line = is.readLine();
-                        switch(line){
-                            case "s":{
-                                line = is.readLine();
-                                 if(line == "a") //avançar
-                                    Utils.avancar();
-                                 else if(line == "r") //retroceder
-                                    Utils.retroceder();
-                                 break;
-                            }
-                            case "c":{ //mover cursor
-                                line = is.readLine();
-                                int x = new Integer(line);
-                                line = is.readLine();
-                                int y = new Integer(line);
-                                Utils.mover(x, y);
-                            }
-                            case "p":{
-                                
-                            }
-                        }                                                                                    
+                while (true) {
+                line = is.readLine();                                                                              
                 System.out.println( "Received " + line );
                 int n = Integer.parseInt(line);
                 if ( n == -1 ) {
                     serverStop = true;
                     break;
                 }
+<<<<<<< HEAD
                 if ( n == 0 ) break;                          
                         os.println("" + img); 
+=======
+                if ( n == 0 ){ 
+                        os.println("" + "teste"); 
+                        break;
+>>>>>>> e98340385df4fab4151895086f99a67a602d0833
                     }
-                System.out.println( "Connection closed." );
+                    System.out.println( "Connection closed." );
                     is.close();
                     os.close();
                     clientSocket.close();
                 if ( serverStop ) server.stopServer();
-            } catch (IOException e) {
+                }
+            }catch (IOException e) {
                 System.out.println(e);
         }
     }

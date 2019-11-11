@@ -164,7 +164,7 @@ public class TelaManipuladora extends AppCompatActivity {
 
             cursor.setX(event.getX());
             cursor.setY(event.getY());
-            wireless.sendCursor(Integer.parseInt(event.getX()+""),Integer.parseInt(event.getY()+""));
+            wireless.sendCursor((int)event.getX(),(int)event.getY());
             return true;
         }
     };
