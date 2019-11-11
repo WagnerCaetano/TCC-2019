@@ -24,7 +24,7 @@ import java.awt.image.BufferedImage;
             System.out.println( "Server cleaning up." );
             System.exit(0);
             }
-            public void startServer() {
+            public void startServer() throws AWTException {
             // Try to open a server socket on the given port
             // Note that we can't choose a port less than 1024 if we are not
             // privileged users (root)

@@ -37,8 +37,9 @@ public class TelaInicial extends javax.swing.JFrame {
         teste.teste();
         teste.teste2();
         //Server server = new Server(4848);
-        teste.listaSlides(
-    }
+        //teste.listaSlides(
+    }    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
