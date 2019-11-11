@@ -7,8 +7,9 @@ package classes;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.Image;
-//import java.awt.List;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.List;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -18,6 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -91,10 +95,24 @@ public class Utils {
                 
         teste.saveSlide("C:\\Temp\\teste.pptx");
     }
-    public static void listaSlides(){
+    public static BufferedImage[] listaSlides(String Path) throws IOException{
         PowerPointHelper teste = new PowerPointHelper();
-        BufferedImage[] i = teste.getSlides();
-        
-        
+        teste.setPowerPoint(Path);
+        return teste.getSlides();   
+    }
+    public static void abrirImage(BufferedImage img)
+    {
+        JFrame jf;
+        jf = new JFrame();
+        jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        jf.setUndecorated(true);
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        device.setFullScreenWindow(jf);
+
+        jf.add(new JLabel(new ImageIcon(img)));
     }
 }
