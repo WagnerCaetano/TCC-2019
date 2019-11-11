@@ -9,12 +9,13 @@ import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.List;
+import java.util.List;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,10 +96,23 @@ public class Utils {
                 
         teste.saveSlide("C:\\Temp\\teste.pptx");
     }
-    public static BufferedImage[] listaSlides(String Path) throws IOException{
+    public static List<BufferedImage> listaSlides(String Path) throws IOException{
+        List lista = new ArrayList();
         PowerPointHelper teste = new PowerPointHelper();
         teste.setPowerPoint(Path);
-        return teste.getSlides();   
+        BufferedImage[] imgs = teste.getSlides();   
+        for (BufferedImage img : imgs)
+        {
+            
+            //BufferedImage originalImage = ImageIO.read(new File("c:\\image\\mypic.jpg"));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write( img, "jpg", baos );
+            baos.flush();
+            byte[] imageInByte = baos.toByteArray();
+            baos.close();
+            lista.add(imageInByte);
+        }
+        return lista;
     }
     public static void abrirImage(BufferedImage img)
     {

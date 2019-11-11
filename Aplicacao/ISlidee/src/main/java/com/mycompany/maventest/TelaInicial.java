@@ -33,8 +33,8 @@ public class TelaInicial extends javax.swing.JFrame {
         initComponents();
         this.setVisible(false);
         Tray io = new Tray(this);        
-        
-        
+        List teste = Utils.listaSlides("C:\\Users\\u18325\\Documents\\NossaApresentacao.pptx");
+        System.out.println(teste);
     }
 
     /**
@@ -72,7 +72,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>  <head>  <p>5º Sincronize por wireless o celular com o computador seguindo as instruções.</p> \t<p>E pronto , pode utilizar o aplicativo.</p> \t</head> </html>");
 
-        btnReload.setIcon(new javax.swing.ImageIcon("E:\\github repository\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18325\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);
@@ -192,8 +192,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel3.setText(arquivo.getSelectedFile().getAbsolutePath());
         Path = arquivo.getSelectedFile().getAbsolutePath();
             try {
-                BufferedImage[] img = Utils.listaSlides(Path);
-                Server server = new Server(4848, img);
+                Server server = new Server(4848, Utils.listaSlides(Path));
                 server.startServer();
             } catch (IOException ex) {
                 Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);

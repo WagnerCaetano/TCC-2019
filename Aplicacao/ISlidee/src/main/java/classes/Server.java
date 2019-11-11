@@ -9,6 +9,7 @@
         import java.awt.image.BufferedImage;
         import java.io.*;
         import java.net.*;
+import java.util.List;
         import java.util.logging.Level;
         import java.util.logging.Logger;
 
@@ -16,9 +17,9 @@
             Server server = this;
             ServerSocket echoServer = null;
             Socket clientSocket = null;
-            BufferedImage[] img;
+            List img;
             int port;
-            public Server( int port , BufferedImage[] img) {
+            public Server( int port , List img) {
                 this.port = port;
                 this.img = img;
                 }
@@ -57,9 +58,9 @@
             PrintStream os;
             Socket clientSocket;
             Server server;
-            BufferedImage[] img;
+            List img;
 
-            public Server1Connection(Socket clientSocket, Server server,BufferedImage[] img) {
+            public Server1Connection(Socket clientSocket, Server server,List img) {
                 this.clientSocket = clientSocket;
                 this.server = server;
                 this.img = img;
@@ -105,7 +106,7 @@
                     serverStop = true;
                     break;
                 }
-                if ( n == 0 ) break;
+                if ( n == 0 ) break;                          
                         os.println("" + img); 
                     }
                 System.out.println( "Connection closed." );
