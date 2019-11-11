@@ -5,32 +5,61 @@
     build-mode="COLD"
     density="560dpi"
     format="10"
+    ir-eligibility="R_CLASS_CHANGE"
     plugin-version="3.3.2"
-    timestamp="1572898888500"
+    timestamp="1573501788471"
     token="-4757663079958353810"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="935" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="93" />
     <task
         name="verifier"
-        duration="0" />
+        duration="26" />
 
     <artifact
         location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
         type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1572898526322"
-        verifier="FULL_BUILD_REQUESTED" >
+        ir-eligibility="CLASS_ADDED"
+        timestamp="1573496578207"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
             type="SPLIT" />
@@ -38,31 +67,31 @@
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
@@ -73,19 +102,50 @@
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1572898670863"
+        ir-eligibility="CLASS_ADDED"
+        timestamp="1573501243706"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+            type="SPLIT_MAIN" />
     </build>
     <build
         build-mode="COLD"
-        timestamp="1572898888500"
+        ir-eligibility="R_CLASS_CHANGE"
+        timestamp="1573501788471"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\u18320\Documents\Temp\AndroidSlidee\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
     </build>
 

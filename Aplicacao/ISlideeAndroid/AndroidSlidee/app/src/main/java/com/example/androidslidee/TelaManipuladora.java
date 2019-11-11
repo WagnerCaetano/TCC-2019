@@ -1,7 +1,9 @@
 package com.example.androidslidee;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ public class TelaManipuladora extends AppCompatActivity {
     private Handler handler;
     private ImageButton cronoConfig;
     private String tempoLimite;
+    private Button btnDraw;
     private String ip;
 
     private Button btnCursor;
@@ -43,7 +46,6 @@ public class TelaManipuladora extends AppCompatActivity {
     private Wireless wireless;
 
     TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,18 @@ public class TelaManipuladora extends AppCompatActivity {
         btnPlay = findViewById(R.id.imPlay);
         handler = new Handler();
         cronometro = findViewById(R.id.txtCronometro);
+
+        btnDraw = findViewById(R.id.btnDraw);
+
+        btnDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), PaintActivity.class);
+                Toast.makeText(getApplicationContext(), "Para sair do modo desenho, pressione o botão de Voltar", Toast.LENGTH_LONG).show();
+                startActivity(intent);
+            }
+        });
 
         btnSlides.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +190,7 @@ public class TelaManipuladora extends AppCompatActivity {
 
             cursor.setX(event.getX());
             cursor.setY(event.getY());
-            wireless.sendCursor(Integer.parseInt(event.getX()+""),Integer.parseInt(event.getY()+""));
+            //wireless.sendCursor(Integer.parseInt(event.getX()+""),Integer.parseInt(event.getY()+""));
             return true;
         }
     };
