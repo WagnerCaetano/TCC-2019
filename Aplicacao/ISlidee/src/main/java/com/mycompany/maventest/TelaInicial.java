@@ -9,6 +9,7 @@ import classes.Server;
 import classes.Utils;
 import java.awt.AWTException;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,7 +33,7 @@ public class TelaInicial extends javax.swing.JFrame {
     public TelaInicial() throws AWTException, IOException {
         initComponents();
         this.setVisible(false);
-        Tray io = new Tray(this);        
+        Tray io = new Tray(this);   
         
         
     }
@@ -72,7 +73,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>  <head>  <p>5º Sincronize por wireless o celular com o computador seguindo as instruções.</p> \t<p>E pronto , pode utilizar o aplicativo.</p> \t</head> </html>");
 
-        btnReload.setIcon(new javax.swing.ImageIcon("E:\\github repository\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);

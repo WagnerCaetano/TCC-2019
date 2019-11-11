@@ -98,12 +98,14 @@ public class Utils {
     public static BufferedImage[] listaSlides(String Path) throws IOException{
         PowerPointHelper teste = new PowerPointHelper();
         teste.setPowerPoint(Path);
+        abrirImage(teste.getImage(5));
         return teste.getSlides();   
     }
     public static void abrirImage(BufferedImage img)
     {
         JFrame jf;
         jf = new JFrame();
+        jf.add(new JLabel(new ImageIcon(img)));
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setUndecorated(true);
         jf.setVisible(true);
@@ -113,6 +115,6 @@ public class Utils {
         GraphicsDevice device = env.getDefaultScreenDevice();
         device.setFullScreenWindow(jf);
 
-        jf.add(new JLabel(new ImageIcon(img)));
+        
     }
 }

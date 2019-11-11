@@ -21,6 +21,7 @@ public class Wireless {
         mTcpClient.run();
         if (mTcpClient != null) {
             mTcpClient.sendMessage("testing");
+            mTcpClient.stopClient();
         }
     }
 
