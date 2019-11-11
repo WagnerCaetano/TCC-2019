@@ -5,7 +5,6 @@
  */
 package com.mycompany.maventest;
 
-import classes.Server;
 import classes.Utils;
 import java.awt.AWTException;
 import java.io.IOException;
@@ -36,8 +35,6 @@ public class TelaInicial extends javax.swing.JFrame {
         Utils teste = new Utils();
         teste.teste();
         teste.teste2();
-        //Server server = new Server(4848);
-        teste.listaSlides(
     }
 
     /**
