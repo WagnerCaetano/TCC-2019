@@ -1,2 +1,0 @@
-teste12.Server1
-teste12.Server1Connection
