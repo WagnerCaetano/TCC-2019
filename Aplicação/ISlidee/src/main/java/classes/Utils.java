@@ -7,7 +7,9 @@ package classes;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.List;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.util.List;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -18,6 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -65,7 +70,7 @@ public class Utils {
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_LEFT);        
     }
-    public void mover(int X, int Y) throws AWTException{
+    public static void mover(int X, int Y) throws AWTException{
         Robot robot = new Robot();
         robot.mouseMove(X, Y);
     }
@@ -91,17 +96,16 @@ public class Utils {
                 
         teste.saveSlide("C:\\Temp\\teste.pptx");
     }
-    public static void listaSlides(){
+    public static List<BufferedImage> listaSlides(String Path) throws IOException{
+        List lista = new ArrayList();
         PowerPointHelper teste = new PowerPointHelper();
-        BufferedImage[] i =teste.getSlides();
         teste.setPowerPoint(Path);
-
         BufferedImage[] imgs = teste.getSlides();   
         for (BufferedImage img : imgs)
         {
             
             //BufferedImage originalImage = ImageIO.read(new File("c:\\image\\mypic.jpg"));
-            ByteArrayOutputStreameam baos = new ByteArrayOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write( img, "jpg", baos );
             baos.flush();
             byte[] imageInByte = baos.toByteArray();
@@ -109,6 +113,9 @@ public class Utils {
             lista.add(imageInByte);
         }
         return lista;
+/*
+        abrirImage(teste.getImage(5));
+        return teste.getSlides();   */
     }
     public static void abrirImage(BufferedImage img)
     {

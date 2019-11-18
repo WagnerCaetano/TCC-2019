@@ -1,21 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.maventest;
 
+import classes.Server;
 import classes.Utils;
+import com.mycompany.maventest.Tray;
 import java.awt.AWTException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.List;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import sun.net.www.content.image.png;
 
 /**
  *
@@ -27,19 +27,12 @@ public class TelaInicial extends javax.swing.JFrame {
     /**
      * Creates new form TelaInicial
      */
-    boolean Conectado = false;
     public TelaInicial() throws AWTException, IOException {
         initComponents();
         this.setVisible(false);
         Tray io = new Tray(this);        
-
-        Utils teste = new Utils();
-        teste.teste();
-        teste.teste2();
-        
-        //List teste17 = Utils.listaSlides("C:\\Users\\u18325\\Documents\\NossaApresentacao.pptx");
+        List teste = Utils.listaSlides("C:\\Users\\u18325\\Documents\\NossaApresentacao.pptx");
         System.out.println(teste);
-
     }
 
     /**
@@ -77,7 +70,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>  <head>  <p>5º Sincronize por wireless o celular com o computador seguindo as instruções.</p> \t<p>E pronto , pode utilizar o aplicativo.</p> \t</head> </html>");
 
-        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicação\\testes\\MavenTest\\src\\main\\java\\imagens\\reload.png")); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18325\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\reload.png")); // NOI18N
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);
@@ -160,10 +153,8 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addComponent(txtConexao, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnReload, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19)))
-                .addGap(18, 18, 18)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -175,7 +166,7 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -186,10 +177,8 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         // TODO add your handling code here:
-        if (Conectado)
-            txtConexao.setText("CONEXÃO ESTABELECIDA");
-        else
-            txtConexao.setText("CONEXÃO NÃO ESTABELECIDA");
+        String ip = getIPAddress(true);
+        txtConexao.setText(ip);
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -200,6 +189,15 @@ public class TelaInicial extends javax.swing.JFrame {
         if(arquivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
         jLabel3.setText(arquivo.getSelectedFile().getAbsolutePath());
         Path = arquivo.getSelectedFile().getAbsolutePath();
+            try {
+                Server server = new Server(4848, Utils.listaSlides(Path));
+                server.startServer();
+            } catch (IOException ex) {
+                Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (AWTException ex) {
+                Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
 }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -211,6 +209,34 @@ public class TelaInicial extends javax.swing.JFrame {
         pasta = arquivo.getSelectedFile().getAbsolutePath();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public String getIPAddress(boolean useIPv4) {
+            try {
+                List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+                for (NetworkInterface intf : interfaces) {
+                    List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                    for (InetAddress addr : addrs) {
+                        if (!addr.isLoopbackAddress()) {
+                            String sAddr = addr.getHostAddress();
+                            //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                            boolean isIPv4 = sAddr.indexOf(':')<0;
+
+                            if (useIPv4) {
+                                if (isIPv4)
+                                    return sAddr;
+                            } else {
+                                if (!isIPv4) {
+                                    int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                                    return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) { } // for now eat exceptions
+            return null;
+    }
+
+    
     /**
      * @param args the command line arguments
      */
