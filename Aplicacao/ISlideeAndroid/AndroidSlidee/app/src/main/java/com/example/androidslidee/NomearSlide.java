@@ -33,11 +33,10 @@ public class NomearSlide extends AppCompatActivity {
         nome = findViewById(R.id.txtNome);
 
         for(int i=0;i<10;i++)
-        {
             slides.add(new Slide("teste"+i, null));
-        }
 
-        final ArrayAdapter<Slide> adapter =  new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, slides);
+
+        final ListaSlideAdapter adapter =  new ListaSlideAdapter(this, slides);
         lista.setAdapter(adapter);
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {

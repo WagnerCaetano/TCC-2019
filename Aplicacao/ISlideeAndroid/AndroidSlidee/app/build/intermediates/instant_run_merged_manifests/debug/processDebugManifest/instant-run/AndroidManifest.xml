@@ -27,16 +27,24 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.example.androidslidee.PaintActivity" />
-        <activity android:name="com.example.androidslidee.NomearSlide" />
-        <activity android:name="com.example.androidslidee.WifiSelect" >
+        <activity
+            android:name="com.example.androidslidee.NomearSlide"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.example.androidslidee.WifiSelect"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.androidslidee.TelaManipuladora" />
+        <activity
+            android:name="com.example.androidslidee.TelaManipuladora"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape" />
 
         <provider
             android:name="com.android.tools.ir.server.InstantRunContentProvider"

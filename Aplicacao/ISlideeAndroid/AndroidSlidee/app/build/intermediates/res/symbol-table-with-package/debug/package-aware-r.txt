@@ -1138,6 +1138,8 @@ id icon_group
 id ifRoom
 id imPlay
 id image
+id image_view_slide
+id image_view_zombie
 id info
 id invisible
 id italic
@@ -1237,6 +1239,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id text_input_password_toggle
+id text_view_nome_zombie
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -1312,7 +1315,6 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_manipuladora
 layout activity_nomear_slide
-layout activity_paint
 layout activity_wifi_select
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog

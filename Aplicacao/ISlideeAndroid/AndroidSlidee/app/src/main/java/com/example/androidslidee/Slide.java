@@ -1,12 +1,14 @@
 package com.example.androidslidee;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.support.annotation.DrawableRes;
 
 public class Slide {
 
     String nome;
-    Image imagem;
+    Drawable imagem;
 
-    public Slide(String nome, Image imagem) {
+    public Slide(String nome, Drawable imagem) {
         this.nome = nome;
         this.imagem = imagem;
     }
@@ -19,11 +21,11 @@ public class Slide {
         this.nome = nome;
     }
 
-    public Image getImagem() {
+    public Drawable getImagem() {
         return imagem;
     }
 
-    public void setImagem(Image imagem) {
+    public void setImagem(Drawable imagem) {
         this.imagem = imagem;
     }
 
