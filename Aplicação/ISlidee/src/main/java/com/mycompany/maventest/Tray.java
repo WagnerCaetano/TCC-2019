@@ -33,13 +33,9 @@ public class Tray {
         final TrayIcon trayIcon;
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-<<<<<<< Updated upstream:Aplicação/ISlidee/src/main/java/com/mycompany/maventest/Tray.java
-            Image image = ImageIO.read(new File("E:\\logo2.jpeg"));
-=======
 
             Image image = ImageIO.read(new File("C:\\Users\\u18325\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\logo2.jpeg"));
 
->>>>>>> Stashed changes:Aplicacao/ISlidee/src/main/java/com/mycompany/maventest/Tray.java
             //Image image = ImageIO.read(getClass().getResource("/imagens/logo2.jpeg"));
             MouseListener mouseListener = new MouseListener() {
             public void mouseClicked(MouseEvent e) {

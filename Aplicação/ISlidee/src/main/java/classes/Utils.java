@@ -13,6 +13,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,10 +93,7 @@ public class Utils {
     }
     public static void listaSlides(){
         PowerPointHelper teste = new PowerPointHelper();
-<<<<<<< Updated upstream:Aplicação/ISlidee/src/main/java/classes/Utils.java
         BufferedImage[] i =teste.getSlides();
-        
-=======
         teste.setPowerPoint(Path);
 
         BufferedImage[] imgs = teste.getSlides();   
@@ -103,7 +101,7 @@ public class Utils {
         {
             
             //BufferedImage originalImage = ImageIO.read(new File("c:\\image\\mypic.jpg"));
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ByteArrayOutputStreameam baos = new ByteArrayOutputStream();
             ImageIO.write( img, "jpg", baos );
             baos.flush();
             byte[] imageInByte = baos.toByteArray();
@@ -126,7 +124,6 @@ public class Utils {
         GraphicsDevice device = env.getDefaultScreenDevice();
         device.setFullScreenWindow(jf);
 
->>>>>>> Stashed changes:Aplicacao/ISlidee/src/main/java/classes/Utils.java
         
     }
 }
