@@ -92,8 +92,41 @@ public class Utils {
     }
     public static void listaSlides(){
         PowerPointHelper teste = new PowerPointHelper();
+<<<<<<< Updated upstream:Aplicação/ISlidee/src/main/java/classes/Utils.java
         BufferedImage[] i =teste.getSlides();
         
+=======
+        teste.setPowerPoint(Path);
+
+        BufferedImage[] imgs = teste.getSlides();   
+        for (BufferedImage img : imgs)
+        {
+            
+            //BufferedImage originalImage = ImageIO.read(new File("c:\\image\\mypic.jpg"));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write( img, "jpg", baos );
+            baos.flush();
+            byte[] imageInByte = baos.toByteArray();
+            baos.close();
+            lista.add(imageInByte);
+        }
+        return lista;
+    }
+    public static void abrirImage(BufferedImage img)
+    {
+        JFrame jf;
+        jf = new JFrame();
+        jf.add(new JLabel(new ImageIcon(img)));
+        jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        jf.setUndecorated(true);
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        device.setFullScreenWindow(jf);
+
+>>>>>>> Stashed changes:Aplicacao/ISlidee/src/main/java/classes/Utils.java
         
     }
 }

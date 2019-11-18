@@ -32,9 +32,15 @@ public class TelaInicial extends javax.swing.JFrame {
         initComponents();
         this.setVisible(false);
         Tray io = new Tray(this);        
+<<<<<<< Updated upstream:Aplicação/ISlidee/src/main/java/com/mycompany/maventest/TelaInicial.java
         Utils teste = new Utils();
         teste.teste();
         teste.teste2();
+=======
+        List teste = Utils.listaSlides("C:\\Users\\u18325\\Documents\\NossaApresentacao.pptx");
+        System.out.println(teste);
+
+>>>>>>> Stashed changes:Aplicacao/ISlidee/src/main/java/com/mycompany/maventest/TelaInicial.java
     }
 
     /**
