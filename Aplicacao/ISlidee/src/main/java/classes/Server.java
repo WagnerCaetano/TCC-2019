@@ -82,14 +82,9 @@ import java.util.List;
                     serverStop = true;
                     break;
                 }
-<<<<<<< HEAD
-                if ( n == 0 ) break;                          
-                        os.println("" + img); 
-=======
                 if ( n == 0 ){ 
                         os.println("" + "teste"); 
                         break;
->>>>>>> e98340385df4fab4151895086f99a67a602d0833
                     }
                     System.out.println( "Connection closed." );
                     is.close();

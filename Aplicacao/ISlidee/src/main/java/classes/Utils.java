@@ -100,7 +100,6 @@ public class Utils {
         List lista = new ArrayList();
         PowerPointHelper teste = new PowerPointHelper();
         teste.setPowerPoint(Path);
-<<<<<<< HEAD
         BufferedImage[] imgs = teste.getSlides();   
         for (BufferedImage img : imgs)
         {
@@ -114,10 +113,9 @@ public class Utils {
             lista.add(imageInByte);
         }
         return lista;
-=======
+/*
         abrirImage(teste.getImage(5));
-        return teste.getSlides();   
->>>>>>> e98340385df4fab4151895086f99a67a602d0833
+        return teste.getSlides();   */
     }
     public static void abrirImage(BufferedImage img)
     {
