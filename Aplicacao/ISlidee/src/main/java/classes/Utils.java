@@ -74,54 +74,24 @@ public class Utils {
         Robot robot = new Robot();
         robot.mouseMove(X, Y);
     }
-    public void teste() throws IOException
-    {
-        PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint("E:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
-        teste.addImage("C:\\Users\\u18300\\Downloads\\EAP TCC.png");
-        teste.saveSlide("C:\\Temp\\teste.pptx");
-    }
-    public void teste2() throws IOException
-    {
-        PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint("E:\\4 Semestre\\Trabalho de Conclusão de Curso\\Documentação\\apresentacao.pptx");
-        ArrayList lst = new ArrayList();
-        int i =0;
-        for (BufferedImage img : teste.getSlides())
-        {
-            File outputfile = new File("C:\\temp\\image"+i+".png");
-            ImageIO.write(img, "png", outputfile);
-            i++;
-        }
-                
-        teste.saveSlide("C:\\Temp\\teste.pptx");
-    }
-    public static List<BufferedImage> listaSlides(String Path) throws IOException{
+    public static int listaSlides(String PATH_SLIDE,String PATH_SALVAR) throws IOException{
         List lista = new ArrayList();
-        PowerPointHelper teste = new PowerPointHelper();
-        teste.setPowerPoint(Path);
-        BufferedImage[] imgs = teste.getSlides();   
-        for (BufferedImage img : imgs)
+        PowerPointHelper pph = new PowerPointHelper();
+        pph.setPowerPoint(PATH_SLIDE);
+        BufferedImage[] imgs = pph.getSlides();  
+        for (int x = 1 ; x <= imgs.length ; x++)
         {
-            
-            //BufferedImage originalImage = ImageIO.read(new File("c:\\image\\mypic.jpg"));
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write( img, "jpg", baos );
-            baos.flush();
-            byte[] imageInByte = baos.toByteArray();
-            baos.close();
-            lista.add(imageInByte);
+            File outputfile = new File(PATH_SALVAR+"\\slide" + x + ".jpg");
+            ImageIO.write(imgs[x], "jpg", outputfile);
         }
-        return lista;
-/*
-        abrirImage(teste.getImage(5));
-        return teste.getSlides();   */
+        return imgs.length;
     }
-    public static void abrirImage(BufferedImage img)
+    public static JLabel abrirImage()
     {
         JFrame jf;
         jf = new JFrame();
-        jf.add(new JLabel(new ImageIcon(img)));
+        JLabel jl = new JLabel();
+        jf.add(jl);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setUndecorated(true);
         jf.setVisible(true);
@@ -130,7 +100,6 @@ public class Utils {
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = env.getDefaultScreenDevice();
         device.setFullScreenWindow(jf);
-
-        
+        return jl;
     }
 }

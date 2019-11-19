@@ -1,99 +1,168 @@
-        /*
-         * To change this license header, choose License Headers in Project Properties.
-         * To change this template file, choose Tools | Templates
-         * and open the template in the editor.
-         */
-        package classes;
+    package classes;
 
-        import java.awt.AWTException;
-        import java.awt.image.BufferedImage;
-        import java.io.*;
-        import java.net.*;
-import java.util.List;
-        import java.util.logging.Level;
-        import java.util.logging.Logger;
+    import java.awt.AWTException;
+    import java.awt.image.BufferedImage;
+    import java.io.BufferedInputStream;
+    import java.io.BufferedReader;
+    import java.io.BufferedWriter;
+    import java.io.ByteArrayInputStream;
+    import java.io.File;
+    import java.io.FileInputStream;
+    import java.io.IOException;
+    import java.io.InputStream;
+    import java.io.InputStreamReader;
+    import java.io.OutputStream;
+    import java.io.OutputStreamWriter;
+    import java.io.PrintWriter;
+    import java.net.InetAddress;
+    import java.net.ServerSocket;
+    import java.net.Socket;
+    import java.util.logging.Level;
+    import java.util.logging.Logger;
+    import javax.imageio.ImageIO;
+    import javax.swing.ImageIcon;
+    import javax.swing.JLabel;
 
-        public class Server {            
-            Server server = this;
-            ServerSocket echoServer = null;
-            Socket clientSocket = null;
-            List img;
-            int port;
-            public Server( int port , List img) {
-                this.port = port;
-                this.img = img;
-                }
-            public void stopServer() {
-                System.out.println( "Server cleaning up." );
-                System.exit(0);
-            }
-            public void startServer() throws AWTException, IOException {
-                echoServer = new ServerSocket(port);
-                System.out.println( "Waiting for connections. Only one connection is allowed." );                
-                clientSocket = echoServer.accept();
-                Server1Connection oneconnection = new Server1Connection(clientSocket, server,img);
-                new Thread(){
-                    @Override
-                    public void run() {
-                    while ( true ) {
-                            try {
-                                
-                                oneconnection.run();
-                            }   
-                            catch (IOException e) {System.out.println(e);} catch (AWTException ex) {
-                                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                }.start();
-                
-            }
+    public class Server {
+        // CONFIG
+        private Socket connectedSocketMSG;
+        private Socket connectedSocketIMG;
+        private static final int SERVERPORT_MSG = 32500;
+        private static final int SERVERPORT_IMG = 32499;
+        private static String SERVER_IP = "";
+        // ENVIAR
+        private PrintWriter out = null;
+        // RECEBER
+        private ServerSocket serverSocket;
+        private BufferedReader input = null;
+
+        public Server()
+        {
         }
-        class Server1Connection {
-            BufferedReader is;
-            PrintStream os;
-            Socket clientSocket;
-            Server server;
-            List img;
-
-            public Server1Connection(Socket clientSocket, Server server,List img) {
-                this.clientSocket = clientSocket;
-                this.server = server;
-                this.img = img;
-            
-                System.out.println( "Connection established with: " + clientSocket );
+        
+        public void receberMensagem() {                                           
+            new Thread(() -> {
+                Socket socket = null;
                 try {
-                    is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    os = new PrintStream(clientSocket.getOutputStream());
-                } catch (IOException e) {
-                    System.out.println(e);
-                }
-            }
-            
-            public void run() throws AWTException, IOException {
-                String line="";
-            try {
-                boolean serverStop = false;
-                while (true) {
-                line = is.readLine();                                                                              
-                System.out.println( "Received " + line );
-                int n = Integer.parseInt(line);
-                if ( n == -1 ) {
-                    serverStop = true;
-                    break;
-                }
-                if ( n == 0 ){ 
-                        os.println("" + "teste"); 
-                        break;
+                    serverSocket = new ServerSocket(SERVERPORT_MSG);
+                    connectedSocketMSG = serverSocket.accept();
+                    input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
+                    final String message = input.readLine();
+                    System.out.println("Mensagem recebida: "+message);
+                    switch(message)
+                        {
+                        case "IP":
+                            String msg = input.readLine();
+                            if(msg.length()>0)
+                                SERVER_IP = msg;
+                            break;
+                        case "CURSOR":
+                            String X = input.readLine();
+                            String Y = input.readLine();
+                            Utils.mover(new Integer(X), new Integer(Y));
+                            break;
+                        case "AVANCAR":
+                            Utils.avancar();
+                            enviarMensagem("OK");
+                            break;
+                        case "RECUAR":
+                            Utils.retroceder();
+                            enviarMensagem("OK");
+                            break;
+                        case "STOP":
+                            socket.close();
+                            break;
+                        }        
+                    } catch (IOException | AWTException ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.println( "Connection closed." );
-                    is.close();
-                    os.close();
-                    clientSocket.close();
-                if ( serverStop ) server.stopServer();
-                }
-            }catch (IOException e) {
-                System.out.println(e);
+            }).start();
+        }           
+                      
+        public void enviarMensagem(String txtMessage) {                                          
+            try {
+                Thread enviar = new Thread(() -> {
+                    try {
+                        if(connectedSocketMSG==null)
+                        {
+                            InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                            connectedSocketMSG = new Socket(serverAddr, SERVERPORT_MSG);
+                        }
+                        if(connectedSocketMSG !=null){
+                            if (out == null)
+                                out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(connectedSocketMSG.getOutputStream())), true);
+                            out.println(txtMessage);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                enviar.start();
+                enviar.interrupt();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
-}
+        
+       public void receberImagens(){
+        new Thread(() -> {
+            try {
+                JLabel jl = null;
+                serverSocket = new ServerSocket(SERVERPORT_IMG);
+                do {
+                    Socket connectedSocket = serverSocket.accept();
+                    int filesize = 6022386;
+                    int bytesRead;
+                    int current = 0;
+                    byte[] mybytearray  = new byte [filesize];
+                    InputStream is = connectedSocketIMG.getInputStream();
+                    bytesRead = is.read(mybytearray,0,mybytearray.length);
+                    current = bytesRead;
+                    do {
+                        bytesRead =is.read(mybytearray, current, (mybytearray.length-current));
+                        if(bytesRead >= 0) current += bytesRead;
+                    } while(bytesRead > -1);
+                    ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
+                    BufferedImage imageSobrePor = ImageIO.read(bis);
+                    
+                    if (jl == null) jl = Utils.abrirImage();
+                    else{
+                        jl.setIcon(new ImageIcon(imageSobrePor));
+                    }
+                } while (connectedSocketIMG != null);
+            }catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }).start();
+        }
+
+        public void enviarSlides(String pathImg ,int qtdImg) {                                           
+            Thread sendImg = new Thread(() -> {
+                    try {
+                        if (connectedSocketIMG == null){
+                            InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                            connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
+                        }
+                        if (connectedSocketIMG !=null) {
+                            for (int x1 = 1; x1 <= qtdImg; x1++) {
+                                File input_file = new File(pathImg+"\\slide" + x1 + ".jpg");
+                                byte [] byteArray  = new byte [(int)input_file.length()];
+                                FileInputStream fis = new FileInputStream(input_file);
+                                BufferedInputStream bis = new BufferedInputStream(fis);
+                                bis.read(byteArray,0,byteArray.length);
+                                OutputStream os = connectedSocketIMG.getOutputStream();
+                                os.write(byteArray,0,byteArray.length);
+                                os.flush();
+                                os.close();
+                                Thread.sleep(200);
+                            }
+                            connectedSocketIMG.close();
+                        }
+                    }catch (IOException | InterruptedException ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            sendImg.start();
+            sendImg.interrupt();
+            } 
+        }                                          

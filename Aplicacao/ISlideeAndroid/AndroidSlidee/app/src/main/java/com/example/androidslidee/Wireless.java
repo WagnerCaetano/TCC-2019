@@ -27,23 +27,15 @@ public class Wireless {
 
     public void sendCursor(int x , int y)
     {
-        mTcpClient.sendMessage("c\n"+x+"\n"+y);
-    }
-    public void changePos(int antigo , int novo)
-    {
-        mTcpClient.sendMessage("p\n"+antigo+"\n"+novo);
+        mTcpClient.sendMessage("CURSOR\n"+x+"\n"+y);
     }
     public void avancar()
     {
-        mTcpClient.sendMessage("s\na");
+        mTcpClient.sendMessage("AVANCAR");
     }
     public void recuar()
     {
-        mTcpClient.sendMessage("s\nr");
-    }
-    public void acessar(int i)
-    {
-        mTcpClient.sendMessage("s\n"+i);
+        mTcpClient.sendMessage("RECUAR");
     }
 
 
