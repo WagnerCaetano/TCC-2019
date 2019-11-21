@@ -38,7 +38,7 @@ public class TelaManipuladora extends AppCompatActivity {
     private static final int SECS_IN_MIN = 60;
 
     private boolean listener = false;
-    private Wireless wireless;
+    private ClientWifi wireless;
 
     TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
 
@@ -49,11 +49,9 @@ public class TelaManipuladora extends AppCompatActivity {
         setContentView(R.layout.activity_manipuladora);
         Intent intent = getIntent();
         ip = intent.getStringExtra("IpSelecionado");
-        wireless = new Wireless(ip);
+        wireless = new ClientWifi(ip);
         slide = findViewById(R.id.ivSlide);
-
         cronoConfig = findViewById(R.id.cronoConfig);
-
         btnCursor = findViewById(R.id.btnCursor);
         cursor = findViewById(R.id.cursor);
         btnPlay = findViewById(R.id.imPlay);
@@ -164,7 +162,7 @@ public class TelaManipuladora extends AppCompatActivity {
 
             cursor.setX(event.getX());
             cursor.setY(event.getY());
-            wireless.sendCursor((int)event.getX(),(int)event.getY());
+            //wireless.sendCursor((int)event.getX(),(int)event.getY());
             return true;
         }
     };

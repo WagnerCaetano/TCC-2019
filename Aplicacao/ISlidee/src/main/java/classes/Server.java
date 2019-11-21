@@ -49,6 +49,7 @@
                     input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
                     final String message = input.readLine();
                     System.out.println("Mensagem recebida: "+message);
+                    System.out.println("TESTE : IP DO ANDROID - "+connectedSocketMSG.getInetAddress());
                     switch(message)
                         {
                         case "IP":
@@ -60,6 +61,7 @@
                             String X = input.readLine();
                             String Y = input.readLine();
                             Utils.mover(new Integer(X), new Integer(Y));
+                            enviarMensagem("OK");
                             break;
                         case "AVANCAR":
                             Utils.avancar();
