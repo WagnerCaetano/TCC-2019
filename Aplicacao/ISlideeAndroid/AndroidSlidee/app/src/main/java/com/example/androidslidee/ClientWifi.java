@@ -5,24 +5,26 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ClientWifi {
 
@@ -32,25 +34,37 @@ public class ClientWifi {
     private static final int SERVERPORT_MSG = 32500;
     private static final int SERVERPORT_IMG = 32499;
     private static String SERVER_IP = "";
+    private String MENSAGEM_CONTROLE = "";
+    private List<Slide> slides;
+
     // ENVIAR
     private EditText edtText=null;
     private PrintWriter out = null;
-    private EditText et = null;
     // RECEBER
     private ServerSocket serverSocket;
     private BufferedReader input = null;
-    private TextView text=null;
-    private ObjectInputStream ois=null;
-    // BUTTONS
-    // IMAGEM
-    //private ImageView img;
 
-    public ClientWifi(String SERVER_IP)
+    public ClientWifi(String SERVER_IP,List slides)
     {
         this.SERVER_IP = SERVER_IP;
+        this.slides = slides;
+        init();
+    }
+    private void init()
+    {
+        String thisIp = getIPAddress(true);
+        String mensagem = "IP\n"+thisIp;
+        try {
+            enviarMensagem(mensagem);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+        receberMensagem();
+        receberImagem();
     }
 
-    public void enviarMensagem(final String msg) {
+    public void enviarMensagem(final String msg) throws InterruptedException {
         SERVER_IP = edtText.getText().toString();
         Thread enviar = new Thread(new Runnable()
         {
@@ -71,27 +85,33 @@ public class ClientWifi {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-
             }
         });
         enviar.start();
         enviar.interrupt();
+        Thread.sleep(500);
+        if (MENSAGEM_CONTROLE == "OK") MENSAGEM_CONTROLE = "";
+        else enviarMensagem(msg);
     }
 
     public void receberMensagem() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                    Socket socket = null;
-                    try {
-                        serverSocket = new ServerSocket(SERVERPORT_MSG);
-                        connectedSocketMSG = serverSocket.accept();
-                        input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
-                        final String message = input.readLine();
-                        System.out.println("Mensagem recebida: "+message);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                Socket socket = null;
+                try {
+                    serverSocket = new ServerSocket(SERVERPORT_MSG);
+                    connectedSocketMSG = serverSocket.accept();
+                    input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
+                    final String message = input.readLine();
+                    System.out.println("Mensagem recebida: "+message);
+                    if(message == "OK")
+                        MENSAGEM_CONTROLE = message;
+                    else
+                        MENSAGEM_CONTROLE = "";
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }).start();
     }
@@ -150,7 +170,8 @@ public class ClientWifi {
                             if(bytesRead >= 0) current += bytesRead;
                         } while(bytesRead > -1);
                         final Bitmap bmp = BitmapFactory.decodeByteArray(mybytearray,0,current);
-                        //img.setImageBitmap(bmp);
+                        Slide novoSlide = new Slide("SLIDE",bmp);
+                        slides.add(novoSlide);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (Exception e) {
@@ -160,4 +181,30 @@ public class ClientWifi {
             }
         }).start();
     }
+    public String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress();
+                        boolean isIPv4 = sAddr.indexOf(':')<0;
+
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%');
+                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) { }
+        return null;
+    }
+
 }

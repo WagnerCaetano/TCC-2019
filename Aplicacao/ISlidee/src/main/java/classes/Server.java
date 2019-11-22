@@ -63,6 +63,12 @@
                             Utils.mover(new Integer(X), new Integer(Y));
                             enviarMensagem("OK");
                             break;
+                        /*case "ZOOM":
+                            String X = input.readLine();
+                            String Y = input.readLine();
+                            Utils.mover(new Integer(X), new Integer(Y));
+                            enviarMensagem("OK");
+                            break;*/
                         case "AVANCAR":
                             Utils.avancar();
                             enviarMensagem("OK");

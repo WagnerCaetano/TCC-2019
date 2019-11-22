@@ -10,60 +10,66 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class TelaManipuladora extends AppCompatActivity {
-
+    // CONFIGURACOES
     private TextView cronometro;
     private ImageButton btnPlay;
     private Handler handler;
-    private ImageButton cronoConfig;
-    private String tempoLimite;
-    private String ip;
-
-    private Button btnCursor;
-    private ImageView cursor;
-    private ImageView slide;
-
     private static long initialTime;
     public static boolean isRunning;
     private static final long MILLIS_IN_SEC = 1000L;
     private static final int SECS_IN_MIN = 60;
-
     private boolean listener = false;
-    private ClientWifi wireless;
-
     TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
 
+    // STRINGS
+    private String tempoLimite;
+    private String ip;
+
+    // BUTTONS
+    private Button btnDraw;
+    private Button btnCursor;
+    private ImageButton cronoConfig;
+    private Button btnSlides;
+    private Button btnAvancar;
+    private Button btnVoltar;
+
+    // SLIDES
+    private ListView lista;
+    private List<Slide> slides = new ArrayList<>();
+    private int INDICE_SLIDE = 0;
+    private ImageView slideView;
+    private ImageView cursor;
+
+    // CLASSES
+    private ClientWifi wireless = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manipuladora);
-        Intent intent = getIntent();
-        ip = intent.getStringExtra("IpSelecionado");
-        wireless = new ClientWifi(ip);
-        slide = findViewById(R.id.ivSlide);
-        cronoConfig = findViewById(R.id.cronoConfig);
-        btnCursor = findViewById(R.id.btnCursor);
-        cursor = findViewById(R.id.cursor);
-        btnPlay = findViewById(R.id.imPlay);
+        // CRONOMETRO
         handler = new Handler();
         cronometro = findViewById(R.id.txtCronometro);
-
+        btnPlay = findViewById(R.id.imPlay);
         btnPlay.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
                 ImageButton fab = (ImageButton)view;
-
                 if(!isRunning) {
                     isRunning = true;
                     initialTime=(System.currentTimeMillis());
@@ -77,29 +83,24 @@ public class TelaManipuladora extends AppCompatActivity {
                 }
             }
         });
-
+        cronoConfig = findViewById(R.id.cronoConfig);
         cronoConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar mCalendar =  Calendar.getInstance();
                 int minute = mCalendar.get(Calendar.MINUTE);
                 int second = mCalendar.get(Calendar.SECOND);
-
-
                 DurationPicker mTimePickerDialog = new DurationPicker(
                         TelaManipuladora.this, mOnTimeSetListener, minute,second);
                 mTimePickerDialog.setTitle("Configurar cronômetro");
                 mTimePickerDialog.setMessage("Me avise quando o tempo chegar em:");
-
                 mTimePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 mTimePickerDialog.show();
             }
         });
-
         mOnTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int minute, int second) {
-
                 int sec = second;
                 String min = minute+"";
                 String secS = second+"";
@@ -121,18 +122,72 @@ public class TelaManipuladora extends AppCompatActivity {
             }
         };
 
-        btnCursor.setOnClickListener(new View.OnClickListener(){
+        // INTENT
+        Intent intent = getIntent();
+        ip = intent.getStringExtra("IpSelecionado");
+        wireless = new ClientWifi(ip,slides);
 
+        //SLIDES
+        slideView = findViewById(R.id.ivSlide);
+        final SlideAdapter adapter =  new SlideAdapter(this, slides);
+        lista.setAdapter(adapter);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Slide slide = adapter.getItem(position);
+                INDICE_SLIDE = position;
+                slideView.setImageBitmap(slide.getImagem());
+            }
+        });
+        slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+        btnSlides = findViewById(R.id.btnSlides);
+        btnSlides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), NomearSlide.class);
+                intent.putExtra("ListaSlides", (Serializable) slides);
+                startActivity(intent);
+            }
+        });
+        btnAvancar = findViewById(R.id.btnAvancar);
+        btnAvancar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(INDICE_SLIDE<=slides.size()) {
+                    INDICE_SLIDE++;
+                    slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+                }
+            }
+        });
+        btnVoltar = findViewById(R.id.btnVoltar);
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(INDICE_SLIDE>=1){
+                    INDICE_SLIDE--;
+                    slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+                }
+            }
+        });
+        btnCursor = findViewById(R.id.btnCursor);
+        btnCursor.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
                 if(listener){
-
                     cursor.setVisibility(View.INVISIBLE);
                 }
-                slide.setOnTouchListener(handleTouch);
-
+                slideView.setOnTouchListener(handleTouch);
                 listener = !listener;
+            }
+        });
+        cursor = findViewById(R.id.cursor);
+        btnDraw = findViewById(R.id.btnDraw);
+        btnDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PaintActivity.class);
+                Toast.makeText(getApplicationContext(), "Para sair do modo desenho, pressione o botão de Voltar", Toast.LENGTH_LONG).show();
+                startActivity(intent);
             }
         });
     }
@@ -162,7 +217,11 @@ public class TelaManipuladora extends AppCompatActivity {
 
             cursor.setX(event.getX());
             cursor.setY(event.getY());
-            //wireless.sendCursor((int)event.getX(),(int)event.getY());
+            try {
+                wireless.enviarMensagem("CURSOR\n"+event.getX()+"\n"+event.getY());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return true;
         }
     };

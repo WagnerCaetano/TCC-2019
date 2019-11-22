@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.maventest;
 
 import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,8 +55,6 @@ public class Tray {
                 public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,"<html> <center> ISlidee ®<br> <i>'Tornando seu dia mais fácil'</i> <br> Aplicativo de slides <br> TACNOLOGY  </center> </html>","About",JOptionPane.PLAIN_MESSAGE);            }};
             
-            
-            
             PopupMenu popup = new PopupMenu("Menu de Opções");
             
             MenuItem max1 = new MenuItem("Maximizar");
@@ -105,7 +96,6 @@ public class Tray {
             exit.addActionListener(exitListener);
             popup.add(about);
             popup.add(exit);
-            //criando um objeto do tipo TrayIcon
             trayIcon = new TrayIcon(image, "TrayIcon Demonstração", popup);
             ActionListener actionListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -114,12 +104,9 @@ public class Tray {
                     TrayIcon.MessageType.INFO);
                 }
             };
-            //Na linha a seguir a imagem a ser utilizada como icone sera redimensionada
             trayIcon.setImageAutoSize(true);
-            //Seguida adicionamos os actions listeners
             trayIcon.addActionListener(actionListener);
             trayIcon.addMouseListener(mouseListener);
-            //Tratamento de erros
             try {
                tray.add(trayIcon);
             } catch (AWTException e) {

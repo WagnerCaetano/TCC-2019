@@ -1,12 +1,14 @@
 package com.example.androidslidee;
-import android.media.Image;
+import android.graphics.Bitmap;
 
-public class Slide {
+import java.io.Serializable;
+
+public class Slide implements Serializable {
 
     String nome;
-    Image imagem;
+    Bitmap imagem;
 
-    public Slide(String nome, Image imagem) {
+    public Slide(String nome, Bitmap imagem) {
         this.nome = nome;
         this.imagem = imagem;
     }
@@ -19,11 +21,11 @@ public class Slide {
         this.nome = nome;
     }
 
-    public Image getImagem() {
+    public Bitmap getImagem() {
         return imagem;
     }
 
-    public void setImagem(Image imagem) {
+    public void setImagem(Bitmap imagem) {
         this.imagem = imagem;
     }
 
