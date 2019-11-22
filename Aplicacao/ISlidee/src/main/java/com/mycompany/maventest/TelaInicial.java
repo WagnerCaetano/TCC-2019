@@ -41,8 +41,7 @@ public class TelaInicial extends javax.swing.JFrame {
         IO = new Tray(this);        
         IP_ADDRESS = getIPAddress(true);
         txtConexao.setText(IP_ADDRESS);
-        Servidor = new Server();
-        Servidor.receberMensagem();
+        
     }
 
     /**
@@ -158,10 +157,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         // TODO add your handling code here:
         String ip = getIPAddress(true);
-        //String msg = txtConexao.getText();
         txtConexao.setText(ip);
-        /*try { Thread.sleep(5000); } catch (InterruptedException ex) { Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex); }
-        txtConexao.setText(msg);*/
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void btnEscolherSlideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscolherSlideActionPerformed
@@ -180,12 +176,9 @@ public class TelaInicial extends javax.swing.JFrame {
             PATH_PASTA_IMAGENS = "C:\\Temp\\SLIDES";
             int qtdImg = Utils.listaSlides(PATH_SLIDE,PATH_PASTA_IMAGENS);
             txtConexao.setText("CRIANDO IMAGENS DOS SLIDES...");
-            Servidor.enviarSlides(PATH_SLIDE, qtdImg);
-            txtConexao.setText("ENVIANDO IMAGENS AO CELULAR...");
-            Thread.sleep(200);
-            Servidor.receberImagens();
-            txtConexao.setText("ESPERANDO POR IMAGENS...");
-        } catch (HeadlessException | IOException | InterruptedException ex) {
+            Servidor = new Server(PATH_SLIDE,qtdImg,txtConexao);
+            txtConexao.setText("ESPERANDO CONEXÃO COM O CELULAR...");
+        } catch (HeadlessException | IOException ex) {
             Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEscolherSlideActionPerformed

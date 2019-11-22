@@ -5,7 +5,7 @@
     android:id="@+id/Tela"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".TelaManipuladora">
 
     <Button
         android:id="@+id/btnCursor"
@@ -87,6 +87,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
+            android:id="@+id/listaSlides"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"

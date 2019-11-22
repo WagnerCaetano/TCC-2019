@@ -2,11 +2,17 @@ package com.example.androidslidee;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +29,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TelaManipuladora extends AppCompatActivity {
     // CONFIGURACOES
@@ -47,6 +55,7 @@ public class TelaManipuladora extends AppCompatActivity {
     private Button btnSlides;
     private Button btnAvancar;
     private Button btnVoltar;
+    private Button btnZoom;
 
     // SLIDES
     private ListView lista;
@@ -127,9 +136,10 @@ public class TelaManipuladora extends AppCompatActivity {
         ip = intent.getStringExtra("IpSelecionado");
         wireless = new ClientWifi(ip,slides);
 
-        //SLIDES
+        // SLIDES
         slideView = findViewById(R.id.ivSlide);
         final SlideAdapter adapter =  new SlideAdapter(this, slides);
+        lista = findViewById(R.id.listaSlides);
         lista.setAdapter(adapter);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -140,6 +150,15 @@ public class TelaManipuladora extends AppCompatActivity {
             }
         });
         slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+        btnZoom = findViewById(R.id.btnZoom);
+        btnZoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PhotoViewAttacher photoView = new PhotoViewAttacher(slideView);
+                photoView.update();
+            }
+        });
         btnSlides = findViewById(R.id.btnSlides);
         btnSlides.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,11 +202,12 @@ public class TelaManipuladora extends AppCompatActivity {
         cursor = findViewById(R.id.cursor);
         btnDraw = findViewById(R.id.btnDraw);
         btnDraw.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PaintActivity.class);
-                Toast.makeText(getApplicationContext(), "Para sair do modo desenho, pressione o botão de Voltar", Toast.LENGTH_LONG).show();
-                startActivity(intent);
+                Resources res = getResources();
+                Bitmap bitmap = BitmapFactory.decodeResource(res, slideView.getImageAlpha());
+                Canvas canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
             }
         });
     }

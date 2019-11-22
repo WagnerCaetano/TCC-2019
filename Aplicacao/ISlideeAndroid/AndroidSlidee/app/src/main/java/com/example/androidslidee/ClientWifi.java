@@ -38,7 +38,6 @@ public class ClientWifi {
     private List<Slide> slides;
 
     // ENVIAR
-    private EditText edtText=null;
     private PrintWriter out = null;
     // RECEBER
     private ServerSocket serverSocket;
@@ -59,13 +58,11 @@ public class ClientWifi {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
         receberMensagem();
         receberImagem();
     }
 
     public void enviarMensagem(final String msg) throws InterruptedException {
-        SERVER_IP = edtText.getText().toString();
         Thread enviar = new Thread(new Runnable()
         {
             public void run() {
@@ -88,8 +85,8 @@ public class ClientWifi {
             }
         });
         enviar.start();
-        enviar.interrupt();
-        Thread.sleep(500);
+        //enviar.interrupt();
+        //Thread.sleep(500);
         if (MENSAGEM_CONTROLE == "OK") MENSAGEM_CONTROLE = "";
         else enviarMensagem(msg);
     }

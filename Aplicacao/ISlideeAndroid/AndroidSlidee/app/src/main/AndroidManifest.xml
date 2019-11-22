@@ -18,16 +18,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaintActivity"></activity>
-        <activity android:name=".NomearSlide" />
-        <activity android:name=".WifiSelect">
+        <activity android:name=".PaintActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation"/>
+        <activity android:name=".NomearSlide"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation"/>
+        <activity android:name=".WifiSelect"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TelaManipuladora" />
+        <activity android:name=".TelaManipuladora"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation"/>
     </application>
 
 </manifest>

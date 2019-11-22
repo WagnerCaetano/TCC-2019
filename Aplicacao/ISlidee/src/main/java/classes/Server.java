@@ -23,6 +23,7 @@ import com.mycompany.maventest.TelaInicial;
     import javax.imageio.ImageIO;
     import javax.swing.ImageIcon;
     import javax.swing.JLabel;
+    import javax.swing.JTextField;
 
     public class Server {
         // CONFIG
@@ -36,9 +37,18 @@ import com.mycompany.maventest.TelaInicial;
         // RECEBER
         private ServerSocket serverSocket;
         private BufferedReader input = null;
+        
+        private String PATH_SLIDE="";
+        private final int qtdImg;
+        private final JTextField txtConexao;
 
-        public Server()
+        public Server(String PATH_SLIDE,int qtdImg,JTextField txtConexao)
         {
+            this.PATH_SLIDE = PATH_SLIDE;
+            this.qtdImg = qtdImg;
+            this.txtConexao = txtConexao;
+            receberMensagem();
+            txtConexao.setText("SERVIDOR INICIADO...");
         }
         
         public void receberMensagem() {                                           
@@ -59,6 +69,11 @@ import com.mycompany.maventest.TelaInicial;
                             {
                                 SERVER_IP = msg;
                                 enviarMensagem("OK");
+                                enviarSlides(PATH_SLIDE, qtdImg);
+                                txtConexao.setText("ENVIANDO IMAGENS PARA O CELULAR...");
+                                Thread.sleep(200);
+                                receberImagens();
+                                txtConexao.setText("PRONTO PARA RECEBER IMAGENS");
                             }
                             System.out.println("TESTE : IP DO ANDROID - "+msg);
                             break;
@@ -86,7 +101,7 @@ import com.mycompany.maventest.TelaInicial;
                             socket.close();
                             break;
                         }        
-                    } catch (IOException | AWTException ex) {
+                    } catch (IOException | AWTException | InterruptedException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
             }).start();
