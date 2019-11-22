@@ -8,6 +8,8 @@ package com.mycompany.maventest;
 import classes.Server;
 import classes.Utils;
 import java.awt.AWTException;
+import java.awt.HeadlessException;
+import java.io.File;
 import java.util.List;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -39,7 +41,6 @@ public class TelaInicial extends javax.swing.JFrame {
         IO = new Tray(this);        
         IP_ADDRESS = getIPAddress(true);
         txtConexao.setText(IP_ADDRESS);
-        btnEscolherLocalImagens.setEnabled(false);
         Servidor = new Server();
         Servidor.receberMensagem();
     }
@@ -61,9 +62,6 @@ public class TelaInicial extends javax.swing.JFrame {
         btnEscolherSlide = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtSlidePath = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        btnEscolherLocalImagens = new javax.swing.JButton();
-        txtPastaPath = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +77,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>  <head>  <p>5º Sincronize por wireless o celular com o computador seguindo as instruções.</p> \t<p>E pronto , pode utilizar o aplicativo.</p> \t</head> </html>");
 
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reload.png"))); // NOI18N
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);
@@ -99,20 +98,6 @@ public class TelaInicial extends javax.swing.JFrame {
 
         txtSlidePath.setForeground(new java.awt.Color(255, 0, 51));
         txtSlidePath.setText("Arquivo escolhido");
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel6.setText("<html>    <head>    <p>4º Selecione um local para criarmos uma pasta de imagens</p>   </head>   </html>");
-
-        btnEscolherLocalImagens.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnEscolherLocalImagens.setText("Escolher Local");
-        btnEscolherLocalImagens.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEscolherLocalImagensActionPerformed(evt);
-            }
-        });
-
-        txtPastaPath.setForeground(new java.awt.Color(255, 0, 51));
-        txtPastaPath.setText("Local escolhido");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,15 +125,7 @@ public class TelaInicial extends javax.swing.JFrame {
                                 .addComponent(btnEscolherSlide)
                                 .addGap(96, 96, 96)
                                 .addComponent(txtSlidePath)))
-                        .addContainerGap(48, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnEscolherLocalImagens)
-                                .addGap(114, 114, 114)
-                                .addComponent(txtPastaPath))
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap(48, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,14 +145,9 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEscolherSlide)
                     .addComponent(txtSlidePath, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEscolherLocalImagens)
-                    .addComponent(txtPastaPath, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel4.getAccessibleContext().setAccessibleName("Passo a passo para se conectar: \n1º Conecte-se a um Wifi.\n2º Instale o aplicativo no celular.\n3º Sincronize com o computador.\nE pronto , pode começar a utilizar.\n");
@@ -186,49 +158,46 @@ public class TelaInicial extends javax.swing.JFrame {
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         // TODO add your handling code here:
         String ip = getIPAddress(true);
-        String msg = txtConexao.getText();
-        txtConexao.setText("SEU ENDERECO: "+ip);
-        try { Thread.sleep(5000); } catch (InterruptedException ex) { Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex); }
-        txtConexao.setText(msg);
+        //String msg = txtConexao.getText();
+        txtConexao.setText(ip);
+        /*try { Thread.sleep(5000); } catch (InterruptedException ex) { Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex); }
+        txtConexao.setText(msg);*/
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void btnEscolherSlideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscolherSlideActionPerformed
-        JFileChooser arquivo = new JFileChooser();
-        FileNameExtensionFilter filtroPowerPoint = new FileNameExtensionFilter("Arquivos PowerPoint", "pptx");
-        arquivo.addChoosableFileFilter(filtroPowerPoint);
-        arquivo.setAcceptAllFileFilterUsed(false);
-        txtConexao.setText("ESCOLHENDO SLIDE...");
-        if(arquivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
-            txtSlidePath.setText(arquivo.getSelectedFile().getAbsolutePath());
-            PATH_SLIDE = arquivo.getSelectedFile().getAbsolutePath();
-            btnEscolherLocalImagens.setEnabled(true);
-            txtConexao.setText("SLIDE ESCOLHIDO");
+        try {
+            JFileChooser arquivo = new JFileChooser();
+            FileNameExtensionFilter filtroPowerPoint = new FileNameExtensionFilter("Arquivos PowerPoint", "pptx");
+            arquivo.addChoosableFileFilter(filtroPowerPoint);
+            arquivo.setAcceptAllFileFilterUsed(false);
+            txtConexao.setText("ESCOLHENDO SLIDE...");
+            if(arquivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                txtSlidePath.setText(arquivo.getSelectedFile().getAbsolutePath());
+                PATH_SLIDE = arquivo.getSelectedFile().getAbsolutePath();
+                txtConexao.setText("SLIDE ESCOLHIDO");
+            }
+            txtConexao.setText("CRIANDO LUGAR DE IMAGENS...");
+            PATH_PASTA_IMAGENS = "C:\\Temp\\SLIDES";
+            int qtdImg = Utils.listaSlides(PATH_SLIDE,PATH_PASTA_IMAGENS);
+            txtConexao.setText("CRIANDO IMAGENS DOS SLIDES...");
+            Servidor.enviarSlides(PATH_SLIDE, qtdImg);
+            txtConexao.setText("ENVIANDO IMAGENS AO CELULAR...");
+            Thread.sleep(200);
+            Servidor.receberImagens();
+            txtConexao.setText("ESPERANDO POR IMAGENS...");
+        } catch (HeadlessException | IOException | InterruptedException ex) {
+            Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEscolherSlideActionPerformed
 
-    private void btnEscolherLocalImagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscolherLocalImagensActionPerformed
-        try {
-            JFileChooser arquivo = new JFileChooser();
-            txtConexao.setText("ESCOLHENDO LUGAR DE IMAGENS...");
-            if(arquivo.showSaveDialog(this) == JFileChooser.DIRECTORIES_ONLY)
-            {
-                txtPastaPath.setText(arquivo.getSelectedFile().getAbsolutePath());
-                PATH_PASTA_IMAGENS = arquivo.getSelectedFile().getAbsolutePath();
-                txtConexao.setText("ESCOLHIDO O LUGAR DE IMAGENS");
-                int qtdImg = Utils.listaSlides(PATH_SLIDE,PATH_PASTA_IMAGENS);
-                txtConexao.setText("CRIANDO IMAGENS DOS SLIDES...");
-                Servidor.enviarSlides(PATH_SLIDE, qtdImg);
-                txtConexao.setText("ENVIANDO IMAGENS AO CELULAR...");
-                Thread.sleep(200);
-                Servidor.receberImagens();
-                txtConexao.setText("ESPERANDO POR IMAGENS...");
-            }  
-        }
-        catch (IOException | InterruptedException ex) {
-                Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    }//GEN-LAST:event_btnEscolherLocalImagensActionPerformed
-
+    public String getTemp() throws IOException{
+        File temp = File.createTempFile("temp-file-name", ".tmp"); 
+            System.out.println("Temp file : " + temp.getAbsolutePath());
+		//Get tempropary file path
+            String absolutePath = temp.getAbsolutePath();
+            return absolutePath.substring(0,absolutePath.lastIndexOf(File.separator));
+    }
+    
     public String getIPAddress(boolean useIPv4) {
             try {
                 List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -300,16 +269,13 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEscolherLocalImagens;
     private javax.swing.JButton btnEscolherSlide;
     private javax.swing.JButton btnReload;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtConexao;
-    private javax.swing.JLabel txtPastaPath;
     private javax.swing.JLabel txtSlidePath;
     // End of variables declaration//GEN-END:variables
 }

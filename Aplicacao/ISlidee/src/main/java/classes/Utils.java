@@ -75,16 +75,25 @@ public class Utils {
         robot.mouseMove(X, Y);
     }
     public static int listaSlides(String PATH_SLIDE,String PATH_SALVAR) throws IOException{
+        new File(PATH_SALVAR).mkdir();
+        limparPasta(PATH_SALVAR);
         List lista = new ArrayList();
         PowerPointHelper pph = new PowerPointHelper();
         pph.setPowerPoint(PATH_SLIDE);
         BufferedImage[] imgs = pph.getSlides();  
-        for (int x = 1 ; x <= imgs.length ; x++)
+        for (int x = 1 ; x < imgs.length ; x++)
         {
             File outputfile = new File(PATH_SALVAR+"\\slide" + x + ".jpg");
             ImageIO.write(imgs[x], "jpg", outputfile);
         }
         return imgs.length;
+    }
+    private static void limparPasta(String pathDeletar){
+        File pasta = new File(pathDeletar);    
+        File[] arquivos = pasta.listFiles();
+        if(arquivos!=null)
+            for(File arquivo : arquivos)
+                arquivo.delete();
     }
     public static JLabel abrirImage()
     {

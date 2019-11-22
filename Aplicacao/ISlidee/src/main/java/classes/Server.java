@@ -1,5 +1,6 @@
     package classes;
 
+import com.mycompany.maventest.TelaInicial;
     import java.awt.AWTException;
     import java.awt.image.BufferedImage;
     import java.io.BufferedInputStream;
@@ -55,7 +56,11 @@
                         case "IP":
                             String msg = input.readLine();
                             if(msg.length()>0)
+                            {
                                 SERVER_IP = msg;
+                                enviarMensagem("OK");
+                            }
+                            System.out.println("TESTE : IP DO ANDROID - "+msg);
                             break;
                         case "CURSOR":
                             String X = input.readLine();
@@ -147,24 +152,27 @@
         public void enviarSlides(String pathImg ,int qtdImg) {                                           
             Thread sendImg = new Thread(() -> {
                     try {
-                        if (connectedSocketIMG == null){
-                            InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-                            connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
-                        }
-                        if (connectedSocketIMG !=null) {
-                            for (int x1 = 1; x1 <= qtdImg; x1++) {
-                                File input_file = new File(pathImg+"\\slide" + x1 + ".jpg");
-                                byte [] byteArray  = new byte [(int)input_file.length()];
-                                FileInputStream fis = new FileInputStream(input_file);
-                                BufferedInputStream bis = new BufferedInputStream(fis);
-                                bis.read(byteArray,0,byteArray.length);
-                                OutputStream os = connectedSocketIMG.getOutputStream();
-                                os.write(byteArray,0,byteArray.length);
-                                os.flush();
-                                os.close();
-                                Thread.sleep(200);
+                        if(SERVER_IP.length()>0)
+                        {
+                            if (connectedSocketIMG == null){
+                                InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                                connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
                             }
-                            connectedSocketIMG.close();
+                            if (connectedSocketIMG !=null) {
+                                for (int x1 = 1; x1 <= qtdImg; x1++) {
+                                    File input_file = new File(pathImg+"\\slide" + x1 + ".jpg");
+                                    byte [] byteArray  = new byte [(int)input_file.length()];
+                                    FileInputStream fis = new FileInputStream(input_file);
+                                    BufferedInputStream bis = new BufferedInputStream(fis);
+                                    bis.read(byteArray,0,byteArray.length);
+                                    OutputStream os = connectedSocketIMG.getOutputStream();
+                                    os.write(byteArray,0,byteArray.length);
+                                    os.flush();
+                                    os.close();
+                                    Thread.sleep(200);
+                                }
+                                connectedSocketIMG.close();
+                            }
                         }
                     }catch (IOException | InterruptedException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
