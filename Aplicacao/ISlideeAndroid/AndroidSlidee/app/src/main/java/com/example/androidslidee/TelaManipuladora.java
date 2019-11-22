@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -124,9 +125,14 @@ public class TelaManipuladora extends AppCompatActivity {
             public void onClick(View v) {
 
                 Resources res = getResources();
-                Bitmap bitmap = BitmapFactory.decodeResource(res, slide.getImageAlpha());
-                Canvas canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
 
+                Bitmap bitmap = BitmapFactory.decodeResource(res, slide.getImageAlpha());
+                ByteArrayOutputStream _bs = new ByteArrayOutputStream();
+                //bitmap.compress(Bitmap.CompressFormat.PNG, 50, _bs);
+
+                Intent intent = new Intent(getApplicationContext(), PaintView.class);
+                intent.putExtra("img", _bs.toByteArray());
+                startActivity(intent);
 
             }
         });

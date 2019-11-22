@@ -209,6 +209,24 @@ attr drawableSize
 attr drawerArrowStyle
 attr dropDownListViewStyle
 attr dropdownListPreferredItemHeight
+attr dv_draw_alpha
+attr dv_draw_anti_alias
+attr dv_draw_color
+attr dv_draw_corners
+attr dv_draw_dither
+attr dv_draw_enable_zoom
+attr dv_draw_font_family
+attr dv_draw_font_size
+attr dv_draw_is_camera
+attr dv_draw_max_zoom_factor
+attr dv_draw_mode
+attr dv_draw_orientation
+attr dv_draw_style
+attr dv_draw_tool
+attr dv_draw_width
+attr dv_draw_zoomregion_maxscale
+attr dv_draw_zoomregion_minscale
+attr dv_draw_zoomregion_scale
 attr editTextBackground
 attr editTextColor
 attr editTextStyle
@@ -1007,6 +1025,7 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable drawable_transparent_pattern
 drawable fundo
 drawable fundo2
 drawable ic_launcher_background
@@ -1035,6 +1054,7 @@ drawable play
 drawable stopwatch
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable transparent_pattern
 id ALT
 id CTRL
 id FUNCTION
@@ -1076,12 +1096,15 @@ id bottom
 id btnAvancar
 id btnCursor
 id btnDraw
+id btnRendo
 id btnSalvar
 id btnScan
 id btnSlides
+id btnUndo
 id btnVoltar
 id btnWifi
 id btnZoom
+id butt
 id buttonPanel
 id cancel_action
 id center
@@ -1090,6 +1113,7 @@ id center_vertical
 id chains
 id checkbox
 id chronometer
+id circle
 id clip_horizontal
 id clip_vertical
 id collapseActionView
@@ -1104,6 +1128,7 @@ id custom
 id customPanel
 id decor_content_parent
 id default_activity_button
+id default_font
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -1112,16 +1137,20 @@ id design_navigation_view
 id dimensions
 id direct
 id disableHome
+id draw
+id draw_view
 id edit_query
 id end
 id end_padder
 id enterAlways
 id enterAlwaysCollapsed
+id eraser
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
 id fill
 id fill_horizontal
+id fill_stroke
 id fill_vertical
 id filled
 id fixed
@@ -1138,16 +1167,16 @@ id icon_group
 id ifRoom
 id imPlay
 id image
-id image_view_slide
-id image_view_zombie
 id info
 id invisible
 id italic
 id item_touch_helper_previous_elevation
 id ivSlide
 id labeled
+id landscape
 id largeLabel
 id left
+id line
 id line1
 id line3
 id listMode
@@ -1160,6 +1189,7 @@ id message
 id middle
 id mini
 id minute
+id monospace
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
@@ -1176,15 +1206,20 @@ id parallax
 id parent
 id parentPanel
 id parent_matrix
+id pen
 id percent
 id pin
+id portrait
 id progress_circular
 id progress_horizontal
 id radio
+id rectangle
 id relativeLayout
 id right
 id right_icon
 id right_side
+id round
+id sans_serif
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
@@ -1207,6 +1242,7 @@ id search_voice_btn
 id seconds
 id select_dialog_listview
 id selected
+id serif
 id shortcut
 id showCustom
 id showHome
@@ -1220,6 +1256,7 @@ id spacer
 id split_action_bar
 id spread
 id spread_inside
+id square
 id src_atop
 id src_in
 id src_over
@@ -1227,6 +1264,7 @@ id standard
 id start
 id status_bar_latest_event_content
 id stretch
+id stroke
 id submenuarrow
 id submit_area
 id tabMode
@@ -1239,7 +1277,6 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id text_input_password_toggle
-id text_view_nome_zombie
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -1315,6 +1352,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_manipuladora
 layout activity_nomear_slide
+layout activity_paint_view
 layout activity_wifi_select
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -1950,6 +1988,7 @@ styleable ConstraintSet android_orientation android_id android_visibility androi
 styleable CoordinatorLayout keylines statusBarBackground
 styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_anchorGravity layout_behavior layout_dodgeInsetEdges layout_insetEdge layout_keyline
 styleable DesignTheme bottomSheetDialogTheme bottomSheetStyle
+styleable DrawView dv_draw_alpha dv_draw_anti_alias dv_draw_color dv_draw_corners dv_draw_dither dv_draw_enable_zoom dv_draw_font_family dv_draw_font_size dv_draw_is_camera dv_draw_max_zoom_factor dv_draw_mode dv_draw_orientation dv_draw_style dv_draw_tool dv_draw_width dv_draw_zoomregion_maxscale dv_draw_zoomregion_minscale dv_draw_zoomregion_scale
 styleable DrawerArrowToggle arrowHeadLength arrowShaftLength barLength color drawableSize gapBetweenBars spinBars thickness
 styleable FloatingActionButton backgroundTint backgroundTintMode borderWidth elevation fabCustomSize fabSize hideMotionSpec hoveredFocusedTranslationZ maxImageSize pressedTranslationZ rippleColor showMotionSpec useCompatPadding
 styleable FloatingActionButton_Behavior_Layout behavior_autoHide

@@ -28,11 +28,11 @@ public class ListaSlideAdapter extends ArrayAdapter<Slide> {
             if(view == null)
                 view = LayoutInflater.from(context).inflate(R.layout.activity_manipuladora, null);
 
-            ImageView imageViewSlide = view.findViewById(R.id.image_view_slide);
+            /*ImageView imageViewSlide = view.findViewById(R.id.image_view_slide);
             imageViewSlide.setImageDrawable(slide.imagem);
 
             TextView textViewNomeSlide = view.findViewById(R.id.text_view_nome_slide);
-            textViewNomeSlide.setText(slide.getNome());
+            textViewNomeSlide.setText(slide.getNome());*/
 
             return view;
         }
