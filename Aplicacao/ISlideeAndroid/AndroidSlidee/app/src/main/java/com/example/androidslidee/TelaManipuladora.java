@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -236,9 +237,17 @@ public class TelaManipuladora extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
+
                 Resources res = getResources();
+
                 Bitmap bitmap = BitmapFactory.decodeResource(res, slideView.getImageAlpha());
-                Canvas canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
+                ByteArrayOutputStream _bs = new ByteArrayOutputStream();
+                //bitmap.compress(Bitmap.CompressFormat.PNG, 50, _bs);
+
+                Intent intent = new Intent(getApplicationContext(), PaintView.class);
+                intent.putExtra("img", _bs.toByteArray());
+                startActivity(intent);
+
             }
         });
     }
