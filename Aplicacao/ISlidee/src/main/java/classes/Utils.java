@@ -102,7 +102,7 @@ public class Utils {
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setUndecorated(true);
         jf.setVisible(true);
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = env.getDefaultScreenDevice();

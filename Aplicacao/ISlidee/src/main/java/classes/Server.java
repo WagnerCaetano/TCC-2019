@@ -40,6 +40,8 @@
         private String PATH_SLIDE="";
         private final int qtdImg;
         private final JTextField txtConexao;
+        JLabel jl = new JLabel();        
+        JFrameImage jf = new JFrameImage(jl);
 
         public Server(String PATH_SLIDE,int qtdImg,JTextField txtConexao)
         {
@@ -73,7 +75,6 @@
                             String X = input.readLine();
                             String Y = input.readLine();
                             Utils.mover(new Integer(X), new Integer(Y));
-                            enviarMensagem("OK");
                             break;
                         /*case "ZOOM":
                             String X = input.readLine();
@@ -83,11 +84,10 @@
                             break;*/
                         case "AVANCAR":
                             Utils.avancar();
-                            enviarMensagem("OK");
+                            
                             break;
                         case "RECUAR":
                             Utils.retroceder();
-                            enviarMensagem("OK");
                             break;
                         case "STOP":
                             socket.close();
@@ -128,7 +128,7 @@
        public void receberImagens(){
         new Thread(() -> {
             try {
-                JLabel jl = null;
+                //JLabel jl = null;
                 serverSocket = new ServerSocket(SERVERPORT_IMG);
                 do {
                     Socket connectedSocket = serverSocket.accept();
@@ -146,9 +146,9 @@
                     ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
                     BufferedImage imageSobrePor = ImageIO.read(bis);
                     
-                    if (jl == null) jl = Utils.abrirImage();
+                    if (jf.getJl() == null) jl = jf.abrirImage();
                     else{
-                        jl.setIcon(new ImageIcon(imageSobrePor));
+                        jf.setarImageDoLabel(imageSobrePor);
                     }
                 } while (connectedSocketIMG != null);
             }catch (IOException ex) {
