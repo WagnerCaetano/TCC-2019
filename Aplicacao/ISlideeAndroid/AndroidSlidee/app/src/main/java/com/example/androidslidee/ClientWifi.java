@@ -103,7 +103,7 @@ public class ClientWifi {
         mensagem.start();
     }
     public void enviarImagem(final Image img) {
-        Thread sendImg = new Thread(new Runnable() {
+        imagem = new Thread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
@@ -128,12 +128,11 @@ public class ClientWifi {
                 }
             }
         });
-        sendImg.start();
-        sendImg.interrupt();
+        imagem.start();
     }
 
     public void receberImagem(){
-        new Thread(new Runnable() {
+        imagem =  new Thread(new Runnable() {
             @Override
             public void run() {
                 int file_int = 1;
@@ -176,6 +175,7 @@ public class ClientWifi {
                     }
                 }while(connectedSocketIMG!=null);
             }
-        }).start();
+        });
+        imagem.start();
     }
 }
