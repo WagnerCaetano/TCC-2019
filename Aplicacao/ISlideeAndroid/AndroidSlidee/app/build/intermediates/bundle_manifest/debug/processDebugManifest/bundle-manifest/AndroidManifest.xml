@@ -27,6 +27,7 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.androidslidee.pesquisa_slide" />
         <activity android:name="com.example.androidslidee.PaintView" />
         <activity
             android:name="com.example.androidslidee.NomearSlide"

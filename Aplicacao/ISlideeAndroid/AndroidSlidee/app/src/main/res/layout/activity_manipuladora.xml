@@ -7,73 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnCursor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="164dp"
-        android:layout_marginBottom="24dp"
-        android:text="Cursor"
-        app:layout_constraintBottom_toTopOf="@+id/btnZoom"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnDraw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginBottom="20dp"
-        android:text="Draw"
-        app:layout_constraintBottom_toTopOf="@+id/btnCursor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnZoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginBottom="28dp"
-        android:text="Zoom"
-        app:layout_constraintBottom_toTopOf="@+id/cronoConfig"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDraw" />
-
-    <Button
-        android:id="@+id/btnVoltar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="232dp"
-        android:layout_marginLeft="232dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:layout_marginBottom="16dp"
-        android:text="Voltar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAvancar"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnAvancar"
-        android:layout_width="95dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
-        android:layout_marginEnd="244dp"
-        android:layout_marginRight="244dp"
-        android:layout_marginBottom="16dp"
-        android:text="Avançar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnVoltar" />
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="101dp"
@@ -101,67 +34,6 @@
 
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/cronoConfig"
-        android:layout_width="57dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="312dp"
-        android:layout_marginBottom="44dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/stopwatch" />
-
-    <TextView
-        android:id="@+id/txtCronometro"
-        android:layout_width="51dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="2dp"
-        android:lineSpacingExtra="10sp"
-        android:text="00:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@color/design_default_color_primary"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/btnDraw"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageButton
-        android:id="@+id/imPlay"
-        android:layout_width="55dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/play" />
-
-    <ImageView
-        android:id="@+id/ivSlide"
-        android:layout_width="451dp"
-        android:layout_height="260dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginRight="128dp"
-        android:layout_marginBottom="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnVoltar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.916"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/inicial" />
-
     <ImageView
         android:id="@+id/cursor"
         android:layout_width="44dp"
@@ -174,15 +46,144 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/clicker" />
 
-    <Button
-        android:id="@+id/btnSlides"
-        android:layout_width="75dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginRight="120dp"
-        android:layout_marginBottom="16dp"
-        android:text="Slides"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="436dp"
+        android:layout_height="249dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <ImageView
+            android:id="@+id/ivSlide"
+            android:layout_width="match_parent"
+            android:layout_height="247dp"
+            android:src="@color/design_default_color_primary"
+            app:srcCompat="@drawable/inicial" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="279dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="251dp"
+        android:layout_marginLeft="251dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginRight="102dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltar" />
+
+        <Button
+            android:id="@+id/btnSlides"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:text="Slides" />
+
+        <Button
+            android:id="@+id/btnAvancar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avançar" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="114dp"
+        android:layout_height="253dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/imPlay"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:src="@drawable/play" />
+
+        <Button
+            android:id="@+id/btnDraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Draw" />
+
+        <Button
+            android:id="@+id/btnCursor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cursor" />
+
+        <Button
+            android:id="@+id/btnZoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zoom" />
+
+        <ImageButton
+            android:id="@+id/cronoConfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stopwatch" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="573dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="9dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtCronometro"
+            android:layout_width="523dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="00:00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/design_default_color_primary" />
+
+        <ImageButton
+            android:id="@+id/btnPesquisar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_search" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

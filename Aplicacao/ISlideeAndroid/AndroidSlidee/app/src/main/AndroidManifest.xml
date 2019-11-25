@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaintView"></activity>
+        <activity android:name=".pesquisa_slide"></activity>
+        <activity android:name=".PaintView" />
         <activity
             android:name=".NomearSlide"
             android:configChanges="orientation"

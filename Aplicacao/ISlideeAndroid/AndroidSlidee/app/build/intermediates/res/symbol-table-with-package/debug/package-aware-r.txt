@@ -649,6 +649,7 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color ic_launcher_background
 color material_blue_grey_800
 color material_blue_grey_900
 color material_blue_grey_950
@@ -1096,6 +1097,7 @@ id bottom
 id btnAvancar
 id btnCursor
 id btnDraw
+id btnPesquisar
 id btnRendo
 id btnSalvar
 id btnScan
@@ -1139,6 +1141,7 @@ id direct
 id disableHome
 id draw
 id draw_view
+id editText
 id edit_query
 id end
 id end_padder
@@ -1179,6 +1182,10 @@ id left
 id line
 id line1
 id line3
+id linearLayout
+id linearLayout2
+id linearLayout3
+id linearLayout4
 id listMode
 id listView
 id list_item
@@ -1276,6 +1283,7 @@ id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
+id textView
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -1353,6 +1361,7 @@ layout abc_tooltip
 layout activity_manipuladora
 layout activity_nomear_slide
 layout activity_paint_view
+layout activity_pesquisa_slide
 layout activity_wifi_select
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog

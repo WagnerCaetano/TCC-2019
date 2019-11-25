@@ -1,7 +1,10 @@
 package com.example.androidslidee;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -52,6 +55,7 @@ public class TelaManipuladora extends AppCompatActivity {
     private Button btnZoom;
     private ImageView slide;
     private ImageView cursor;
+    private ImageButton btnPesquisa;
 
     //Elementos auxiliares (para o desenvolvedor)
     private TextView cronometro;
@@ -84,12 +88,16 @@ public class TelaManipuladora extends AppCompatActivity {
         cronoConfig = findViewById(R.id.cronoConfig);
         btnSlides = findViewById(R.id.btnSlides);
         btnCursor = findViewById(R.id.btnCursor);
-        cursor = findViewById(R.id.cursor);
         btnPlay = findViewById(R.id.imPlay);
-        handler = new Handler();
-        cronometro = findViewById(R.id.txtCronometro);
         btnZoom = findViewById(R.id.btnZoom);
         btnDraw = findViewById(R.id.btnDraw);
+        btnPesquisa = findViewById(R.id.btnPesquisar);
+
+        cursor = findViewById(R.id.cursor);
+
+        handler = new Handler();
+        cronometro = findViewById(R.id.txtCronometro);
+
         lista = findViewById(R.id.listaSlides);
 
 
@@ -222,6 +230,34 @@ public class TelaManipuladora extends AppCompatActivity {
                 listener = !listener;
             }
         });
+
+        btnPesquisa.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle("Pesquisa de slide");
+
+                builder.setView(R.layout.activity_pesquisa_slide);
+
+                builder.setPositiveButton("Encontrar!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                //builder.show();
+            }
+        });
     }
     private final Runnable runnable = new Runnable() {
         @Override
@@ -232,6 +268,7 @@ public class TelaManipuladora extends AppCompatActivity {
                 String.format(String.valueOf(seconds));
                 System.out.println(seconds);
                 System.out.println(tempoLimite);
+
                 if(String.format(String.valueOf(seconds)).equals(tempoLimite)){
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     long milliseconds = 2000;
