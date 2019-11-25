@@ -1,6 +1,8 @@
 package com.example.androidslidee;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,8 @@ public class SlideAdapter extends ArrayAdapter<Slide> {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_slide, null);
 
         ImageView imageViewZombie = view.findViewById(R.id.image_view_slide);
-        imageViewZombie.setImageBitmap(slide.getImagem());
+        Bitmap imagemCriada = BitmapFactory.decodeFile(slide.getImagem().getAbsolutePath());
+        imageViewZombie.setImageBitmap(imagemCriada);
 
         TextView textViewNomeZombie = view.findViewById(R.id.text_view_nome_slide);
         textViewNomeZombie.setText(slide.getNome());

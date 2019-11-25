@@ -1,6 +1,5 @@
     package classes;
 
-import com.mycompany.maventest.TelaInicial;
     import java.awt.AWTException;
     import java.awt.image.BufferedImage;
     import java.io.BufferedInputStream;
@@ -57,26 +56,19 @@ import com.mycompany.maventest.TelaInicial;
                 try {
                     serverSocket = new ServerSocket(SERVERPORT_MSG);
                     connectedSocketMSG = serverSocket.accept();
+                    SERVER_IP = connectedSocketMSG.getInetAddress().toString().substring(1);
+                    if(SERVER_IP.length()>0)
+                    {
+                        enviarSlides("C:\\Temp\\SLIDES", qtdImg);
+                        txtConexao.setText("ENVIANDO IMAGENS PARA O CELULAR...");
+                        receberImagens();
+                        txtConexao.setText("PRONTO PARA RECEBER IMAGENS");        
+                    }
                     input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
                     final String message = input.readLine();
                     System.out.println("Mensagem recebida: "+message);
-                    System.out.println("TESTE : IP DO ANDROID - "+connectedSocketMSG.getInetAddress());
                     switch(message)
                         {
-                        case "IP":
-                            String msg = input.readLine();
-                            if(msg.length()>0)
-                            {
-                                SERVER_IP = msg;
-                                enviarMensagem("OK");
-                                enviarSlides(PATH_SLIDE, qtdImg);
-                                txtConexao.setText("ENVIANDO IMAGENS PARA O CELULAR...");
-                                Thread.sleep(200);
-                                receberImagens();
-                                txtConexao.setText("PRONTO PARA RECEBER IMAGENS");
-                            }
-                            System.out.println("TESTE : IP DO ANDROID - "+msg);
-                            break;
                         case "CURSOR":
                             String X = input.readLine();
                             String Y = input.readLine();
@@ -100,8 +92,9 @@ import com.mycompany.maventest.TelaInicial;
                         case "STOP":
                             socket.close();
                             break;
+                        default:break;
                         }        
-                    } catch (IOException | AWTException | InterruptedException ex) {
+                    } catch (IOException | AWTException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
             }).start();
@@ -167,14 +160,13 @@ import com.mycompany.maventest.TelaInicial;
         public void enviarSlides(String pathImg ,int qtdImg) {                                           
             Thread sendImg = new Thread(() -> {
                     try {
-                        if(SERVER_IP.length()>0)
-                        {
-                            if (connectedSocketIMG == null){
+                        for (int x1 = 1; x1 <= qtdImg; x1++) {
+                        if (connectedSocketIMG == null || connectedSocketIMG.isClosed()){
                                 InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
                                 connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
                             }
-                            if (connectedSocketIMG !=null) {
-                                for (int x1 = 1; x1 <= qtdImg; x1++) {
+                        if (connectedSocketIMG !=null) {
+                                
                                     File input_file = new File(pathImg+"\\slide" + x1 + ".jpg");
                                     byte [] byteArray  = new byte [(int)input_file.length()];
                                     FileInputStream fis = new FileInputStream(input_file);
@@ -183,12 +175,11 @@ import com.mycompany.maventest.TelaInicial;
                                     OutputStream os = connectedSocketIMG.getOutputStream();
                                     os.write(byteArray,0,byteArray.length);
                                     os.flush();
-                                    os.close();
-                                    Thread.sleep(200);
+                                    Thread.sleep(2000);
+                                    System.out.println("ENVIOU " + x1);
                                 }
                                 connectedSocketIMG.close();
                             }
-                        }
                     }catch (IOException | InterruptedException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }

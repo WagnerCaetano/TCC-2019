@@ -1,7 +1,10 @@
 package com.example.androidslidee;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +15,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +31,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,6 +81,10 @@ public class TelaManipuladora extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manipuladora);
+
+
+
+
         // CRONOMETRO
         handler = new Handler();
         cronometro = findViewById(R.id.txtCronometro);
@@ -134,7 +148,6 @@ public class TelaManipuladora extends AppCompatActivity {
         // INTENT
         Intent intent = getIntent();
         ip = intent.getStringExtra("IpSelecionado");
-        wireless = new ClientWifi(ip,slides);
 
         // SLIDES
         slideView = findViewById(R.id.ivSlide);
@@ -144,12 +157,28 @@ public class TelaManipuladora extends AppCompatActivity {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Slide slide = adapter.getItem(position);
+                int i = INDICE_SLIDE;
                 INDICE_SLIDE = position;
-                slideView.setImageBitmap(slide.getImagem());
+                int deltaPosition = 0;
+                if (INDICE_SLIDE > i) {
+                    deltaPosition = i - INDICE_SLIDE;
+                    for(int x = 0 ; x < deltaPosition;x++)
+                        wireless.enviarMensagem("AVANCAR");
+                }
+                else {
+                    deltaPosition = INDICE_SLIDE - i;
+                    for(int x = 0 ; x < deltaPosition;x++)
+                        wireless.enviarMensagem("RECUAR");
+                }
+                slideView.setImageBitmap(SlideImageToBitMap(adapter.getItem(position)));
             }
         });
-        slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                wireless = new ClientWifi(ip,adapter);
+            }
+        }).start();
         btnZoom = findViewById(R.id.btnZoom);
         btnZoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +203,8 @@ public class TelaManipuladora extends AppCompatActivity {
             public void onClick(View v) {
                 if(INDICE_SLIDE<=slides.size()) {
                     INDICE_SLIDE++;
-                    slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+                    slideView.setImageBitmap(SlideImageToBitMap(slides.get(INDICE_SLIDE)));
+                    wireless.enviarMensagem("AVANCAR");
                 }
             }
         });
@@ -184,7 +214,8 @@ public class TelaManipuladora extends AppCompatActivity {
             public void onClick(View v) {
                 if(INDICE_SLIDE>=1){
                     INDICE_SLIDE--;
-                    slideView.setImageBitmap(slides.get(INDICE_SLIDE).getImagem());
+                    slideView.setImageBitmap(SlideImageToBitMap(slides.get(INDICE_SLIDE)));
+                    wireless.enviarMensagem("RECUAR");
                 }
             }
         });
@@ -210,6 +241,16 @@ public class TelaManipuladora extends AppCompatActivity {
                 Canvas canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
             }
         });
+    }
+
+
+
+
+    private Bitmap SlideImageToBitMap(Slide slide)
+    {
+        File img = slide.getImagem();
+        Bitmap imagemCriada = BitmapFactory.decodeFile(img.getAbsolutePath());
+        return imagemCriada;
     }
     private final Runnable runnable = new Runnable() {
         @Override
@@ -237,11 +278,7 @@ public class TelaManipuladora extends AppCompatActivity {
 
             cursor.setX(event.getX());
             cursor.setY(event.getY());
-            try {
-                wireless.enviarMensagem("CURSOR\n"+event.getX()+"\n"+event.getY());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wireless.enviarMensagem("CURSOR\n"+event.getX()+"\n"+event.getY());
             return true;
         }
     };

@@ -4,12 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,36 +37,28 @@ public class ClientWifi {
     private static final int SERVERPORT_MSG = 32500;
     private static final int SERVERPORT_IMG = 32499;
     private static String SERVER_IP = "";
-    private String MENSAGEM_CONTROLE = "";
-    private List<Slide> slides;
+    private SlideAdapter slides = null;
+    private Thread mensagem=null;
+    private Thread imagem=null;
 
     // ENVIAR
     private PrintWriter out = null;
     // RECEBER
-    private ServerSocket serverSocket;
+    private ServerSocket serverSocketIMG = null;
+    private ServerSocket serverSocketMSG = null;
     private BufferedReader input = null;
 
-    public ClientWifi(String SERVER_IP,List slides)
+    public ClientWifi(String SERVER_IP,SlideAdapter slides)
     {
         this.SERVER_IP = SERVER_IP;
         this.slides = slides;
-        init();
-    }
-    private void init()
-    {
-        String thisIp = getIPAddress(true);
-        String mensagem = "IP\n"+thisIp;
-        try {
-            enviarMensagem(mensagem);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        enviarMensagem("CONEXAO");
         receberMensagem();
         receberImagem();
     }
 
-    public void enviarMensagem(final String msg) throws InterruptedException {
-        Thread enviar = new Thread(new Runnable()
+    public void enviarMensagem(final String msg) {
+        mensagem = new Thread(new Runnable()
         {
             public void run() {
                 try {
@@ -84,33 +79,28 @@ public class ClientWifi {
                 }
             }
         });
-        enviar.start();
-        //enviar.interrupt();
-        //Thread.sleep(500);
-        if (MENSAGEM_CONTROLE == "OK") MENSAGEM_CONTROLE = "";
-        else enviarMensagem(msg);
+        mensagem.start();
     }
 
     public void receberMensagem() {
-        new Thread(new Runnable() {
+        mensagem = new Thread(new Runnable() {
             @Override
             public void run() {
                 Socket socket = null;
                 try {
-                    serverSocket = new ServerSocket(SERVERPORT_MSG);
-                    connectedSocketMSG = serverSocket.accept();
+                    if (serverSocketMSG == null || serverSocketMSG.isClosed() || connectedSocketMSG == null ||connectedSocketMSG.isClosed()) {
+                        serverSocketMSG = new ServerSocket(SERVERPORT_MSG);
+                        connectedSocketMSG = serverSocketMSG.accept();
+                    }
                     input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
                     final String message = input.readLine();
                     System.out.println("Mensagem recebida: "+message);
-                    if(message == "OK")
-                        MENSAGEM_CONTROLE = message;
-                    else
-                        MENSAGEM_CONTROLE = "";
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
-        }).start();
+        });
+        mensagem.start();
     }
     public void enviarImagem(final Image img) {
         Thread sendImg = new Thread(new Runnable() {
@@ -146,20 +136,23 @@ public class ClientWifi {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Socket connectedSocket = null;
-                try {
-                    serverSocket = new ServerSocket(SERVERPORT_IMG);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                int file_int = 1;
                 do  {
                     try {
-                        connectedSocket = serverSocket.accept();
+                        if ( serverSocketIMG == null || serverSocketIMG.isClosed() || connectedSocketIMG == null ||connectedSocketIMG.isClosed() ) {
+                            serverSocketIMG = new ServerSocket(SERVERPORT_IMG);
+                            connectedSocketIMG = serverSocketIMG.accept();
+                        }
                         int filesize = 6022386;
                         int bytesRead;
                         int current = 0;
+                        File path = new File(Environment.getExternalStorageDirectory().toString()+"/Slides");
+                        if (!path.exists())
+                            path.mkdirs();
+                        File file = new File(path, "foto"+file_int+".jpg");
                         byte[] mybytearray  = new byte [filesize];
-                        InputStream is = connectedSocket.getInputStream();
+                        InputStream is = connectedSocketIMG.getInputStream();
+                        FileOutputStream fos = new FileOutputStream(file);
                         bytesRead = is.read(mybytearray,0,mybytearray.length);
                         current = bytesRead;
                         do {
@@ -167,41 +160,22 @@ public class ClientWifi {
                             if(bytesRead >= 0) current += bytesRead;
                         } while(bytesRead > -1);
                         final Bitmap bmp = BitmapFactory.decodeByteArray(mybytearray,0,current);
-                        Slide novoSlide = new Slide("SLIDE",bmp);
+                        bmp.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                        fos.flush();
+                        fos.close();
+
+                        System.out.println("RECEBIDO "+file);
+
+                        Slide novoSlide = new Slide("SLIDE"+file_int,file);
                         slides.add(novoSlide);
+                        file_int++;
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }while(connectedSocket!=null);
+                }while(connectedSocketIMG!=null);
             }
         }).start();
     }
-    public String getIPAddress(boolean useIPv4) {
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        String sAddr = addr.getHostAddress();
-                        boolean isIPv4 = sAddr.indexOf(':')<0;
-
-                        if (useIPv4) {
-                            if (isIPv4)
-                                return sAddr;
-                        } else {
-                            if (!isIPv4) {
-                                int delim = sAddr.indexOf('%');
-                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ignored) { }
-        return null;
-    }
-
 }
