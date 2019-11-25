@@ -84,10 +84,11 @@
                             break;*/
                         case "AVANCAR":
                             Utils.avancar();
-                            
+                            jf.fecharImage();
                             break;
                         case "RECUAR":
                             Utils.retroceder();
+                            jf.fecharImage();
                             break;
                         case "STOP":
                             socket.close();
