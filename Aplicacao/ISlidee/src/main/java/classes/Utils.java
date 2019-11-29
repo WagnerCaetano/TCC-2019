@@ -39,8 +39,8 @@ public class Utils {
     }
     public static BufferedImage zoom (float mult,BufferedImage imagem)
     {
-        int x1=(int) (getResolution().width/mult*mult);
-        int y1=(int) (getResolution().height/mult*mult);
+        int x1=(int) (getResolution().width*(1+mult));
+        int y1=(int) (getResolution().height*(1+mult));
         int x2=(int) (x1*(mult-1));
         int y2=(int) (y1*(mult-1));
         
@@ -119,7 +119,7 @@ public class Utils {
     
     public static BufferedImage IndiceToBufferedImage(int indice) throws IOException
     {
-        File file = new File("C:\\Temp\\SLIDES\\slide"+indice+".jpg");
+        File file = new File("C:\\Temp\\SLIDES\\slide"+(indice+1)+".jpg");
         BufferedImage img = ImageIO.read(file);
         return img;
     }

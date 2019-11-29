@@ -31,6 +31,7 @@
         private static final int SERVERPORT_MSG = 32500;
         private static final int SERVERPORT_IMG = 32499;
         private static String SERVER_IP = "";
+        private static boolean isFirst = true;
         // ENVIAR
         private PrintWriter out = null;
         // RECEBER
@@ -58,9 +59,13 @@
                     if( connectedSocketMSG == null || connectedSocketMSG.isClosed() )
                         connectedSocketMSG = serverSocketMSG.accept();
                     SERVER_IP = connectedSocketMSG.getInetAddress().toString().substring(1);
-                    enviarSlides();
-                    do  {
+                    if(isFirst)
+                        {
+                        enviarSlides();
+                        isFirst=false;
+                        }
                     input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
+                    do  {
                     final String message = input.readLine();
                     System.out.println("Mensagem recebida: "+message);
                     switch(message)
@@ -75,10 +80,9 @@
                             Utils.mover(Integer.parseInt(X), Integer.parseInt(Y));
                             break;
                         case "ZOOM-S":
-                            int indice = Integer.parseInt(input.readLine());
                             Float scale = Float.parseFloat(input.readLine());
                             JLabel jl = Utils.abrirImage();
-                            jl.setIcon(new ImageIcon(Utils.zoom(scale, Utils.IndiceToBufferedImage(indice))));
+                            jl.setIcon(new ImageIcon(Utils.zoom(scale, Utils.printar())));
                             break;
                         case "AVANCAR":
                             Utils.avancar();

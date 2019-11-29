@@ -77,14 +77,24 @@ public class ClientWifi extends Activity implements Serializable {
         mensagem.start();
         mensagem.interrupt();
     }
-    public void zoom (float Scale,int indice){
-        enviarMensagem("ZOOM-S\n"+indice+"\n"+Scale);
+    public void zoom (float Scale){
+        enviarMensagem("ZOOM-S\n"+Scale);
     }
     public void avancar() {
         enviarMensagem("AVANCAR");
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public void recuar() {
         enviarMensagem("RECUAR");
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void receberMensagem() {

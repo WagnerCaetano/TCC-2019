@@ -154,18 +154,26 @@ public class TelaManipuladora extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int i = INDICE_SLIDE;
                 INDICE_SLIDE = position;
-                int deltaPosition = 0;
+                int deltaPosition = 1;
                 if (INDICE_SLIDE > i) {
-                    deltaPosition = INDICE_SLIDE - i;
-                    for(int x = 0 ; x < deltaPosition;x++)
+                    deltaPosition += INDICE_SLIDE - i;
+                    int x = 0;
+                    do{
                         wireless.avancar();
+                        x++;
+                    }while(x < deltaPosition);
+
                 }
                 else {
-                    deltaPosition =  i - INDICE_SLIDE;
-                    for(int x = 0 ; x < deltaPosition;x++)
+                    deltaPosition +=  i - INDICE_SLIDE;
+                    int x = 0;
+                    do {
                         wireless.recuar();
+                        x++;
+                    }while(x < deltaPosition);
                 }
                 slideView.setImageBitmap(SlideImageToBitMap(adapter.getItem(position)));
+                System.out.println(INDICE_SLIDE);
             }
         });
         wireless = new ClientWifi(ip,adapter);
@@ -176,8 +184,7 @@ public class TelaManipuladora extends Activity {
 
                 PhotoViewAttacher photoView = new PhotoViewAttacher(slideView);
                 photoView.update();
-                wireless.zoom(photoView.getScale(),INDICE_SLIDE);
-
+                wireless.zoom(photoView.getScale());
             }
         });
         btnSlides = findViewById(R.id.btnSlides);
@@ -197,6 +204,7 @@ public class TelaManipuladora extends Activity {
                     INDICE_SLIDE++;
                     slideView.setImageBitmap(SlideImageToBitMap(slides.get(INDICE_SLIDE)));
                     wireless.avancar();
+                    System.out.println(INDICE_SLIDE);
                 }
             }
         });
@@ -208,6 +216,7 @@ public class TelaManipuladora extends Activity {
                     INDICE_SLIDE--;
                     slideView.setImageBitmap(SlideImageToBitMap(slides.get(INDICE_SLIDE)));
                     wireless.recuar();
+                    System.out.println(INDICE_SLIDE);
                 }
             }
         });

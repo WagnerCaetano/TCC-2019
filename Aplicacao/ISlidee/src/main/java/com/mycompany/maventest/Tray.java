@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 public class Tray {
     
     Server servidor = null;
-    MenuItem mostramsg3;
+    MenuItem mostramsg2;
     MenuItem mostramsg4;
     MenuItem mostramsg5;
     public Tray(JFrame tela) throws IOException
@@ -34,7 +34,8 @@ public class Tray {
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\logo2.jpeg");
+            //File file = new File("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\logo2.jpeg");
+            File file = new File ( getClass().getClassLoader().getResource("logo2.jpeg").getFile().substring(1) );
             Image image = ImageIO.read(file);
             MouseListener mouseListener = new MouseListener() {
             public void mouseClicked(MouseEvent e) {
@@ -85,7 +86,7 @@ public class Tray {
             popup.addSeparator();
             
             PopupMenu popup2 = new PopupMenu("Gerenciamento");
-            MenuItem mostramsg2 = new MenuItem("Reenviar Slide");
+            mostramsg2 = new MenuItem("Reenviar Slide");
             ActionListener reenviarSlides = new ActionListener()
             {
                 public void actionPerformed(ActionEvent e)
@@ -97,7 +98,7 @@ public class Tray {
             };
             mostramsg2.addActionListener(reenviarSlides);
             mostramsg2.setEnabled(false);
-            mostramsg3 = new MenuItem("Visualizar IP");
+            MenuItem mostramsg3 = new MenuItem("Visualizar IP");
             ActionListener visualiarIP = new ActionListener()
             {
                 public void actionPerformed(ActionEvent e)
@@ -105,6 +106,7 @@ public class Tray {
                     JOptionPane.showMessageDialog(null, "Seu endereço é : " + Utils.getIPAddress(true) , "Endereço de IP", JOptionPane.INFORMATION_MESSAGE);
                 }
             };
+            mostramsg3.addActionListener(visualiarIP);
             mostramsg4 = new MenuItem("Restaurar recebimento mensagem");
             ActionListener restaurarMensagem = new ActionListener()
             {
@@ -168,7 +170,7 @@ public class Tray {
     public void setServer(Server servidor)
     {
        this.servidor = servidor;
-       mostramsg3.setEnabled(true);
+       mostramsg2.setEnabled(true);
        mostramsg4.setEnabled(true);
        mostramsg5.setEnabled(true);
     }
