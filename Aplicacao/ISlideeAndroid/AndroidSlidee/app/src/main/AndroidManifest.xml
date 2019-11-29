@@ -20,10 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name=".NomearSlide"
+        <activity android:name=".Tela_NomearSlide"
             android:screenOrientation="landscape"
             android:configChanges="orientation"/>
-        <activity android:name=".WifiSelect"
+        <activity android:name=".Tela_Inicial"
             android:screenOrientation="landscape"
             android:configChanges="orientation">
             <intent-filter>
@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TelaManipuladora"
+        <activity android:name=".Tela_Manipuladora"
             android:screenOrientation="landscape"
             android:configChanges="orientation"/>
     </application>

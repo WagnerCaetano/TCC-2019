@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".NomearSlide">
+    tools:context=".Tela_NomearSlide">
 
     <ListView
         android:id="@+id/listaSlides"
