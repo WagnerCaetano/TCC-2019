@@ -73,17 +73,15 @@
                         case "CURSOR":
                             String X = input.readLine();
                             String Y = input.readLine();
-                            if(X.contains("."))
-                                X = X.substring(0,X.indexOf(".")-1);
-                            if(Y.contains("."))
-                                Y = Y.substring(0,Y.indexOf(".")-1);
-                            Utils.mover(Integer.parseInt(X), Integer.parseInt(Y));
+                            int x = Utils.getProporcaoX(Integer.parseInt(X));
+                            int y = Utils.getProporcaoY(Integer.parseInt(Y));
+                            Utils.mover(x, y);
                             break;
-                        case "ZOOM-S":
+                        /*case "ZOOM-S":
                             Float scale = Float.parseFloat(input.readLine());
                             JLabel jl = Utils.abrirImage();
                             jl.setIcon(new ImageIcon(Utils.zoom(scale, Utils.printar())));
-                            break;
+                            break;*/
                         case "AVANCAR":
                             Utils.avancar();
                             break;
@@ -153,18 +151,20 @@
                     int current = 0;
                     byte[] mybytearray  = new byte [filesize];
                     InputStream is = connectedSocketIMG.getInputStream();
-                    bytesRead = is.read(mybytearray,0,mybytearray.length);
-                    current = bytesRead;
-                    do {
-                        bytesRead =is.read(mybytearray, current, (mybytearray.length-current));
-                        if(bytesRead >= 0) current += bytesRead;
-                    } while(bytesRead > -1);
-                    ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
-                    BufferedImage imageSobrePor = ImageIO.read(bis);
-                    
-                    if (jl == null) jl = Utils.abrirImage();
-                    else{
-                        jl.setIcon(new ImageIcon(imageSobrePor));
+                    if(is.available()>0){
+                        bytesRead = is.read(mybytearray,0,mybytearray.length);
+                        current = bytesRead;
+                        do {
+                            bytesRead =is.read(mybytearray, current, (mybytearray.length-current));
+                            if(bytesRead >= 0) current += bytesRead;
+                        } while(bytesRead > -1);
+                        ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
+                        BufferedImage imageSobrePor = ImageIO.read(bis);
+
+                        if (jl == null) jl = Utils.abrirImage();
+                        else{
+                            jl.setIcon(new ImageIcon(imageSobrePor));
+                        }
                     }
                 } while (connectedSocketIMG != null);
             }catch (IOException ex) {

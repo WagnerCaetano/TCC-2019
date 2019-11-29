@@ -3,7 +3,6 @@ package com.example.androidslidee;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
@@ -24,7 +23,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClientWifi extends Activity implements Serializable {
+public class Client extends Activity implements Serializable {
 
     //CONFIG
     private Socket connectedSocketIMG;
@@ -32,7 +31,7 @@ public class ClientWifi extends Activity implements Serializable {
     private static final int SERVERPORT_MSG = 32500;
     private static final int SERVERPORT_IMG = 32499;
     private static String SERVER_IP = "";
-    private SlideAdapter slides;
+    private Adapter_Slide slides;
     private Thread mensagem = null;
     private Thread imagem = null;
 
@@ -43,7 +42,7 @@ public class ClientWifi extends Activity implements Serializable {
     private ServerSocket serverSocketMSG = null;
     private BufferedReader input = null;
 
-    public ClientWifi(String SERVER_IP,SlideAdapter slides)
+    public Client(String SERVER_IP, Adapter_Slide slides)
     {
         this.SERVER_IP = SERVER_IP;
         this.slides = slides;
@@ -77,24 +76,11 @@ public class ClientWifi extends Activity implements Serializable {
         mensagem.start();
         mensagem.interrupt();
     }
-    public void zoom (float Scale){
-        enviarMensagem("ZOOM-S\n"+Scale);
-    }
     public void avancar() {
         enviarMensagem("AVANCAR");
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
     public void recuar() {
         enviarMensagem("RECUAR");
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void receberMensagem() {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".TelaManipuladora">
+    tools:context=".Tela_Manipuladora">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -37,8 +37,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="408dp"
-        android:layout_height="214dp"
+        android:layout_width="440dp"
+        android:layout_height="220dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -50,6 +50,48 @@
         app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <com.byox.drawview.views.DrawView
+            android:id="@+id/draw_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:dv_draw_alpha="255"
+            app:dv_draw_anti_alias="true"
+            app:dv_draw_color="@color/colorAccent"
+            app:dv_draw_corners="round"
+            app:dv_draw_dither="true"
+            app:dv_draw_enable_zoom="true"
+            app:dv_draw_font_family="default_font"
+            app:dv_draw_font_size="12"
+            app:dv_draw_max_zoom_factor="8"
+            app:dv_draw_mode="draw"
+            app:dv_draw_style="stroke"
+            app:dv_draw_tool="pen"
+            app:dv_draw_width="4"
+            app:dv_draw_zoomregion_maxscale="5"
+            app:dv_draw_zoomregion_minscale="2"
+            app:dv_draw_zoomregion_scale="4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnUndo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Desfazer" />
+
+                <Button
+                    android:id="@+id/btnRendo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Refazer" />
+            </LinearLayout>
+        </com.byox.drawview.views.DrawView>
 
         <ImageView
             android:id="@+id/ivSlide"

@@ -2,22 +2,20 @@ package com.example.androidslidee;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.byox.drawview.enums.BackgroundScale;
 import com.byox.drawview.enums.BackgroundType;
 import com.byox.drawview.views.DrawView;
-
-import java.io.ByteArrayOutputStream;
-
+@Deprecated
 public class PaintView extends Activity {
 
     byte[] byteArray;
     Button btnDesfazer;
     Button btnRefazer;
-    ClientWifi wireless;
+    Client wireless;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class PaintView extends Activity {
 
         btnDesfazer = findViewById(R.id.btnUndo);
         btnRefazer = findViewById(R.id.btnRendo);
-        wireless = (ClientWifi) getIntent().getExtras().getSerializable("Wireless");
+        wireless = (Client) getIntent().getExtras().getSerializable("Wireless");
         Bitmap Image = (Bitmap) getIntent().getExtras().get("ImageBitmap");
 
         final DrawView mDrawView;
@@ -63,11 +61,8 @@ public class PaintView extends Activity {
 
             @Override
             public void onEndDrawing() {
-                Bitmap bmp = ((BitmapDrawable)mDrawView.getBackground().getCurrent()).getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                bmp.recycle();
+                Drawable draw = mDrawView.getBackground().getCurrent();
+                byte [] byteArray = Utils.DrawableToBytes(draw);
                 wireless.enviarImagem(byteArray);
             }
 

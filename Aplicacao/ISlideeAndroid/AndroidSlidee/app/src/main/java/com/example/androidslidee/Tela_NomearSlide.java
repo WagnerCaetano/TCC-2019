@@ -1,25 +1,22 @@
 package com.example.androidslidee;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import java.util.List;
 
-public class NomearSlide extends Activity {
+public class Tela_NomearSlide extends Activity {
 
     private Button btnSalvar;
     private EditText nome;
     private Button btnVoltar;
     private ListView lista;
     private List<Slide> slides;
-    public SlideAdapter adapter = null;
+    public Adapter_Slide adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +29,13 @@ public class NomearSlide extends Activity {
         btnVoltar = findViewById(R.id.btnVoltar);
         nome = findViewById(R.id.txtNome);
 
-        adapter = new SlideAdapter(this, slides);
+        adapter = new Adapter_Slide(this, slides);
         lista.setAdapter(adapter);
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getApplicationContext(), TelaManipuladora.class);
+                /*Intent intent = new Intent(getApplicationContext(), Tela_Manipuladora.class);
                 startActivity(intent);*/
                 finishActivity(200);
             }

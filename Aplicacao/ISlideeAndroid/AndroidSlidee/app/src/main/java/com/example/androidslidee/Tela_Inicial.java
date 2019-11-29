@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WifiSelect extends Activity {
+public class Tela_Inicial extends Activity {
 
     private TextView ip;
     private Button btnConectar;
@@ -35,16 +34,16 @@ public class WifiSelect extends Activity {
             }
         });
 
-        ActivityCompat.requestPermissions(WifiSelect.this,
+        ActivityCompat.requestPermissions(Tela_Inicial.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 1);
-        ActivityCompat.requestPermissions(WifiSelect.this,
+        ActivityCompat.requestPermissions(Tela_Inicial.this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 1);
-        ActivityCompat.requestPermissions(WifiSelect.this,
+        ActivityCompat.requestPermissions(Tela_Inicial.this,
                 new String[]{Manifest.permission.INTERNET},
                 1);
-        ActivityCompat.requestPermissions(WifiSelect.this,
+        ActivityCompat.requestPermissions(Tela_Inicial.this,
                 new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
                 1);
         if(!checkPermissionForExternalStorage(this)) {
@@ -91,7 +90,7 @@ public class WifiSelect extends Activity {
 
     private void entrar(String ip)
     {
-        Intent intent = new Intent(this ,TelaManipuladora.class);
+        Intent intent = new Intent(this , Tela_Manipuladora.class);
         intent.putExtra("IpSelecionado",ip);
         startActivity(intent);
     }

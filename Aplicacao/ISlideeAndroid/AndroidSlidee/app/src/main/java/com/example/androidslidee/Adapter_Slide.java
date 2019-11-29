@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class SlideAdapter extends ArrayAdapter<Slide> {
+public class Adapter_Slide extends ArrayAdapter<Slide> {
     private Context context;
     private List<Slide> slides;
 
-    public SlideAdapter(Context context, List<Slide> objects) {
+    public Adapter_Slide(Context context, List<Slide> objects) {
         super(context, 0, objects);
         this.context = context;
         this.slides = objects;

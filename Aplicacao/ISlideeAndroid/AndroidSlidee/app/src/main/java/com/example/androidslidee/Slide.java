@@ -1,6 +1,4 @@
 package com.example.androidslidee;
-import android.graphics.Bitmap;
-
 import java.io.File;
 import java.io.Serializable;
 

@@ -124,6 +124,15 @@ public class Utils {
         return img;
     }
     
+    public static int getProporcaoX(int device)
+    {
+        return (int)(device * getResolution().getWidth())/440;
+    }
+    public static int getProporcaoY(int device)
+    {
+        return (int)(device * getResolution().getHeight())/220;
+    }
+    
     public static String getIPAddress(boolean useIPv4) {
             try {
                 List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
