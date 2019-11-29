@@ -11,11 +11,7 @@ import java.awt.AWTException;
 import java.awt.Desktop;
 import java.awt.HeadlessException;
 import java.io.File;
-import java.util.List;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -40,7 +36,7 @@ public class TelaInicial extends javax.swing.JFrame {
         initComponents();
         this.setVisible(false);
         IO = new Tray(this);        
-        IP_ADDRESS = getIPAddress(true);
+        IP_ADDRESS = Utils.getIPAddress(true);
         txtConexao.setText(IP_ADDRESS);
     }
 
@@ -156,7 +152,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         // TODO add your handling code here:
-        String ip = getIPAddress(true);
+        String ip = Utils.getIPAddress(true);
         txtConexao.setText(ip);
     }//GEN-LAST:event_btnReloadActionPerformed
 
@@ -200,34 +196,6 @@ public class TelaInicial extends javax.swing.JFrame {
             return absolutePath.substring(0,absolutePath.lastIndexOf(File.separator));
     }
     
-    public String getIPAddress(boolean useIPv4) {
-            try {
-                List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-                for (NetworkInterface intf : interfaces) {
-                    List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                    for (InetAddress addr : addrs) {
-                        if (!addr.isLoopbackAddress()) {
-                            String sAddr = addr.getHostAddress();
-                            //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
-                            boolean isIPv4 = sAddr.indexOf(':')<0;
-
-                            if (useIPv4) {
-                                if (isIPv4)
-                                    return sAddr;
-                            } else {
-                                if (!isIPv4) {
-                                    int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
-                                    return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (Exception ignored) { } // for now eat exceptions
-            return null;
-    }
-
-    
     /**
      * @param args the command line arguments
      */
@@ -261,9 +229,7 @@ public class TelaInicial extends javax.swing.JFrame {
             public void run() {
                 try {
                     new TelaInicial().setVisible(true);
-                } catch (AWTException ex) {
-                    Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
+                } catch (AWTException | IOException ex) {
                     Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

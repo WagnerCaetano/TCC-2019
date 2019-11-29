@@ -48,7 +48,8 @@
             receberMensagem();
             txtConexao.setText("SERVIDOR INICIADO...");
         }
-        
+
+    
         public void receberMensagem() {                                           
             new Thread(() -> {
                 try {
@@ -57,13 +58,7 @@
                     if( connectedSocketMSG == null || connectedSocketMSG.isClosed() )
                         connectedSocketMSG = serverSocketMSG.accept();
                     SERVER_IP = connectedSocketMSG.getInetAddress().toString().substring(1);
-                    if(SERVER_IP.length()>0)
-                    {
-                        enviarSlides("C:\\Temp\\SLIDES", qtdImg);
-                        txtConexao.setText("ENVIANDO IMAGENS PARA O CELULAR...");
-                        receberImagens();
-                        txtConexao.setText("PRONTO PARA RECEBER IMAGENS");        
-                    }
+                    enviarSlides();
                     do  {
                     input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
                     final String message = input.readLine();
@@ -73,8 +68,10 @@
                         case "CURSOR":
                             String X = input.readLine();
                             String Y = input.readLine();
-                            X = X.substring(0,X.indexOf(".")-1);
-                            Y = Y.substring(0,Y.indexOf(".")-1);
+                            if(X.contains("."))
+                                X = X.substring(0,X.indexOf(".")-1);
+                            if(Y.contains("."))
+                                Y = Y.substring(0,Y.indexOf(".")-1);
                             Utils.mover(Integer.parseInt(X), Integer.parseInt(Y));
                             break;
                         case "ZOOM-S":
@@ -101,7 +98,18 @@
                     }
             }).start();
             
-        }           
+        }      
+        
+        public void enviarSlides()
+        {
+            if(SERVER_IP.length()>0)
+                    {
+                        enviarSlides("C:\\Temp\\SLIDES", qtdImg);
+                        txtConexao.setText("ENVIANDO IMAGENS PARA O CELULAR...");
+                        receberImagens();
+                        txtConexao.setText("PRONTO PARA RECEBER IMAGENS");        
+                    }
+        }
                       
         public void enviarMensagem(String txtMessage) {                                          
             try {
@@ -190,4 +198,20 @@
             sendImg.start();
             sendImg.interrupt();
             } 
-        }                                          
+        
+        public int getSERVERPORT_MSG() {
+        return SERVERPORT_MSG;
+        }
+
+        public int getSERVERPORT_IMG() {
+            return SERVERPORT_IMG;
+        }
+
+        public String getSERVER_IP() {
+            return SERVER_IP;
+        }
+        
+        }      
+        
+
+

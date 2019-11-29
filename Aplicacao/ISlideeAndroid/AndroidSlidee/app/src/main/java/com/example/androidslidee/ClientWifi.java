@@ -93,7 +93,7 @@ public class ClientWifi extends Activity implements Serializable {
             public void run() {
                 Socket socket = null;
                 try {
-                    if (serverSocketMSG == null || serverSocketMSG.isClosed() || connectedSocketMSG == null ||connectedSocketMSG.isClosed()) {
+                    if (serverSocketMSG == null || !serverSocketMSG.isBound() || serverSocketMSG.isClosed() || connectedSocketMSG == null ||connectedSocketMSG.isClosed()) {
                         serverSocketMSG = new ServerSocket(SERVERPORT_MSG);
                         connectedSocketMSG = serverSocketMSG.accept();
                     }

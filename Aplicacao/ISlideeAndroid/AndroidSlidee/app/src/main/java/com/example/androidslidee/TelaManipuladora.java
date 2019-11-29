@@ -185,7 +185,7 @@ public class TelaManipuladora extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NomearSlide.class);
                 intent.putExtra("ListaSlides", (Serializable) slides);
-                startActivity(intent);
+                startActivityForResult(intent,200);
             }
         });
         btnAvancar = findViewById(R.id.btnAvancar);

@@ -19,6 +19,7 @@ public class NomearSlide extends Activity {
     private Button btnVoltar;
     private ListView lista;
     private List<Slide> slides;
+    public SlideAdapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,35 +32,29 @@ public class NomearSlide extends Activity {
         btnVoltar = findViewById(R.id.btnVoltar);
         nome = findViewById(R.id.txtNome);
 
-        final SlideAdapter adapter = new SlideAdapter(this, slides);
+        adapter = new SlideAdapter(this, slides);
         lista.setAdapter(adapter);
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TelaManipuladora.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(getApplicationContext(), TelaManipuladora.class);
+                startActivity(intent);*/
+                finishActivity(200);
             }
         });
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
                 nome.setEnabled(true);
-
                 nome.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         btnSalvar.setEnabled(true);
-
                         btnSalvar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
-
-
                                 slides.get(position).setNome(nome.getText() + "");
                                 lista.setAdapter(adapter);
                             }
