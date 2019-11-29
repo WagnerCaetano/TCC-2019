@@ -1,56 +1,90 @@
 package com.example.androidslidee;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.view.MotionEvent;
-import android.view.ViewGroup.LayoutParams;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import com.byox.drawview.enums.BackgroundScale;
+import com.byox.drawview.enums.BackgroundType;
+import com.byox.drawview.views.DrawView;
 
-public class PaintView extends View {
+import java.io.ByteArrayOutputStream;
 
-    public LayoutParams params;
-    private Path path = new Path();
-    private Paint brush = new Paint();
+public class PaintView extends Activity {
 
-    public PaintView(Context context) {
-        super(context);
-
-        brush.setAntiAlias(true);
-        brush.setColor(Color.BLUE);
-        brush.setStyle(Paint.Style.STROKE);
-        brush.setStrokeJoin(Paint.Join.ROUND);
-        brush.setStrokeWidth(8F);
-
-
-        params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-    }
+    byte[] byteArray;
+    Button btnDesfazer;
+    Button btnRefazer;
+    ClientWifi wireless;
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_paint_view);
 
-        float pointx = event.getX();
-        float pointy = event.getY();
+        btnDesfazer = findViewById(R.id.btnUndo);
+        btnRefazer = findViewById(R.id.btnRendo);
+        wireless = (ClientWifi) getIntent().getExtras().getSerializable("Wireless");
+        Bitmap Image = (Bitmap) getIntent().getExtras().get("ImageBitmap");
 
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                path.moveTo(pointx, pointy);
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                path.lineTo(pointx, pointy);
-                break;
-            default:
-                return false;
+        final DrawView mDrawView;
+        mDrawView = findViewById(R.id.draw_view);
+
+        mDrawView.canRedo();
+        mDrawView.canUndo();
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            byteArray = extras.getByteArray("img");
+            mDrawView.setBackgroundImage(Image,BackgroundType.BITMAP,BackgroundScale.CENTER_CROP);
         }
 
-        postInvalidate();
-        return false;
-    }
+        btnDesfazer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawView.undo();
+            }
+        });
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.drawPath(path, brush);
+        btnRefazer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawView.redo();
+            }
+        });
+
+        mDrawView.setOnDrawViewListener(new DrawView.OnDrawViewListener() {
+            @Override
+            public void onStartDrawing() {
+                // Your stuff here
+            }
+
+            @Override
+            public void onEndDrawing() {
+                Bitmap bmp = ((BitmapDrawable)mDrawView.getBackground().getCurrent()).getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                bmp.recycle();
+                wireless.enviarImagem(byteArray);
+            }
+
+            @Override
+            public void onClearDrawing() {
+                // Your stuff here
+            }
+
+            @Override
+            public void onRequestText() {
+                // Your stuff here
+            }
+
+            @Override
+            public void onAllMovesPainted() {
+                // Your stuff here
+            }
+        });
     }
 }

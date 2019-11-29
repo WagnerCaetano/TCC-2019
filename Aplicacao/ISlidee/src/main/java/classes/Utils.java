@@ -34,12 +34,12 @@ public class Utils {
         BufferedImage bi = robot.createScreenCapture(new Rectangle(0, 0, getResolution().width, getResolution().height)); // aqui vc configura as posições xy e o tam da área que quer capturar 
         return bi;
     }
-    public static BufferedImage zoom (int mult,BufferedImage imagem)
+    public static BufferedImage zoom (float mult,BufferedImage imagem)
     {
-        int x1=getResolution().width/mult*mult;
-        int y1=getResolution().height/mult*mult;
-        int x2=x1*(mult-1);
-        int y2=y1*(mult-1);
+        int x1=(int) (getResolution().width/mult*mult);
+        int y1=(int) (getResolution().height/mult*mult);
+        int x2=(int) (x1*(mult-1));
+        int y2=(int) (y1*(mult-1));
         
         imagem = imagem.getSubimage(x1,y1, x2, y2);
         return imagem;
@@ -60,6 +60,10 @@ public class Utils {
         File diretorio = new File(Path);
         diretorio.mkdir();       
     }
+    public static void telaCheia() throws AWTException{  
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_F5);
+    }
     public static void avancar() throws AWTException{  
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_RIGHT);
@@ -79,9 +83,9 @@ public class Utils {
         PowerPointHelper pph = new PowerPointHelper();
         pph.setPowerPoint(PATH_SLIDE);
         BufferedImage[] imgs = pph.getSlides();  
-        for (int x = 1 ; x < imgs.length ; x++)
+        for (int x = 0 ; x < imgs.length ; x++)
         {
-            File outputfile = new File(PATH_SALVAR+"\\slide" + x + ".jpg");
+            File outputfile = new File(PATH_SALVAR+"\\slide" + (x+1) + ".jpg");
             ImageIO.write(imgs[x], "jpg", outputfile);
         }
         return imgs.length;
@@ -108,5 +112,12 @@ public class Utils {
         GraphicsDevice device = env.getDefaultScreenDevice();
         device.setFullScreenWindow(jf);
         return jl;
+    }
+    
+    public static BufferedImage IndiceToBufferedImage(int indice) throws IOException
+    {
+        File file = new File("C:\\Temp\\SLIDES\\slide"+indice+".jpg");
+        BufferedImage img = ImageIO.read(file);
+        return img;
     }
 }

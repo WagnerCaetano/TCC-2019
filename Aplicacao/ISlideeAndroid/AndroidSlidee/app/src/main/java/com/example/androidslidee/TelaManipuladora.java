@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +44,7 @@ import java.util.List;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class TelaManipuladora extends AppCompatActivity {
+public class TelaManipuladora extends Activity {
     // CONFIGURACOES
     private TextView cronometro;
     private ImageButton btnPlay;
@@ -81,9 +83,6 @@ public class TelaManipuladora extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manipuladora);
-
-
-
 
         // CRONOMETRO
         handler = new Handler();
@@ -127,20 +126,14 @@ public class TelaManipuladora extends AppCompatActivity {
                 int sec = second;
                 String min = minute+"";
                 String secS = second+"";
-
                 if(minute > 0)
                     sec = sec + (minute * 60);
-
                 if(minute < 10)
                     min = "0" + minute;
-
                 tempoLimite = sec+"";
-
                 if(second < 10)
                     secS = "0" + second;
-
                 String mTime = min+":"+secS;
-
                 Toast.makeText(TelaManipuladora.this, "Você será notificado quando atingir " + mTime + " min de apresentação", Toast.LENGTH_SHORT).show();
             }
         };
@@ -151,6 +144,7 @@ public class TelaManipuladora extends AppCompatActivity {
 
         // SLIDES
         slideView = findViewById(R.id.ivSlide);
+        slideView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.inicial, null));
         final SlideAdapter adapter =  new SlideAdapter(this, slides);
         lista = findViewById(R.id.listaSlides);
         lista.setAdapter(adapter);
@@ -161,24 +155,19 @@ public class TelaManipuladora extends AppCompatActivity {
                 INDICE_SLIDE = position;
                 int deltaPosition = 0;
                 if (INDICE_SLIDE > i) {
-                    deltaPosition = i - INDICE_SLIDE;
-                    for(int x = 0 ; x < deltaPosition;x++)
-                        wireless.enviarMensagem("AVANCAR");
-                }
-                else {
                     deltaPosition = INDICE_SLIDE - i;
                     for(int x = 0 ; x < deltaPosition;x++)
-                        wireless.enviarMensagem("RECUAR");
+                        wireless.avancar();
+                }
+                else {
+                    deltaPosition =  i - INDICE_SLIDE;
+                    for(int x = 0 ; x < deltaPosition;x++)
+                        wireless.recuar();
                 }
                 slideView.setImageBitmap(SlideImageToBitMap(adapter.getItem(position)));
             }
         });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                wireless = new ClientWifi(ip,adapter);
-            }
-        }).start();
+        wireless = new ClientWifi(ip,adapter);
         btnZoom = findViewById(R.id.btnZoom);
         btnZoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +175,8 @@ public class TelaManipuladora extends AppCompatActivity {
 
                 PhotoViewAttacher photoView = new PhotoViewAttacher(slideView);
                 photoView.update();
+                wireless.zoom(photoView.getScale(),INDICE_SLIDE);
+
             }
         });
         btnSlides = findViewById(R.id.btnSlides);
@@ -201,10 +192,10 @@ public class TelaManipuladora extends AppCompatActivity {
         btnAvancar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(INDICE_SLIDE<=slides.size()) {
+                if(INDICE_SLIDE<slides.size()-1) {
                     INDICE_SLIDE++;
                     slideView.setImageBitmap(SlideImageToBitMap(slides.get(INDICE_SLIDE)));
-                    wireless.enviarMensagem("AVANCAR");
+                    wireless.avancar();
                 }
             }
         });
@@ -215,7 +206,7 @@ public class TelaManipuladora extends AppCompatActivity {
                 if(INDICE_SLIDE>=1){
                     INDICE_SLIDE--;
                     slideView.setImageBitmap(SlideImageToBitMap(slides.get(INDICE_SLIDE)));
-                    wireless.enviarMensagem("RECUAR");
+                    wireless.recuar();
                 }
             }
         });
@@ -238,13 +229,13 @@ public class TelaManipuladora extends AppCompatActivity {
             public void onClick(View v) {
                 Resources res = getResources();
                 Bitmap bitmap = BitmapFactory.decodeResource(res, slideView.getImageAlpha());
-                Canvas canvas = new Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true));
+                Intent intent = new Intent(getApplicationContext(),PaintView.class);
+                intent.putExtra("ImageBitmap",bitmap);
+                intent.putExtra("Wireless", (Serializable) wireless);
+                startActivity(intent);
             }
         });
     }
-
-
-
 
     private Bitmap SlideImageToBitMap(Slide slide)
     {

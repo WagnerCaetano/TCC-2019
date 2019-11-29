@@ -1,5 +1,6 @@
 package com.example.androidslidee;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import java.util.List;
 
-public class NomearSlide extends AppCompatActivity {
+public class NomearSlide extends Activity {
 
     private Button btnSalvar;
     private EditText nome;
@@ -56,6 +57,8 @@ public class NomearSlide extends AppCompatActivity {
                         btnSalvar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
+
 
                                 slides.get(position).setNome(nome.getText() + "");
                                 lista.setAdapter(adapter);

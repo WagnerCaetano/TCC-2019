@@ -1,14 +1,13 @@
 package com.example.androidslidee;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
-import android.widget.EditText;
-import android.widget.ImageView;
-
+import org.apache.commons.io.FileUtils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,17 +18,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-public class ClientWifi {
+public class ClientWifi extends Activity implements Serializable {
 
     //CONFIG
     private Socket connectedSocketIMG;
@@ -37,9 +32,9 @@ public class ClientWifi {
     private static final int SERVERPORT_MSG = 32500;
     private static final int SERVERPORT_IMG = 32499;
     private static String SERVER_IP = "";
-    private SlideAdapter slides = null;
-    private Thread mensagem=null;
-    private Thread imagem=null;
+    private SlideAdapter slides;
+    private Thread mensagem = null;
+    private Thread imagem = null;
 
     // ENVIAR
     private PrintWriter out = null;
@@ -80,6 +75,16 @@ public class ClientWifi {
             }
         });
         mensagem.start();
+        mensagem.interrupt();
+    }
+    public void zoom (float Scale,int indice){
+        enviarMensagem("ZOOM-S\n"+indice+"\n"+Scale);
+    }
+    public void avancar() {
+        enviarMensagem("AVANCAR");
+    }
+    public void recuar() {
+        enviarMensagem("RECUAR");
     }
 
     public void receberMensagem() {
@@ -102,7 +107,7 @@ public class ClientWifi {
         });
         mensagem.start();
     }
-    public void enviarImagem(final Image img) {
+    public void enviarImagem(final byte[] bytes) {
         imagem = new Thread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -113,9 +118,6 @@ public class ClientWifi {
                         connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
                     }
                     if (connectedSocketIMG !=null) {
-                        ByteBuffer buffer = img.getPlanes()[0].getBuffer();
-                        byte[] bytes = new byte[buffer.capacity()];
-                        buffer.get(bytes);
                         OutputStream os = connectedSocketIMG.getOutputStream();
                         os.write(bytes,0,bytes.length);
                         os.flush();
@@ -129,6 +131,7 @@ public class ClientWifi {
             }
         });
         imagem.start();
+        imagem.interrupt();
     }
 
     public void receberImagem(){
@@ -136,16 +139,21 @@ public class ClientWifi {
             @Override
             public void run() {
                 int file_int = 1;
+                File path = new File(Environment.getExternalStorageDirectory().toString()+"/Slides");
+                try{
+                    serverSocketIMG = new ServerSocket(SERVERPORT_IMG);
+                    if(path.exists())
+                        FileUtils.deleteDirectory(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 do  {
                     try {
-                        if ( serverSocketIMG == null || serverSocketIMG.isClosed() || connectedSocketIMG == null ||connectedSocketIMG.isClosed() ) {
-                            serverSocketIMG = new ServerSocket(SERVERPORT_IMG);
-                            connectedSocketIMG = serverSocketIMG.accept();
-                        }
+                        connectedSocketIMG = serverSocketIMG.accept();
                         int filesize = 6022386;
                         int bytesRead;
                         int current = 0;
-                        File path = new File(Environment.getExternalStorageDirectory().toString()+"/Slides");
+
                         if (!path.exists())
                             path.mkdirs();
                         File file = new File(path, "foto"+file_int+".jpg");
@@ -165,8 +173,15 @@ public class ClientWifi {
 
                         System.out.println("RECEBIDO "+file);
 
-                        Slide novoSlide = new Slide("SLIDE"+file_int,file);
-                        slides.add(novoSlide);
+                        final Slide novoSlide = new Slide("SLIDE"+file_int,file);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                slides.add(novoSlide);
+                            }
+                        });
+
+
                         file_int++;
                     } catch (IOException e) {
                         e.printStackTrace();

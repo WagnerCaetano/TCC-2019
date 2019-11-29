@@ -34,16 +34,15 @@
         // ENVIAR
         private PrintWriter out = null;
         // RECEBER
-        private ServerSocket serverSocket;
+        private ServerSocket serverSocketMSG;
+        private ServerSocket serverSocketIMG;
         private BufferedReader input = null;
         
-        private String PATH_SLIDE="";
         private final int qtdImg;
         private final JTextField txtConexao;
 
-        public Server(String PATH_SLIDE,int qtdImg,JTextField txtConexao)
+        public Server(int qtdImg,JTextField txtConexao)
         {
-            this.PATH_SLIDE = PATH_SLIDE;
             this.qtdImg = qtdImg;
             this.txtConexao = txtConexao;
             receberMensagem();
@@ -52,10 +51,11 @@
         
         public void receberMensagem() {                                           
             new Thread(() -> {
-                Socket socket = null;
                 try {
-                    serverSocket = new ServerSocket(SERVERPORT_MSG);
-                    connectedSocketMSG = serverSocket.accept();
+                    if(serverSocketMSG == null || (!serverSocketMSG.isBound()))
+                        serverSocketMSG = new ServerSocket(SERVERPORT_MSG);
+                    if( connectedSocketMSG == null || connectedSocketMSG.isClosed() )
+                        connectedSocketMSG = serverSocketMSG.accept();
                     SERVER_IP = connectedSocketMSG.getInetAddress().toString().substring(1);
                     if(SERVER_IP.length()>0)
                     {
@@ -64,6 +64,7 @@
                         receberImagens();
                         txtConexao.setText("PRONTO PARA RECEBER IMAGENS");        
                     }
+                    do  {
                     input = new BufferedReader(new InputStreamReader(connectedSocketMSG.getInputStream()));
                     final String message = input.readLine();
                     System.out.println("Mensagem recebida: "+message);
@@ -72,32 +73,34 @@
                         case "CURSOR":
                             String X = input.readLine();
                             String Y = input.readLine();
-                            Utils.mover(new Integer(X), new Integer(Y));
-                            enviarMensagem("OK");
+                            X = X.substring(0,X.indexOf(".")-1);
+                            Y = Y.substring(0,Y.indexOf(".")-1);
+                            Utils.mover(Integer.parseInt(X), Integer.parseInt(Y));
                             break;
-                        /*case "ZOOM":
-                            String X = input.readLine();
-                            String Y = input.readLine();
-                            Utils.mover(new Integer(X), new Integer(Y));
-                            enviarMensagem("OK");
-                            break;*/
+                        case "ZOOM-S":
+                            int indice = Integer.parseInt(input.readLine());
+                            Float scale = Float.parseFloat(input.readLine());
+                            JLabel jl = Utils.abrirImage();
+                            jl.setIcon(new ImageIcon(Utils.zoom(scale, Utils.IndiceToBufferedImage(indice))));
+                            break;
                         case "AVANCAR":
                             Utils.avancar();
-                            enviarMensagem("OK");
                             break;
                         case "RECUAR":
                             Utils.retroceder();
-                            enviarMensagem("OK");
                             break;
                         case "STOP":
-                            socket.close();
+                            connectedSocketMSG.close();
                             break;
                         default:break;
-                        }        
-                    } catch (IOException | AWTException ex) {
+                        } 
+                    }while(connectedSocketMSG!=null || (!connectedSocketMSG.isClosed()) );
+                    } 
+                    catch (IOException | AWTException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
             }).start();
+            
         }           
                       
         public void enviarMensagem(String txtMessage) {                                          
@@ -129,9 +132,10 @@
         new Thread(() -> {
             try {
                 JLabel jl = null;
-                serverSocket = new ServerSocket(SERVERPORT_IMG);
+                if( serverSocketIMG == null || (!serverSocketIMG.isBound()) )
+                    serverSocketIMG = new ServerSocket(SERVERPORT_IMG);
                 do {
-                    Socket connectedSocket = serverSocket.accept();
+                    Socket connectedSocket = serverSocketIMG.accept();
                     int filesize = 6022386;
                     int bytesRead;
                     int current = 0;
@@ -175,12 +179,11 @@
                                     OutputStream os = connectedSocketIMG.getOutputStream();
                                     os.write(byteArray,0,byteArray.length);
                                     os.flush();
-                                    Thread.sleep(2000);
+                                    os.close();
                                     System.out.println("ENVIOU " + x1);
                                 }
-                                connectedSocketIMG.close();
-                            }
-                    }catch (IOException | InterruptedException ex) {
+                        }
+                    }catch (IOException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });

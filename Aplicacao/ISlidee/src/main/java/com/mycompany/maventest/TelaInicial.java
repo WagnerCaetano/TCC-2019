@@ -8,6 +8,7 @@ package com.mycompany.maventest;
 import classes.Server;
 import classes.Utils;
 import java.awt.AWTException;
+import java.awt.Desktop;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.util.List;
@@ -41,7 +42,6 @@ public class TelaInicial extends javax.swing.JFrame {
         IO = new Tray(this);        
         IP_ADDRESS = getIPAddress(true);
         txtConexao.setText(IP_ADDRESS);
-        
     }
 
     /**
@@ -167,18 +167,28 @@ public class TelaInicial extends javax.swing.JFrame {
             arquivo.addChoosableFileFilter(filtroPowerPoint);
             arquivo.setAcceptAllFileFilterUsed(false);
             txtConexao.setText("ESCOLHENDO SLIDE...");
+            Desktop desktop = Desktop.getDesktop();
+            if(!Desktop.isDesktopSupported()){
+                    System.out.println("Desktop is not supported");
+                    return;
+            }
             if(arquivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
                 txtSlidePath.setText(arquivo.getSelectedFile().getAbsolutePath());
                 PATH_SLIDE = arquivo.getSelectedFile().getAbsolutePath();
                 txtConexao.setText("SLIDE ESCOLHIDO");
+                txtConexao.setText("CRIANDO LUGAR DE IMAGENS...");
+                PATH_PASTA_IMAGENS = "C:\\Temp\\SLIDES";
+                int qtdImg = Utils.listaSlides(PATH_SLIDE,PATH_PASTA_IMAGENS);
+                txtConexao.setText("CRIANDO IMAGENS DOS SLIDES...");
+                Servidor = new Server(qtdImg,txtConexao);
+                txtConexao.setText("ESPERANDO CONEXÃO COM O CELULAR...");
+                File file = new File(PATH_SLIDE);
+                if(file.exists()) {
+                    desktop.open(file);
+                    Utils.telaCheia();
+                }
             }
-            txtConexao.setText("CRIANDO LUGAR DE IMAGENS...");
-            PATH_PASTA_IMAGENS = "C:\\Temp\\SLIDES";
-            int qtdImg = Utils.listaSlides(PATH_SLIDE,PATH_PASTA_IMAGENS);
-            txtConexao.setText("CRIANDO IMAGENS DOS SLIDES...");
-            Servidor = new Server(PATH_SLIDE,qtdImg,txtConexao);
-            txtConexao.setText("ESPERANDO CONEXÃO COM O CELULAR...");
-        } catch (HeadlessException | IOException ex) {
+        } catch (HeadlessException | IOException | AWTException ex) {
             Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEscolherSlideActionPerformed
@@ -186,7 +196,6 @@ public class TelaInicial extends javax.swing.JFrame {
     public String getTemp() throws IOException{
         File temp = File.createTempFile("temp-file-name", ".tmp"); 
             System.out.println("Temp file : " + temp.getAbsolutePath());
-		//Get tempropary file path
             String absolutePath = temp.getAbsolutePath();
             return absolutePath.substring(0,absolutePath.lastIndexOf(File.separator));
     }

@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WifiSelect extends AppCompatActivity {
+public class WifiSelect extends Activity {
 
     private TextView ip;
     private Button btnConectar;
