@@ -34,7 +34,7 @@ public class Tray {
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File("E:\\github repository\\TCC-2019\\Aplicacao\\ISlidee\\target\\classes\\logo2.jpeg");
+            File file = new File("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\java\\imagens\\logo2.jpeg");
             Image image = ImageIO.read(file);
             MouseListener mouseListener = new MouseListener() {
             public void mouseClicked(MouseEvent e) {

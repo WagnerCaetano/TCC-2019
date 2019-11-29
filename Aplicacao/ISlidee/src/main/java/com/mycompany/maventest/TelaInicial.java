@@ -72,7 +72,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("<html>  <head>  <p>5º Sincronize por wireless o celular com o computador seguindo as instruções.</p> \t<p>E pronto , pode utilizar o aplicativo.</p> \t</head> </html>");
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reload.png"))); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon("C:\\Users\\u18300\\Documents\\GitHub\\TCC-2019\\Aplicacao\\ISlidee\\src\\main\\resources\\reload.png")); // NOI18N
         btnReload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReloadActionPerformed(evt);
