@@ -36,6 +36,7 @@ public class JFrameImage {
         jl = new JLabel();
         jl.setBackground(Color.BLACK);
         jf.setBackground(Color.BLACK);
+        jf.getContentPane().setBackground(Color.BLACK);
         jf.add(jl,BorderLayout.CENTER);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setUndecorated(true);
