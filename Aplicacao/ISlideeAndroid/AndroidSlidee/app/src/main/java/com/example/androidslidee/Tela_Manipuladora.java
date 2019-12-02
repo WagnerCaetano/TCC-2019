@@ -113,7 +113,7 @@ public class Tela_Manipuladora extends Activity {
             }
             @Override
             public void onEndDrawing() {
-                Drawable draw = mDrawView.getBackground();
+                Drawable draw = mDrawView.getBackground().getCurrent();
                 wireless.enviarImagem(Utils.DrawableToBitmap(draw));
             }
             @Override

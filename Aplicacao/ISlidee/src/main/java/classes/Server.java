@@ -153,16 +153,19 @@
                     byte[] mybytearray  = new byte [filesize];
                     InputStream is = connectedSocketIMG.getInputStream();
                     bytesRead = is.read(mybytearray,0,mybytearray.length);
-                    current = bytesRead;
-                    do {
-                        bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
-                        if(bytesRead >= 0) current += bytesRead;
-                    } while(bytesRead > -1);
-                    ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
-                    BufferedImage bImage2 = ImageIO.read(bis);
-                    if(!jfi.telaAberta())
-                        jfi.abrirImage();
-                    jfi.setarImageDoLabel(bImage2);    
+                    if(bytesRead > 0){
+                        current = bytesRead;
+                        do {
+                            bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
+                            if(bytesRead >= 0) current += bytesRead;
+                        } while(bytesRead > -1);
+
+                        ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
+                        BufferedImage bImage2 = ImageIO.read(bis);
+                        if(!jfi.telaAberta())
+                            jfi.abrirImage();
+                        jfi.setarImageDoLabel(bImage2);    
+                    }
                 } while (connectedSocketIMG != null);
             }catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
