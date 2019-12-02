@@ -62,8 +62,7 @@ public class PaintView extends Activity {
             @Override
             public void onEndDrawing() {
                 Drawable draw = mDrawView.getBackground().getCurrent();
-                byte [] byteArray = Utils.DrawableToBytes(draw);
-                wireless.enviarImagem(byteArray);
+                wireless.enviarImagem(Utils.DrawableToBitmap(draw));
             }
 
             @Override

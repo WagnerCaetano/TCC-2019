@@ -16,8 +16,10 @@
             android:id="@+id/text_view_nome_slide"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:text="TESTE"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+            android:textColor="#000000"
             android:textSize="18sp"
             android:typeface="monospace"
             app:fontFamily="sans-serif" />

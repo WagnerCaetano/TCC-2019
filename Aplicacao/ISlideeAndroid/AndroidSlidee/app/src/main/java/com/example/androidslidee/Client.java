@@ -7,8 +7,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import org.apache.commons.io.FileUtils;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -74,7 +77,9 @@ public class Client extends Activity implements Serializable {
             }
         });
         mensagem.start();
-        mensagem.interrupt();
+    }
+    public void cursor(String X , String Y){
+        enviarMensagem("CURSOR\n"+X.trim()+"\n"+Y.trim());
     }
     public void avancar() {
         enviarMensagem("AVANCAR");
@@ -82,12 +87,15 @@ public class Client extends Activity implements Serializable {
     public void recuar() {
         enviarMensagem("RECUAR");
     }
+    public void zoom(Bitmap bmp)
+    {
+        enviarImagem(bmp);
+    }
 
     public void receberMensagem() {
         mensagem = new Thread(new Runnable() {
             @Override
             public void run() {
-                Socket socket = null;
                 try {
                     if (serverSocketMSG == null || !serverSocketMSG.isBound() || serverSocketMSG.isClosed() || connectedSocketMSG == null ||connectedSocketMSG.isClosed()) {
                         serverSocketMSG = new ServerSocket(SERVERPORT_MSG);
@@ -103,31 +111,30 @@ public class Client extends Activity implements Serializable {
         });
         mensagem.start();
     }
-    public void enviarImagem(final byte[] bytes) {
+    public void enviarImagem(final Bitmap bmp) {
         imagem = new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
                 try {
-                    if (connectedSocketIMG == null){
-                        InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-                        connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
-                    }
-                    if (connectedSocketIMG !=null) {
+                    InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                    connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
+                    if ( connectedSocketIMG !=null ) {
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] imageInByte = stream.toByteArray();
                         OutputStream os = connectedSocketIMG.getOutputStream();
-                        os.write(bytes,0,bytes.length);
+                        os.write(imageInByte, 0, imageInByte.length);
                         os.flush();
                         os.close();
-                        Thread.sleep(200);
-                        connectedSocketIMG.close();
+                        System.out.println("ENVIOU IMAGEM");
                     }
-                }catch (IOException | InterruptedException ex) {
+                    connectedSocketIMG.close();
+                }catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
         imagem.start();
-        imagem.interrupt();
     }
 
     public void receberImagem(){
@@ -149,7 +156,6 @@ public class Client extends Activity implements Serializable {
                         int filesize = 6022386;
                         int bytesRead;
                         int current = 0;
-
                         if (!path.exists())
                             path.mkdirs();
                         File file = new File(path, "foto"+file_int+".jpg");
@@ -166,9 +172,7 @@ public class Client extends Activity implements Serializable {
                         bmp.compress(Bitmap.CompressFormat.JPEG,100,fos);
                         fos.flush();
                         fos.close();
-
                         System.out.println("RECEBIDO "+file);
-
                         final Slide novoSlide = new Slide("SLIDE"+file_int,file);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -176,8 +180,6 @@ public class Client extends Activity implements Serializable {
                                 slides.add(novoSlide);
                             }
                         });
-
-
                         file_int++;
                     } catch (IOException e) {
                         e.printStackTrace();

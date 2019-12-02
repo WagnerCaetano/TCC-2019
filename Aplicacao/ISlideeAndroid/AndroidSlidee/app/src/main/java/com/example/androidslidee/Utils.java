@@ -4,20 +4,26 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class Utils {
 
-    public static byte[] DrawableToBytes(Drawable img)
+    public static Bitmap ImageViewToBitmap(ImageView imageView)
     {
-        Bitmap bmp =((BitmapDrawable) img).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return bitmap;
+    }
+    public static Bitmap DrawableToBitmap (Drawable d)
+    {
+        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        bmp.recycle();
-        return byteArray;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return bitmap;
     }
 
     public static Bitmap SlideImageToBitMap(Slide slide)

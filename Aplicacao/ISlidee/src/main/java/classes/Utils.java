@@ -7,8 +7,10 @@ package classes;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.util.List;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -116,6 +118,14 @@ public class Utils {
         device.setFullScreenWindow(jf);
         return jl;
     }
+    public static BufferedImage resize(BufferedImage img, int height, int width) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
     
     public static BufferedImage IndiceToBufferedImage(int indice) throws IOException
     {
@@ -126,11 +136,11 @@ public class Utils {
     
     public static int getProporcaoX(int device)
     {
-        return (int)(device * getResolution().getWidth())/440;
+        return (int)(device * getResolution().getWidth())/1100;
     }
     public static int getProporcaoY(int device)
     {
-        return (int)(device * getResolution().getHeight())/220;
+        return (int)(device * getResolution().getHeight())/700;
     }
     
     public static String getIPAddress(boolean useIPv4) {

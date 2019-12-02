@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,15 +17,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.byox.drawview.enums.BackgroundScale;
 import com.byox.drawview.enums.BackgroundType;
 import com.byox.drawview.views.DrawView;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +43,11 @@ public class Tela_Manipuladora extends Activity {
     private static final int SECS_IN_MIN = 60;
     private boolean listener = false;
     private boolean draw = false;
-    TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
+    private boolean zoom = false;
+    private TimePickerDialog.OnTimeSetListener mOnTimeSetListener;
+    private Adapter_Slide adapter;
+    private LinearLayout layoutDraw;
+    private LinearLayout layoutSlide;
 
     // STRINGS
     private String tempoLimite;
@@ -60,6 +63,7 @@ public class Tela_Manipuladora extends Activity {
     private Button btnZoom;
     private Button btnDesfazer;
     private Button btnRefazer;
+    private DrawView mDrawView;
 
     // SLIDES
     private ListView lista;
@@ -67,6 +71,7 @@ public class Tela_Manipuladora extends Activity {
     private int INDICE_SLIDE = 0;
     private ImageView slideView;
     private ImageView cursor;
+    private PhotoViewAttacher photoView;
 
     // CLASSES
     private Client wireless = null;
@@ -75,18 +80,17 @@ public class Tela_Manipuladora extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manipuladora);
+        layoutDraw = findViewById(R.id.linearLayoutDrawView);
+        layoutSlide = findViewById(R.id.linearLayoutImageView);
+        layoutDraw.setEnabled(false);
+        layoutDraw.setVisibility(View.INVISIBLE);
 
         /*DRAW VIEW*/
         btnDesfazer = findViewById(R.id.btnUndo);
-        btnDesfazer.setEnabled(false);
         btnRefazer = findViewById(R.id.btnRendo);
-        btnRefazer.setEnabled(false);
-        final DrawView mDrawView;
         mDrawView = findViewById(R.id.draw_view);
         mDrawView.canRedo();
         mDrawView.canUndo();
-        mDrawView.setEnabled(false);
-        //mDrawView.setBackgroundImage(Utils.DrawableToBytes(slideView.getDrawable()), BackgroundType.BYTES, BackgroundScale.CENTER_CROP);
         btnDesfazer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,14 +112,8 @@ public class Tela_Manipuladora extends Activity {
             }
             @Override
             public void onEndDrawing() {
-                /*Bitmap bmp = ((BitmapDrawable)mDrawView.getBackground().getCurrent()).getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                bmp.recycle();*/
-                Drawable draw = mDrawView.getBackground().getCurrent();
-                byte [] byteArray = Utils.DrawableToBytes(draw);
-                wireless.enviarImagem(byteArray);
+                Drawable draw = mDrawView.getBackground();
+                wireless.enviarImagem(Utils.DrawableToBitmap(draw));
             }
             @Override
             public void onClearDrawing() {
@@ -135,19 +133,23 @@ public class Tela_Manipuladora extends Activity {
         btnDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawView.setBackgroundImage(Utils.DrawableToBytes(slideView.getDrawable()), BackgroundType.BYTES, BackgroundScale.CENTER_CROP);
-                mDrawView.setEnabled(!draw);
-                btnDesfazer.setEnabled(!draw);
-                btnRefazer.setEnabled(!draw);
-                draw = !draw;
-                /*Intent intent = new Intent(getApplicationContext(),PaintView.class);
-                intent.putExtra("ImageBitmap",bitmap);
-                intent.putExtra("Wireless", (Serializable) wireless);
-                startActivity(intent);*/
+                if(draw == false) {
+                    layoutDraw.setEnabled(true);
+                    layoutDraw.setVisibility(View.VISIBLE);
+                    layoutSlide.setEnabled(false);
+                    layoutSlide.setVisibility(View.INVISIBLE);
+                    draw = true;
+                }
+                else{
+                    layoutDraw.setEnabled(false);
+                    layoutDraw.setVisibility(View.INVISIBLE);
+                    layoutSlide.setEnabled(true);
+                    layoutSlide.setVisibility(View.VISIBLE);
+                    draw = false;
+                }
+                mDrawView.setBackgroundImage(Utils.ImageViewToBitmap(slideView), BackgroundType.BITMAP, BackgroundScale.CENTER_CROP);
             }
         });
-
-
 
         // CRONOMETRO
         handler = new Handler();
@@ -210,34 +212,21 @@ public class Tela_Manipuladora extends Activity {
         // SLIDES
         slideView = findViewById(R.id.ivSlide);
         slideView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.inicial, null));
-        final Adapter_Slide adapter =  new Adapter_Slide(this, slides);
+        adapter =  new Adapter_Slide(this, slides);
         lista = findViewById(R.id.listaSlides);
         lista.setAdapter(adapter);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int i = INDICE_SLIDE;
-                INDICE_SLIDE = position;
-                int deltaPosition = 1;
-                if (INDICE_SLIDE > i) {
-                    deltaPosition += INDICE_SLIDE - i;
-                    int x = 0;
-                    do{
-                        wireless.avancar();
-                        x++;
-                    }while(x < deltaPosition);
-
-                }
-                else {
-                    deltaPosition +=  i - INDICE_SLIDE;
-                    int x = 0;
-                    do {
+                int o = position;
+                if (o<INDICE_SLIDE)
+                    for (; o<INDICE_SLIDE ; o++)
                         wireless.recuar();
-                        x++;
-                    }while(x < deltaPosition);
-                }
+                else
+                    for (; o>INDICE_SLIDE ; o--)
+                        wireless.avancar();
+                INDICE_SLIDE = position;
                 slideView.setImageBitmap(Utils.SlideImageToBitMap(adapter.getItem(position)));
-                System.out.println(INDICE_SLIDE);
             }
         });
         wireless = new Client(ip,adapter);
@@ -245,10 +234,27 @@ public class Tela_Manipuladora extends Activity {
         btnZoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                PhotoViewAttacher photoView = new PhotoViewAttacher(slideView);
-                photoView.update();
-                wireless.enviarImagem(Utils.DrawableToBytes(photoView.getImageView().getDrawable()));
+                if(zoom == false) {
+                    photoView = new PhotoViewAttacher(slideView);
+                    photoView.update();
+                    photoView.setOnMatrixChangeListener(new PhotoViewAttacher.OnMatrixChangedListener() {
+                        @Override
+                        public void onMatrixChanged(RectF rect) {
+                            try {
+                                Thread.sleep(10);
+                                wireless.zoom(Utils.ImageViewToBitmap(photoView.getImageView()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    zoom = true;
+                }
+                else{
+                 photoView = null;
+                 slideView.setImageBitmap(Utils.SlideImageToBitMap(adapter.getItem(INDICE_SLIDE)));
+                 zoom = false;
+                }
             }
         });
         btnSlides = findViewById(R.id.btnSlides);
@@ -297,6 +303,18 @@ public class Tela_Manipuladora extends Activity {
         });
         cursor = findViewById(R.id.cursor);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 200) {
+            if (resultCode == 2)
+            {
+                slides = (List<Slide>) data.getSerializableExtra("Lista");
+                adapter =  new Adapter_Slide(this, slides);
+                lista.setAdapter(adapter);
+            }
+        }
+    }
 
     private final Runnable runnable = new Runnable() {
         @Override
@@ -305,8 +323,6 @@ public class Tela_Manipuladora extends Activity {
                 long seconds = (System.currentTimeMillis() - initialTime) / MILLIS_IN_SEC;
                 cronometro.setText((String.format("%02d:%02d", seconds / SECS_IN_MIN, seconds % SECS_IN_MIN)));
                 String.format(String.valueOf(seconds));
-                System.out.println(seconds);
-                System.out.println(tempoLimite);
                 if(String.format(String.valueOf(seconds)).equals(tempoLimite)){
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     long milliseconds = 2000;
@@ -318,26 +334,17 @@ public class Tela_Manipuladora extends Activity {
         }
     };
     private View.OnTouchListener handleTouch = new View.OnTouchListener() {
-        private Rect rect;
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if(event.getAction() == MotionEvent.ACTION_DOWN){
-                rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-            }
-            if(event.getAction() == MotionEvent.ACTION_MOVE){
-                if(rect.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())){
-                    cursor.setVisibility(View.VISIBLE);
-                    cursor.setX(event.getX());
-                    cursor.setY(event.getY());
-                    String X = (int) event.getX()+"";
-                    String Y = (int) event.getY()+"";
-                    if(X.trim().length()>0 && Y.trim().length()>0)
-                        wireless.enviarMensagem("CURSOR\n"+X.trim()+"\n"+Y.trim());
-                    return true;
-                }
-            }
-            return false;
-
+            cursor.setVisibility(View.VISIBLE);
+            cursor.setX(event.getX());
+            cursor.setY(event.getY());
+            System.out.println(v.getHeight());
+            System.out.println(v.getWidth());
+            String X = ((int) event.getX())+"";
+            String Y = ((int) event.getY())+"";
+            wireless.cursor(X , Y);
+            return true;
         }
     };
 }

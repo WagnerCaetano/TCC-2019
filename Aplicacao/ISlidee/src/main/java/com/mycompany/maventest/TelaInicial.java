@@ -8,12 +8,17 @@ package com.mycompany.maventest;
 import classes.Server;
 import classes.Utils;
 import java.awt.AWTException;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.HeadlessException;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -22,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author u18300
  */
 public class TelaInicial extends javax.swing.JFrame {
+    Toolkit toolkit = Toolkit.getDefaultToolkit();
     // CAMINHOS
     String PATH_SLIDE;
     String PATH_PASTA_IMAGENS;
@@ -38,6 +44,8 @@ public class TelaInicial extends javax.swing.JFrame {
         IO = new Tray(this);        
         IP_ADDRESS = Utils.getIPAddress(true);
         txtConexao.setText(IP_ADDRESS);
+        Image cursorImage = new ImageIcon(getClass().getClassLoader().getResource("seta-do-mouse-8.png").getFile().substring(1)).getImage();
+        setCursor(toolkit.createCustomCursor(cursorImage, new Point(0,0), "SetaMaior"));
     }
 
     /**
@@ -59,6 +67,8 @@ public class TelaInicial extends javax.swing.JFrame {
         txtSlidePath = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 3, 24)); // NOI18N
         jLabel1.setText("iSlidee - Manipulador de Slide");
@@ -182,10 +192,11 @@ public class TelaInicial extends javax.swing.JFrame {
                 File file = new File(PATH_SLIDE);
                 if(file.exists()) {
                     desktop.open(file);
+                    Thread.sleep(2);
                     Utils.telaCheia();
                 }
             }
-        } catch (HeadlessException | IOException | AWTException ex) {
+        } catch (HeadlessException | IOException | AWTException | InterruptedException ex) {
             Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEscolherSlideActionPerformed

@@ -1,12 +1,15 @@
 package com.example.androidslidee;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import java.io.Serializable;
 import java.util.List;
 
 public class Tela_NomearSlide extends Activity {
@@ -35,9 +38,10 @@ public class Tela_NomearSlide extends Activity {
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getApplicationContext(), Tela_Manipuladora.class);
-                startActivity(intent);*/
-                finishActivity(200);
+                Intent intent = new Intent();
+                intent.putExtra("Lista", (Serializable) slides);
+                setResult(2,intent);
+                finish();
             }
         });
 

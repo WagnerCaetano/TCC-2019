@@ -23,7 +23,7 @@
         <ListView
             android:id="@+id/listaSlides"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -36,15 +36,11 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="440dp"
-        android:layout_height="220dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/linearLayoutDrawView"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
@@ -53,8 +49,8 @@
 
         <com.byox.drawview.views.DrawView
             android:id="@+id/draw_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
             app:dv_draw_alpha="255"
             app:dv_draw_anti_alias="true"
             app:dv_draw_color="@color/colorAccent"
@@ -93,10 +89,23 @@
             </LinearLayout>
         </com.byox.drawview.views.DrawView>
 
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutImageView"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
         <ImageView
             android:id="@+id/ivSlide"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="239dp"
             android:src="@color/design_default_color_primary"
             app:srcCompat="@drawable/inicial" />
 
@@ -120,7 +129,7 @@
         android:layout_height="29dp"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="50dp"
@@ -157,11 +166,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="79dp"
-        android:layout_height="254dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="78dp"
+        android:layout_height="239dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -201,33 +210,26 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="521dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginLeft="38dp"
+        android:layout_width="392dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txtCronometro"
-            android:layout_width="467dp"
-            android:layout_height="wrap_content"
+            android:layout_width="422dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="00:00"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/design_default_color_primary" />
-
-        <ImageButton
-            android:id="@+id/btnPesquisar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_search" />
 
     </LinearLayout>
 

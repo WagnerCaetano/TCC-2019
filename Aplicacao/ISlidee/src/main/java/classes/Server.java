@@ -41,9 +41,11 @@
         
         private final int qtdImg;
         private final JTextField txtConexao;
+        private JFrameImage jfi;
 
         public Server(int qtdImg,JTextField txtConexao)
         {
+            jfi = new JFrameImage();
             this.qtdImg = qtdImg;
             this.txtConexao = txtConexao;
             receberMensagem();
@@ -77,19 +79,18 @@
                             int y = Utils.getProporcaoY(Integer.parseInt(Y));
                             Utils.mover(x, y);
                             break;
-                        /*case "ZOOM-S":
-                            Float scale = Float.parseFloat(input.readLine());
-                            JLabel jl = Utils.abrirImage();
-                            jl.setIcon(new ImageIcon(Utils.zoom(scale, Utils.printar())));
-                            break;*/
                         case "AVANCAR":
                             Utils.avancar();
+                            jfi.fecharImage();
                             break;
                         case "RECUAR":
                             Utils.retroceder();
+                            jfi.fecharImage();
                             break;
                         case "STOP":
                             connectedSocketMSG.close();
+                            connectedSocketIMG.close();
+                            jfi.fecharImage();
                             break;
                         default:break;
                         } 
@@ -141,31 +142,27 @@
        public void receberImagens(){
         new Thread(() -> {
             try {
-                JLabel jl = null;
                 if( serverSocketIMG == null || (!serverSocketIMG.isBound()) )
                     serverSocketIMG = new ServerSocket(SERVERPORT_IMG);
                 do {
-                    Socket connectedSocket = serverSocketIMG.accept();
+                    if(connectedSocketIMG == null || connectedSocketIMG.isClosed() || !connectedSocketIMG.isBound() )
+                        connectedSocketIMG = serverSocketIMG.accept();
                     int filesize = 6022386;
                     int bytesRead;
                     int current = 0;
                     byte[] mybytearray  = new byte [filesize];
                     InputStream is = connectedSocketIMG.getInputStream();
-                    if(is.available()>0){
-                        bytesRead = is.read(mybytearray,0,mybytearray.length);
-                        current = bytesRead;
-                        do {
-                            bytesRead =is.read(mybytearray, current, (mybytearray.length-current));
-                            if(bytesRead >= 0) current += bytesRead;
-                        } while(bytesRead > -1);
-                        ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
-                        BufferedImage imageSobrePor = ImageIO.read(bis);
-
-                        if (jl == null) jl = Utils.abrirImage();
-                        else{
-                            jl.setIcon(new ImageIcon(imageSobrePor));
-                        }
-                    }
+                    bytesRead = is.read(mybytearray,0,mybytearray.length);
+                    current = bytesRead;
+                    do {
+                        bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
+                        if(bytesRead >= 0) current += bytesRead;
+                    } while(bytesRead > -1);
+                    ByteArrayInputStream bis = new ByteArrayInputStream(mybytearray);
+                    BufferedImage bImage2 = ImageIO.read(bis);
+                    if(!jfi.telaAberta())
+                        jfi.abrirImage();
+                    jfi.setarImageDoLabel(bImage2);    
                 } while (connectedSocketIMG != null);
             }catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
