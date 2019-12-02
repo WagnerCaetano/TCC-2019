@@ -1,0 +1,25 @@
+<TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ENVIAR"
+        android:textSize="36sp" />
+
+    <EditText
+        android:id="@+id/txtIP"
+        android:layout_width="416dp"
+        android:layout_height="101dp"
+        android:hint="127.0.0.1"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/EditText01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MENSAGEM"></EditText>
+
+    <Button
+        android:id="@+id/btnEnviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ENVIAR"></Button>
