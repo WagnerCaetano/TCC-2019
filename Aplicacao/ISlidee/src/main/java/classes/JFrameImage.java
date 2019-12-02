@@ -59,7 +59,6 @@ public class JFrameImage {
     public void setarImageDoLabel(BufferedImage img){
 
         BufferedImage resized = Utils.resize(img, 1440, 1080);
-
         jl.setIcon(new ImageIcon(resized));
     }
 }
