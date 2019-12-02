@@ -116,8 +116,10 @@ public class Client extends Activity implements Serializable {
             @Override
             public void run() {
                 try {
-                    InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-                    connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
+                    if(connectedSocketIMG==null||connectedSocketIMG.isClosed() ) {
+                        InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                        connectedSocketIMG = new Socket(serverAddr, SERVERPORT_IMG);
+                    }
                     if ( connectedSocketIMG !=null ) {
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
