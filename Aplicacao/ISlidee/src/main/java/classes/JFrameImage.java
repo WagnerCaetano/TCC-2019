@@ -35,6 +35,7 @@ public class JFrameImage {
     {        
         jl = new JLabel();
         jl.setBackground(Color.BLACK);
+        jl.setLocation(new Point(200,200));
         jf.setBackground(Color.BLACK);
         jf.getContentPane().setBackground(Color.BLACK);
         jf.add(jl,BorderLayout.CENTER);
@@ -58,8 +59,7 @@ public class JFrameImage {
         return jf.isVisible();
     }
     public void setarImageDoLabel(BufferedImage img){
-
-        BufferedImage resized = Utils.resize(img, 1440, 1080);
-        jl.setIcon(new ImageIcon(resized));
+        //BufferedImage resized = Utils.resize(img, 1440, 1080);
+        jl.setIcon(new ImageIcon(img));
     }
 }
