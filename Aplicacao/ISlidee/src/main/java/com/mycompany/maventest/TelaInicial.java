@@ -27,7 +27,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author u18300
  */
 public class TelaInicial extends javax.swing.JFrame {
-    Toolkit toolkit = Toolkit.getDefaultToolkit();
     // CAMINHOS
     String PATH_SLIDE;
     String PATH_PASTA_IMAGENS;
@@ -44,8 +43,6 @@ public class TelaInicial extends javax.swing.JFrame {
         IO = new Tray(this);        
         IP_ADDRESS = Utils.getIPAddress(true);
         txtConexao.setText(IP_ADDRESS);
-        Image cursorImage = new ImageIcon(getClass().getClassLoader().getResource("seta-do-mouse-8.png").getFile().substring(1)).getImage();
-        setCursor(toolkit.createCustomCursor(cursorImage, new Point(0,0), "SetaMaior"));
     }
 
     /**

@@ -63,6 +63,7 @@ public class Tela_Manipuladora extends Activity {
     private Button btnZoom;
     private Button btnDesfazer;
     private Button btnRefazer;
+    private Button btnEnviar;
     private DrawView mDrawView;
 
     // SLIDES
@@ -112,7 +113,7 @@ public class Tela_Manipuladora extends Activity {
             }
             @Override
             public void onEndDrawing() {
-                Drawable draw = mDrawView.getBackground();
+                Drawable draw = mDrawView.getBackground().getCurrent();
                 wireless.enviarImagem(Utils.DrawableToBitmap(draw));
             }
             @Override
@@ -128,6 +129,15 @@ public class Tela_Manipuladora extends Activity {
                 // Your stuff here
             }
         });
+        btnEnviar = findViewById(R.id.btnEnviarZoom);
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wireless.zoom(Utils.ImageViewToBitmap(photoView.getImageView()));
+            }
+        });
+        btnEnviar.setEnabled(false);
+        btnEnviar.setVisibility(View.INVISIBLE);
         /*DRAW VIEW*/
         btnDraw = findViewById(R.id.btnDraw);
         btnDraw.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +149,7 @@ public class Tela_Manipuladora extends Activity {
                     layoutSlide.setEnabled(false);
                     layoutSlide.setVisibility(View.INVISIBLE);
                     draw = true;
+                    mDrawView.setBackgroundImage(Utils.ImageViewToBitmap(slideView), BackgroundType.BITMAP, BackgroundScale.CENTER_INSIDE);
                 }
                 else{
                     layoutDraw.setEnabled(false);
@@ -147,7 +158,6 @@ public class Tela_Manipuladora extends Activity {
                     layoutSlide.setVisibility(View.VISIBLE);
                     draw = false;
                 }
-                mDrawView.setBackgroundImage(Utils.ImageViewToBitmap(slideView), BackgroundType.BITMAP, BackgroundScale.CENTER_CROP);
             }
         });
 
@@ -237,7 +247,7 @@ public class Tela_Manipuladora extends Activity {
                 if(zoom == false) {
                     photoView = new PhotoViewAttacher(slideView);
                     photoView.update();
-                    photoView.setOnMatrixChangeListener(new PhotoViewAttacher.OnMatrixChangedListener() {
+                    /*photoView.setOnMatrixChangeListener(new PhotoViewAttacher.OnMatrixChangedListener() {
                         @Override
                         public void onMatrixChanged(RectF rect) {
                             try {
@@ -247,13 +257,17 @@ public class Tela_Manipuladora extends Activity {
                                 e.printStackTrace();
                             }
                         }
-                    });
+                    });*/
+                    btnEnviar.setEnabled(true);
+                    btnEnviar.setVisibility(View.VISIBLE);
                     zoom = true;
                 }
                 else{
                  photoView = null;
                  slideView.setImageBitmap(Utils.SlideImageToBitMap(adapter.getItem(INDICE_SLIDE)));
                  zoom = false;
+                 btnEnviar.setEnabled(false);
+                 btnEnviar.setVisibility(View.INVISIBLE);
                 }
             }
         });
